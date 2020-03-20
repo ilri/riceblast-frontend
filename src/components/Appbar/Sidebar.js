@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
     drawer:{
       width: 240,
       flexShrink: 0,
+      zIndex:10,
     },
     drawerPaper: {
         width: 240,
@@ -37,7 +38,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function SideBar(){
+export default function SideBar({showSide}){
     const classes = useStyles();
     const [open,setOpen] = useState(true);
     const handleClick = () => {
@@ -58,10 +59,10 @@ export default function SideBar(){
 
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    {['Newsletters','Meetings', 'Stakeholder Engagements'].map((media, index)=>(
+                    {['Newsletters','Meetings', 'Stakeholder Engagements','Factsheets'].map((media, index)=>(
                     <div key={index + 1}>
                     <Link 
-                        to={`/media/${(media === "Newsletters") ? "newletters": (media === "Meetings") ? "meetings": "stakeholder_engagements"}`}
+                        to={`/media/${(media === "Newsletters") ? "newletters": (media === "Meetings") ? "meetings": (media == 'Factsheets') ? "factsheets" : "stakeholder_engagements"}`}
                         className={classes.links}
                     >
                         <ListItem button className={classes.nested}>
@@ -145,9 +146,16 @@ export default function SideBar(){
         </div>
     );
     return(
-        <Drawer variant='permanent' anchor='left' classes={{paper:classes.drawerPaper}} className={classes.drawer}>
-            <div className={classes.toolbar} />
-            {sideList()}  
-        </Drawer>
+        <div>
+            {showSide ? (
+                <Drawer variant='permanent' anchor='left' classes={{paper:classes.drawerPaper}} className={classes.drawer}>
+                    <div className={classes.toolbar} />
+                    {sideList()}  
+                </Drawer>
+
+            ) : (
+                ''
+            )}
+        </div>
     )
 }

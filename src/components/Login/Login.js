@@ -15,7 +15,11 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import FormControl from '@material-ui/core/FormControl';
 import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Button from '@material-ui/core/Button';
+import UserService from '../../services/userService';
 
+
+const userService = new UserService();
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -27,27 +31,49 @@ const useStyles = makeStyles(theme => ({
         paddingBottom:10,
     },
     form:{
-        marginTop: 50,
+        margin: 50,
         flexDirection:'column',
         alignItems:'center',
     },
-    formFields : {
-        
-    }
-
-
-
+    hr: {
+      maxWidth: '7%',
+    },
+    formWrapper:{
+      width:'60%',
+      margin:'0 auto',
+    },
+    loginBtn:{
+      textAlign:'center',
+      marginTop:'10px'
+    },
 }));
 
 
 export default function Login(props){
-    const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [errors, setErrors] = useState(false);
+    const [credentials, setCredentials] = useState({
+      username:'',
+      password:'',
+    });
     const classes = useStyles();
 
     const handleChange = (event) => {
         const value = event.target.value;
-        setPassword(value)
+        setCredentials({...credentials, [event.target.name]:value});
+    };
+
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      userService.loginUser(credentials).then(
+        response => {
+          console.log(response.data);
+          localStorage.setItem('access', response.data.access);
+          localStorage.setItem('refresh', response.data.refresh);
+          props.history.push('/resources/dashboard');
+        }
+      ).catch(errors => setErrors(true));
+
     };
 
     const handleClickShowPassword = ()=>{
@@ -57,6 +83,7 @@ export default function Login(props){
     const handleMouseDownPassword = () => {
         setShowPassword(false);
     };
+
 
 
     return(
@@ -70,19 +97,20 @@ export default function Login(props){
                 <Container fixed>
                     <Typography component="div" style={{ backgroundColor: 'white', height: '50vh' }}>
                         <div>
-                            <Typography component='h5' variant='h5' className={classes.header}>LOGIN TO RICE BLAST DATABASE</Typography>
-                            <Divider component='hr' variant='middle' />
+                            <Typography component='h4' variant='h4' className={classes.header}>LOGIN</Typography>
+                            <hr className={classes.hr} />
                         </div>
 
-                        <div >
-                            <form className={classes.form}>  
+                        <div className={classes.formWrapper}>
+                            <form className={classes.form} onSubmit={handleSubmit}>
+
                                 <div>
                                     <Grid container spacing={2} alignItems="flex-end">
                                       <Grid item>
                                         <EmailIcon />
                                       </Grid>
                                       <Grid item xs={10}>
-                                        <TextField id="input-with-icon-grid" label="Email" variant='outlined' fullWidth />
+                                        <TextField error={errors} id="input-with-icon-grid" name='username' label="Email" value={credentials.username} variant='outlined' fullWidth onChange={handleChange} />
                                       </Grid>
                                     </Grid>
                                 </div>
@@ -97,8 +125,9 @@ export default function Login(props){
                                           <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                           <OutlinedInput
                                             id="outlined-adornment-password"
+                                            error={errors}
                                             type={showPassword ? 'text' : 'password'}
-                                            value={password}
+                                            value={credentials.password}
                                             name='password'
                                             fullWidth
                                             onChange={handleChange}
@@ -120,7 +149,11 @@ export default function Login(props){
                                       </Grid>
                                     </Grid>
                                 </div>
-
+                                <div className={classes.loginBtn}>
+                                  <Button variant="outlined" type='submit' color="primary" size='large' >
+                                    LOGIN
+                                  </Button>
+                                </div>
                             </form>
                         </div>
                     </Typography>

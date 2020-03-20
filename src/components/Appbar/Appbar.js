@@ -9,6 +9,9 @@ import logo from '../../assets/riceblast_logo.jpg';
 import HomeIcon from '@material-ui/icons/Home';
 import {Link} from 'react-router-dom';
 import SideBar from './Sidebar';
+import MenuIcon from '@material-ui/icons/Menu';
+import ResourceSidebar from '../Resources/ResourceSidebar';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 
 
 
@@ -26,8 +29,8 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   logo : {
-    height:60,
-    width:60,
+    height:40,
+    width:40,
     borderRadius:5,
   },
   links: {
@@ -41,41 +44,90 @@ const useStyles = makeStyles(theme => ({
 export default function Appbar(props) {
 
   const [home,setHome] = useState(true);
+  const [dash, setDash] = useState(false); //RESOURCES
+  const [showSide, setShowSide] = useState(true);
+
   useEffect(() => {
-    if(props.props.match.path !== '/'){
+    // console.log(props)
+    handleUrls();
+  });
+
+  const handleUrls = () => {
+    const path = props.props.match.path;
+    //CHECK IF USER IS IN RESOURCES
+    const resources = path.split('/').includes('resources');
+
+    if(path !== '/'){
       setHome(false);
     }
-  },[]);
+
+    if(resources){
+      setDash(true);
+      setShowSide(false);
+    }
+    
+
+  }
+  const showSidebar = () => {
+    setShowSide(!showSide);
+  }
   
   const classes = useStyles();
+
+  
 
 
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.appBar} position='fixed'>
         <Toolbar>
-          <Link to='/'>
-            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-              <img alt='Rice Blast Logo' src={logo} variant='rounded' className={classes.logo} />
-            </IconButton>
-          </Link>
+          {dash ? (
+            // <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={showSidebar} >
+            //   <MenuIcon />
+            // </IconButton>
+
+            <Link to='/'>
+              <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                <img alt='Rice Blast Logo' src={logo} variant='rounded' className={classes.logo} />
+              </IconButton>
+            </Link>
+          ) : (
+            <Link to='/'>
+              <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                <img alt='Rice Blast Logo' src={logo} variant='rounded' className={classes.logo} />
+              </IconButton>
+            </Link>
+          )}
           <Typography variant="h6" className={classes.title}>
             RICE BLAST 
           </Typography>
 
           {!home ? (
-            
+            <div>
             <Link to='/' className={classes.links}>
               <Button color="inherit" >
                   <HomeIcon className={classes.homeIcon} />
               </Button>
             </Link>
+            
+            {dash ? (
+            <Link to='/resources/dashboard' className={classes.links}>
+              <Button color="inherit" >
+                  <DashboardIcon className={classes.homeIcon} />
+              </Button> 
+            </Link>
+            ):''}
+            </div>
           ): ''}
 
         </Toolbar>
       </AppBar>
+      
 
-      <SideBar />
+      
+
+      {dash ? (<ResourceSidebar />):(<SideBar showSide={showSide} />)}
+      
     </div>
   );
 }

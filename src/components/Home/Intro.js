@@ -34,7 +34,7 @@ export default function Intro(){
     return(
         <div>
             <Container fixed>
-                <Typography component="div" style={{ backgroundColor: 'white', height: '65vh' }} >
+                <Typography component="div" style={{ backgroundColor: 'white', height: '63vh' }} >
                     <Card className={classes.root}>
                       <CardActionArea>
                         <CardMedia
@@ -53,9 +53,11 @@ export default function Intro(){
                         </CardContent>
                       </CardActionArea>
                       <CardActions>
-                        <Button size="small" color="primary">
-                          Read More
-                        </Button>
+                        <Link to='/about'>
+                          <Button size="small" color="primary">
+                            Read More
+                          </Button>
+                        </Link>
                       </CardActions>
                     </Card>
                 </Typography>
