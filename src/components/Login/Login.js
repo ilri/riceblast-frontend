@@ -70,7 +70,8 @@ export default function Login(props){
           console.log(response.data);
           localStorage.setItem('access', response.data.access);
           localStorage.setItem('refresh', response.data.refresh);
-          props.history.push('/resources/dashboard');
+          // props.history.push('/resources/dashboard');
+          window.location.href = '/resources/dashboard';
         }
       ).catch(errors => setErrors(true));
 
