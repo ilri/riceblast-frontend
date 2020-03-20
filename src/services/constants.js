@@ -1,12 +1,12 @@
 import axios from 'axios';
 
 
-const APIURL = 'http://localhost:8000/api/';
-
+const APIURLDEV = 'http://localhost:8000/api/';
+const APIURLPROD = 'https://riceblast.herokuapp.com/';
 
 
 export const axiosInstance = axios.create({
-    baseURL: APIURL,
+    baseURL: APIURLPROD,
     // timeout: 5000,
     headers: {
         'Authorization': "Bearer " + localStorage.getItem('access'),

@@ -17,7 +17,7 @@ import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
 import UserService from '../../services/userService';
-
+import Alert from '@material-ui/lab/Alert';
 
 const userService = new UserService();
 
@@ -102,6 +102,7 @@ export default function Login(props){
                         </div>
 
                         <div className={classes.formWrapper}>
+                            {errors? <Alert severity="error">Wrong Login Credentials</Alert> : ''}
                             <form className={classes.form} onSubmit={handleSubmit}>
 
                                 <div>
