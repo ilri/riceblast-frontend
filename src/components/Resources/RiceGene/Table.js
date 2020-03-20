@@ -14,7 +14,7 @@ export default function Table({genes}){
                     {title:'Reference', field: 'reference'},
                 ]}
                 data={genes}
-                title='Fungal Collection Sites'
+                title='Rice Genes'
                 style={{maxWidth:'70%',margin:'0 auto',marginTop:150}}
                 options={{
                     exportButton:true
