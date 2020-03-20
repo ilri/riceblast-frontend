@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 const APIURLDEV = 'http://localhost:8000/api/';
-const APIURLPROD = 'https://riceblast.herokuapp.com/';
+const APIURLPROD = 'https://riceblast.herokuapp.com/api/';
 
 
 export const axiosInstance = axios.create({
