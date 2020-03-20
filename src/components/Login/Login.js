@@ -112,7 +112,7 @@ export default function Login(props){
                                         <EmailIcon />
                                       </Grid>
                                       <Grid item xs={10}>
-                                        <TextField error={errors} id="input-with-icon-grid" name='username' label="Email" value={credentials.username} variant='outlined' fullWidth onChange={handleChange} />
+                                        <TextField error={errors} id="input-with-icon-grid" name='username' label="Username" value={credentials.username} variant='outlined' fullWidth onChange={handleChange} />
                                       </Grid>
                                     </Grid>
                                 </div>
