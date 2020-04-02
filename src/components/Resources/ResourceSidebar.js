@@ -70,6 +70,15 @@ export default function ResourceSidebar(props){
                 }}
             >
                 <List className={classes.list}>
+                    <Link to='/resources/people' className={classes.link}>                        
+                        <ListItem button>
+                          <ListItemIcon><ArrowForwardIosIcon fontSize='small' /></ListItemIcon>
+                          <ListItemText primary='People' />
+                        </ListItem>
+                    </Link>  
+
+                    <Divider />     
+                              
                     <Typography>TABLES</Typography>
                     <Divider />
                     {resourceOptions.map((option, index) => (

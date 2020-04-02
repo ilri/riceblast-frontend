@@ -25,7 +25,7 @@ import VCGResults from './Resources/VCGResults/VCGResults';
 import Protocols from './Resources/Protocol/Protocol'
 import RiceGBS from './Resources/RiceGBS/RiceGBS'
 import FungalGBS from './Resources/FungalGBS/FungalGBS'
-
+import People from './Resources/People/People';
 
 
 
@@ -63,6 +63,7 @@ export default function RiceBlastApp(props){
                         <Route path='/resources/protocols' exact component={Protocols} />
                         <Route path='/resources/rice_gbs' exact component={RiceGBS} />
                         <Route path='/resources/fungal_gbs' exact component={FungalGBS} />
+                        <Route path='/resources/people' exact component={People} />
                     </Switch>
                 </Router>
             </div>

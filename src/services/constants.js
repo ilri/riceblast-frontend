@@ -6,7 +6,7 @@ const APIURLPROD = 'https://riceblast.herokuapp.com/api/';
 
 
 export const axiosInstance = axios.create({
-    baseURL: APIURLPROD,
+    baseURL: APIURLDEV,
     // timeout: 5000,
     headers: {
         'Authorization': "Bearer " + localStorage.getItem('access'),
