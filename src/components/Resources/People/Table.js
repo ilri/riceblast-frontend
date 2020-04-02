@@ -7,8 +7,8 @@ export default function Table({data}){
             <MaterialTable 
                 columns={[
                     {title:'Full Name', field:'full_name'},
-                    {title:'Email', field:'email'},
-                    {title:'Username', field:'username',},
+                    {title:'Email', field:'user.email'},
+                    {title:'Username', field:'user.username',},
                     {title:'Telephone Number', field:'telephone_number'},
                     {title:'Lab', field:'lab',},
                     {title:'Designation', field:'designation'},                    

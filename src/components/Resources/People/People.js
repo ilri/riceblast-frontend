@@ -9,10 +9,12 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import AddUser from './AddUser';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
+import PeopleService from '../../../services/people';
 
 
-
-
+const peopleService = new PeopleService();
 
 
 
@@ -40,11 +42,20 @@ const useStyles = makeStyles(theme => ({
       width:'70%',
       padding: theme.spacing(2, 4, 3),
     },
+    grid:{
+      position:'fixed',
+      zIndex:4,
+      maxWidth:'50%',
+    },
 }));
 export default function People(props){
     const classes = useStyles();
+    const [people,setPeople] = React.useState([]);
     const [open, setOpen] = React.useState(false);
 
+    React.useEffect(() => {
+      getPeople();
+    },[])
     const handleOpen = () => {
       setOpen(true);
     };
@@ -52,6 +63,16 @@ export default function People(props){
     const handleClose = () => {
       setOpen(false);
     };  
+
+    const getPeople = () => {
+      peopleService.getData().then(
+        response => {
+          setPeople(response.data);
+        }
+      ).catch(
+        error => console.log(error)
+      );
+    };
     return(
         <div>
             <div>
@@ -63,13 +84,14 @@ export default function People(props){
                         <Fab color="primary" aria-label="add" 
                         aria-controls="add-menu" aria-haspopup="true" id='add-menu' onClick={handleOpen}>
                             <AddIcon />
+                        </Fab> 
                             <div>
                               <Modal
                                 aria-labelledby="transition-modal-title"
                                 aria-describedby="transition-modal-description"
                                 className={classes.modal}
                                 open={open}
-                                onClose={handleClose}
+
                                 closeAfterTransition
                                 BackdropComponent={Backdrop}
                                 BackdropProps={{
@@ -78,15 +100,26 @@ export default function People(props){
                               >
                                 <Fade in={open}>
                                   <div className={classes.paper}>
-                                    <h2 id="transition-modal-title">ADD USER</h2>
-                                    <p id="transition-modal-description">
-                                      <AddUser />
-                                    </p>
+                                    <Grid container spacing={3}>
+
+                                      <Grid container justify='flex-end' alignContent='flex-end'>
+                                        <IconButton aria-label="close" onClick={handleClose}>
+                                          <CloseIcon fontSize='large' />
+                                        </IconButton>
+                                      </Grid>                                      
+                                      <Grid container className={classes.grid}>
+                                        <h2 id="transition-modal-title">ADD USER</h2>
+                                      </Grid>
+
+                                    </Grid>
+                                    <div id="transition-modal-description">
+                                      <AddUser getPeople={getPeople} />
+                                    </div>
                                   </div>
                                 </Fade>
                               </Modal>
                             </div>
-                        </Fab>  
+ 
                     </Grid>
                 </Grid>
       
@@ -94,7 +127,7 @@ export default function People(props){
             <Grid container className={classes.root} spacing={2}>
                 <Grid item xs={12}>
                   <Grid container justify="center" spacing={2}>
-                    <Table />
+                    <Table data={people} />
                   </Grid>
                 </Grid>                
             </Grid>

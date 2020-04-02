@@ -14,7 +14,6 @@ import FormControl from '@material-ui/core/FormControl';
 
 
 
-
 const labService = new LabService();
 
 const useStyles = makeStyles(theme => ({
@@ -34,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Form({form,handleChange,handleSubmit,handleErrors,errors, errorMsg,load}){
+export default function Form({form,handleChange,handleSubmit,handleErrors,errors, errorMsg,successMsg,handleSuccessClose,load}){
   const [labs, setLabs] = React.useState([]);
   
 
@@ -201,6 +200,13 @@ export default function Form({form,handleChange,handleSubmit,handleErrors,errors
                   Confirm
                 </Button>
               </Grid>
+
+              {/* SUCCESS MESSAGE AFTER REGISTERATION */}
+              {successMsg ? (
+              <Grid container alignContent='center' justify='center' style={{paddingTop:'50px'}}>
+                <Alert severity="success" onClose={handleSuccessClose}>{successMsg}</Alert>
+              </Grid> ) : '' } 
+
             </div>        
         </div>
     )

@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function AddUser() {
+export default function AddUser({getPeople}) {
   const classes = useStyles();
 
 
@@ -39,7 +39,7 @@ export default function AddUser() {
   React.useEffect(() => {
     const initialFormState = Object.assign({}, formState);
     setInitial(initialFormState);
-  });
+  },[]);
 
   const handleSubmit = () => {
     handleLoad();
@@ -50,7 +50,10 @@ export default function AddUser() {
     userService.registerUser(formState).then(
       response => {
         setFormState({...formState, load:false,successMsg:response.data.message});
-        console.log(response.data);
+        // setInitial({...initial, successMsg:response.data.message});
+        // setFormState(initial);
+        getPeople();
+        // console.log(initial.successMsg);
       }
     ).catch(
       errors => {
@@ -60,7 +63,8 @@ export default function AddUser() {
           setFormState({ ...formState, errors: true, errorMsg: errors.response.data.message, load: false });
         }, 1000);
 
-      })
+      }
+    )
   };
 
   const handleErrors = () => {
@@ -78,12 +82,17 @@ export default function AddUser() {
     setFormState({ ...formState, [event.target.name]: value });
   };
 
+  const handleSuccessClose = () => {
+    setFormState({...formState, successMsg:''});
+  };
+
   const { successMsg, load, errors, errorMsg, ...form } = formState;
 
   return (
     <div className={classes.root}>
       <Form form={form} handleChange={handleChange} handleSubmit={handleSubmit}
-        handleErrors={handleErrors} errors={errors} errorMsg={errorMsg} load={load} successMsg={successMsg}
+        handleErrors={handleErrors} errors={errors} errorMsg={errorMsg} 
+        load={load} successMsg={successMsg} handleSuccessClose={handleSuccessClose}
       />
     </div>
   );
