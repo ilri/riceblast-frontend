@@ -45,7 +45,14 @@ export default function Table({data,handleActiveUser}){
                                 <div className={classes.paper}>
                                   <div>Are you sure you want to {rowData.user.is_active ? 'DEACTIVATE':'ACTIVATE'} {rowData.full_name}'s account?</div> 
                                   <Divider />
-   
+                                  <div>
+                                    {rowData.user.is_active ? (
+                                        <Button color="secondary" size='small'>Deactivate</Button>
+                                    ) : (
+                                        <Button color="primary" size='small'>Activate</Button>
+                                    )}
+                                    <Button variant='outlined' color="secondary" size='small' onClick={handleClick}>Close</Button>
+                                  </div>    
                                   
                                 </div>
                               
