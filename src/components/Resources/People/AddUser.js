@@ -29,11 +29,10 @@ export default function AddUser({getPeople}) {
     designation: '',
 
     errorMsg: '',
-    successMsg:'',
     errors: false,
     load: false,
-
   });
+  const [successMsg, setSuccessMsg] = React.useState('');
   const [initial, setInitial] = React.useState({}); 
 
   React.useEffect(() => {
@@ -49,11 +48,11 @@ export default function AddUser({getPeople}) {
   const handleRegisterUser = () => {
     userService.registerUser(formState).then(
       response => {
-        setFormState({...formState, load:false,successMsg:response.data.message});
-        // setInitial({...initial, successMsg:response.data.message});
-        // setFormState(initial);
+        // setFormState({...formState, load:false,successMsg:response.data.message});
+        setSuccessMsg(response.data.message);
+        setFormState(initial);
         getPeople();
-        // console.log(initial.successMsg);
+        // console.log(formState);
       }
     ).catch(
       errors => {
@@ -83,10 +82,10 @@ export default function AddUser({getPeople}) {
   };
 
   const handleSuccessClose = () => {
-    setFormState({...formState, successMsg:''});
+    setSuccessMsg('');
   };
 
-  const { successMsg, load, errors, errorMsg, ...form } = formState;
+  const { load, errors, errorMsg, ...form } = formState;
 
   return (
     <div className={classes.root}>

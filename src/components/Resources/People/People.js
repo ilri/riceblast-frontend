@@ -48,10 +48,13 @@ const useStyles = makeStyles(theme => ({
       maxWidth:'50%',
     },
 }));
+
+
 export default function People(props){
     const classes = useStyles();
     const [people,setPeople] = React.useState([]);
     const [open, setOpen] = React.useState(false);
+    
 
     React.useEffect(() => {
       getPeople();
@@ -68,10 +71,18 @@ export default function People(props){
       peopleService.getData().then(
         response => {
           setPeople(response.data);
+          console.log(response.data);
         }
       ).catch(
         error => console.log(error)
       );
+    };
+
+    const handleActiveUser = () => {
+      const handleActivate = window.confirm('Are you sure want to Deactivate this User?');
+      if(handleActivate){
+        console.log('Yes');
+      }
     };
     return(
         <div>
@@ -127,7 +138,7 @@ export default function People(props){
             <Grid container className={classes.root} spacing={2}>
                 <Grid item xs={12}>
                   <Grid container justify="center" spacing={2}>
-                    <Table data={people} />
+                    <Table data={people} handleActiveUser={handleActiveUser} />
                   </Grid>
                 </Grid>                
             </Grid>
