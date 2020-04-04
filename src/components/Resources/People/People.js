@@ -54,6 +54,10 @@ export default function People(props){
     const classes = useStyles();
     const [people,setPeople] = React.useState([]);
     const [open, setOpen] = React.useState(false);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [user,setUser] = React.useState(null)
+
+
     
 
     React.useEffect(() => {
@@ -78,11 +82,25 @@ export default function People(props){
       );
     };
 
-    const handleActiveUser = () => {
-      const handleActivate = window.confirm('Are you sure want to Deactivate this User?');
-      if(handleActivate){
-        console.log('Yes');
-      }
+    const handleClick = (rowData) => (event) => {
+      console.log(rowData);
+      setUser(user ? null : rowData);
+      setAnchorEl(anchorEl ? null : event.currentTarget);
+    }
+
+    const handleActivate = (action,username) => () => {
+      const data = {
+        'username':username, 'action':action
+      };
+      peopleService.activateUser(data).then(
+        response => {
+          console.log(response.data.message);
+          getPeople();
+          handleClick(user)();
+        }
+      ).catch(errors => console.log(errors));
+
+
     };
     return(
         <div>
@@ -138,7 +156,7 @@ export default function People(props){
             <Grid container className={classes.root} spacing={2}>
                 <Grid item xs={12}>
                   <Grid container justify="center" spacing={2}>
-                    <Table data={people} handleActiveUser={handleActiveUser} />
+                    <Table data={people} handleActivate={handleActivate} anchorEl={anchorEl} handleClick={handleClick} user={user} />
                   </Grid>
                 </Grid>                
             </Grid>
