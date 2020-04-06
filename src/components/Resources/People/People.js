@@ -55,7 +55,7 @@ export default function People(props){
     const [people,setPeople] = React.useState([]);
     const [open, setOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [user,setUser] = React.useState(null)
+    const [user,setUser] = React.useState(null);
 
 
     
@@ -101,6 +101,22 @@ export default function People(props){
       ).catch(errors => console.log(errors));
 
 
+    };
+
+    const handleDeleteUser = (user) => {
+      console.log(user.user.username);
+      const data = {
+        'username':user.user.username,
+      };
+      if(window.confirm('Are you sure you want to delete ' + user.full_name)){
+        peopleService.deleteUser(user.user.username).then(  
+          response => {
+            getPeople();
+          }
+        ).catch(errors => {
+          console.log(errors);
+        })
+      }
     };
     return(
         <div>
@@ -156,7 +172,9 @@ export default function People(props){
             <Grid container className={classes.root} spacing={2}>
                 <Grid item xs={12}>
                   <Grid container justify="center" spacing={2}>
-                    <Table data={people} handleActivate={handleActivate} anchorEl={anchorEl} handleClick={handleClick} user={user} />
+                    <Table data={people} handleActivate={handleActivate} 
+                    anchorEl={anchorEl} handleClick={handleClick} user={user}
+                    handleDeleteUser={handleDeleteUser} />
                   </Grid>
                 </Grid>                
             </Grid>

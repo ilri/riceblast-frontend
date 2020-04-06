@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-
 const UserActivation = ({user,handleClick,anchorEl,handleActivate}) => {
     const classes = useStyles();
     return(
@@ -50,12 +49,8 @@ const UserActivation = ({user,handleClick,anchorEl,handleActivate}) => {
     )
 };
 
-export default function Table({data,handleActivate,handleClick,anchorEl,user}){
+export default function Table({data,handleActivate,handleClick,anchorEl,user,handleDeleteUser}){
    
-
-
-    
-    
 
     return(
         <div>
@@ -88,9 +83,12 @@ export default function Table({data,handleActivate,handleClick,anchorEl,user}){
                 actions={[
                     {
                         icon:'delete',
+                        iconProps:{
+                            color:'secondary',
+                        },
                         tooltip:'Delete User',
                         onClick:(event, rowData) => {
-
+                            handleDeleteUser(rowData);
                         }
                     }
                 ]}
