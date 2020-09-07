@@ -10,7 +10,8 @@ export const axiosInstance = axios.create({
     // timeout: 5000,
     headers: {
         'Authorization': "Bearer " + localStorage.getItem('access'),
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json', 
         'accept': 'application/json',
     }
 });
+   

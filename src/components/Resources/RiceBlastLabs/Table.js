@@ -1,7 +1,7 @@
 import React from 'react';
 import MaterialTable from 'material-table';
 
-export default function Table({labs}){
+export default function Table({labs, handleDelete,handleEdit}){
     return(
         <div>
             <MaterialTable 
@@ -14,11 +14,32 @@ export default function Table({labs}){
                 ]}
                 data={labs}
                 title='Rice Blast Labs'
-                style={{maxWidth:'50%',margin:'0 auto'}}
+                style={{maxWidth:'70%',margin:'0 auto'}}
                 options={{
                     exportButton:true
                 }}
+                editable={{
+                    onRowUpdate: (newData, oldData) =>
+                    new Promise((resolve, reject) => {
+                      setTimeout(() => {
+                        handleEdit(newData);
+                        resolve();
+                      }, 1000)
+                    }),
+
+                    onRowDelete: oldData =>
+                    new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            console.log('ray');
+                            handleDelete(oldData.pk);
+                            resolve();
+                        }, 1000);
+                    }),
+                }}
+                options={{
+                    actionsColumnIndex: -1
+                }} 
             />
         </div>
     )
-}
+} 

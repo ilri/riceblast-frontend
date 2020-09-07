@@ -11,6 +11,6 @@ export default class CollectionSiteService{
         return axiosInstance.post('collection_sites/',data);
     }
     deleteCollectionSite(data){
-        return axiosInstance.delete('collection_sites/',data)
+        return axiosInstance.delete(`collection_sites/${data}`)
     }
 }

@@ -211,7 +211,7 @@ export default function Table({sites,handleEditSite,people,getSite}){
                         new Promise((resolve,reject) => {
                             setTimeout(() => {
                                 console.log(oldData);
-                                deleteSite(oldData,resolve,reject);
+                                deleteSite(oldData.pk,resolve,reject);
                             });
                         }),
                 }}   
