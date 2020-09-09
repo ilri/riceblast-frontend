@@ -17,11 +17,11 @@ export default function Table({riceGenotypes}){
                 ]}
                 data={riceGenotypes}
                 title='Rice Genotypes'
-                style={{maxWidth:'70%',margin:'0 auto',marginTop:150}}
+                style={{maxWidth:'70%',margin:'0 auto'}}
                 options={{
                     exportButton:true
                 }}
             />
         </div>
     )
-}
+} 
