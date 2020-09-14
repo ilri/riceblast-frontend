@@ -62,6 +62,34 @@ export default function RiceGenotype(props){
         setOpen(!open);
     };
 
+
+    const handleDelete = (id) => {
+        // console.log('ray');
+        genotypeService.deleteRiceGenotypes(id).then(
+            response => {
+                getGenotypes();
+            }
+        ).catch(
+            errors => {
+                console.log(errors);
+            }
+        )
+    };
+
+    const handleEdit = (newData) => {
+        console.log(newData);
+        genotypeService.editRiceGenotypes(newData).then(
+            response => {
+                getGenotypes();
+            }
+        ).catch(
+            errors => {
+                console.log(errors);
+            }
+        )
+    };
+
+
     return(
         <div>
             <div>
@@ -103,6 +131,8 @@ export default function RiceGenotype(props){
                 <Grid item xs={12} >
                     <Table 
                         riceGenotypes={riceGenotypes} 
+                        handleDelete={handleDelete}
+                        handleEdit={handleEdit}
                     />
                 </Grid>
             </Grid>

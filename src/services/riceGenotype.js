@@ -9,11 +9,11 @@ export default class RiceGenotypeServices {
         return axiosInstance.post('rice_genotypes/',data);
     }
 
-    putRiceGenotypes(data){
-        return axiosInstance.get('rice_genotypes/',data);
+    editRiceGenotypes(data){
+        return axiosInstance.put('rice_genotypes/',data);
     }
 
     deleteRiceGenotypes(id){
-        return axiosInstance.get(`rice_genotypes/${id}`);
+        return axiosInstance.delete(`rice_genotypes/${id}`);
     }
 }

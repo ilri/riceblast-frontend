@@ -1,15 +1,13 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
+import { makeStyles } from '@material-ui/core/styles';
 
 
 
@@ -22,16 +20,20 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function Form({form, handleChange, handleSubmit}){
 
+
+const choices = [
+    ['released_variety','Released Variety'],
+    ['microgenic_line','Microgenic Line'],
+    ['interspecific_variety','Interspecific Variety'],
+    ['introgession_line', 'Introgession Line'],
+    ['adapted_african_cultiva', 'Adapted African Cultiva'],   
+];
+
+
+export default function Form({form, handleChange, handleSubmit}){
     const classes = useStyles();
-    const catogoryChoices = [
-        ['released_variety','Released Variety'],
-        ['microgenic_line','Microgenic Line'],
-        ['interspecific_variety','Interspecific Variety'],
-        ['introgession_line','Introgession Line'],
-        ['adapted_african_cultiva','Adapted African Cultiva']
-    ]
+
     return(
         <div>
             <Grid container spacing={3} direction="column" justify="center" alignItems="stretch">
@@ -61,13 +63,13 @@ export default function Form({form, handleChange, handleSubmit}){
                 <Grid item xs={9}>
                     <TextField
                         id="outlined-secondary"
-                        label="Rice Genotype ID"
+                        label="Chromosome ID"
                         size='small'
-                        name='rice_genotype_id'
+                        name='chromosome_id'
                         variant="outlined"
                         color="primary"
                         required={true}
-                        value={form.rice_genotype_id}
+                        value={form.chromosome_id}
                         onChange={handleChange}
 
                     /> 
@@ -77,105 +79,76 @@ export default function Form({form, handleChange, handleSubmit}){
                 <Grid item xs={9}>
                     <TextField
                         id="outlined-secondary"
-                        label="Resistance Genes"
+                        label="Marker"
                         size='small'
-                        name='resistance_genes'
+                        name='marker'
                         variant="outlined"
                         color="primary"
                         required={true}
                         onChange={handleChange}
-                        value={form.resistance_genes}
+                        value={form.marker}
                     /> 
                 </Grid>
 
                 <Grid item xs={9}>
                     <TextField
                         id="outlined-secondary"
-                        label="R Gene Sources"
+                        label="Donor Line"
                         size='small'
-                        name='r_gene_sources'
+                        name='donor_line'
                         variant="outlined"
                         color="primary"
                         required={true}
                         onChange={handleChange}
-                        value={form.r_gene_sources}
+                        value={form.donor_line}
 
                     /> 
                 </Grid>
 
 
                 <Grid item xs={9}>
-                    <TextField
-                        id="outlined-secondary"
-                        label="Susceptible Background"
-                        size='small'
-                        name='susceptible_background'
-                        variant="outlined"
-                        color="primary"
-                        required={true}
-                        onChange={handleChange}
-                        value={form.susceptible_background}
+                    <FormControl className={classes.formControl}>
 
-                    /> 
+                        <Select
+                          displayEmpty
+                          name='category'
+                          value={form.catogory}
+                          onChange={handleChange}
+                          input={<Input />}
+                          inputProps={{ 'aria-label': 'Without label' }}
+                          renderValue={(selected) => {
+                            if (!selected) {
+                              return <em>Resistance Type</em>;
+                            }
+                        }}
+                        >
+                          <MenuItem disabled value="">
+                            <em>Resistance Type</em>
+                          </MenuItem>
+                          {choices.map((name,i) => (
+                            <MenuItem key={i} value={name[0]} >
+                              {name[1]}
+                            </MenuItem>
+                          ))}
+                        </Select>
+
+                    </FormControl>                
                 </Grid>
 
                 <Grid item xs={9}>
                     <TextField
                         id="outlined-secondary"
-                        label="Accession Number"
+                        label="Reference"
                         size='small'
-                        name='accession_number'
+                        name='reference'
                         variant="outlined"
                         color="primary"
                         required={true}
                         onChange={handleChange}
-                        value={form.accession_number}
+                        value={form.reference}
 
                     /> 
                 </Grid>
-
-
-                <Grid item xs={9}>
-                    <TextField
-                        id="outlined-secondary"
-                        label="Pedigree"
-                        size='small'
-                        name='pedigree'
-                        variant="outlined"
-                        color="primary"
-                        required={true}
-                        onChange={handleChange}
-                        value={form.pedigree}
-
-                    /> 
-                </Grid>
-
-                <FormControl className={classes.formControl}>
-
-                    <Select
-                      displayEmpty
-                      name='category'
-                      value={form.catogory}
-                      onChange={handleChange}
-                      input={<Input />}
-                      inputProps={{ 'aria-label': 'Without label' }}
-                      renderValue={(selected) => {
-                        if (!selected) {
-                          return <em>Category</em>;
-                        }
-                    }}
-                    >
-                      <MenuItem disabled value="">
-                        <em>Category</em>
-                      </MenuItem>
-                      {catogoryChoices.map((name,i) => (
-                        <MenuItem key={i} value={name[0]} >
-                          {name[1]}
-                        </MenuItem>
-                      ))}
-                    </Select>
-
-                </FormControl>
 
 
                 <Grid container direction="row" justify='space-between' alignItems='flex-end' xs={9}>
