@@ -35,7 +35,7 @@ export default function Table({isolates,handleDelete,handleEdit}){
                 props.onChange(person.user.pk);
             }
         })
-    }    
+    };    
     return(
         <div>
             <MaterialTable 

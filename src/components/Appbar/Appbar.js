@@ -99,7 +99,7 @@ export default function Appbar(props) {
             </Link>
           )}
           <Typography variant="h6" className={classes.title}>
-            RICE BLAST 
+            DURABLE RICE BLAST FOR SUB-SAHARAN AFRICA
           </Typography>
 
           {!home ? (

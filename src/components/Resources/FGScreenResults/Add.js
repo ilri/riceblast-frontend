@@ -1,21 +1,23 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Form from './Form';
-import RiceGBSService from '../../../services/riceGBS';
-
-const riceService = new RiceGBSService();
+import FGSService from '../../../services/FGS';
 
 
 
-export default function Add({getGenotypes,openDrawer}){
+const service = new FGSService();
+
+
+
+export default function Add({getData,openDrawer}){
 
 
     const [form, setForm] = React.useState({
-        rice_genotype:null,
-        rice_gene:null,
+        rice_genotype:0,
         pcr_results:'',
         replicate_id: '',
         sample_id:'',
+        fungal_gene:'',
 
         errorMsg: '',
         errors: false,
@@ -33,10 +35,10 @@ export default function Add({getGenotypes,openDrawer}){
     const handleSubmit = () => {
 
 
-        genotypeService.addRiceGenotypes(form).then(
+        service.addData(form).then(
             response => {
                 console.log(response.data);
-                getGenotypes();
+                getData();
                 openDrawer();
             }
         ).catch(
@@ -58,3 +60,4 @@ export default function Add({getGenotypes,openDrawer}){
 
         </Form>
     )
+}

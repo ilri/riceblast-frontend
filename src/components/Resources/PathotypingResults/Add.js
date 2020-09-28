@@ -1,21 +1,32 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Form from './Form';
-import RiceGBSService from '../../../services/riceGBS';
-
-const riceService = new RiceGBSService();
+import PathotypingService from '../../../services/pathotypingResults';
 
 
 
-export default function Add({getGenotypes,openDrawer}){
+const service = new PathotypingService();
+
+
+
+export default function Add({getData,openDrawer}){
 
 
     const [form, setForm] = React.useState({
         rice_genotype:null,
-        rice_gene:null,
-        pcr_results:'',
+        isolate:null,
+        person:null,
+        lab:null,
+
+        stock_id:'',
         replicate_id: '',
         sample_id:'',
+        date_inoculated: new Date(),
+        date_scored: new Date(),
+        date_planted: new Date(),
+        disease_score:'',
+        test:'',
+        tray:'',
 
         errorMsg: '',
         errors: false,
@@ -33,10 +44,10 @@ export default function Add({getGenotypes,openDrawer}){
     const handleSubmit = () => {
 
 
-        genotypeService.addRiceGenotypes(form).then(
+        service.addData(form).then(
             response => {
                 console.log(response.data);
-                getGenotypes();
+                getData();
                 openDrawer();
             }
         ).catch(
@@ -47,14 +58,18 @@ export default function Add({getGenotypes,openDrawer}){
         );
     }
     
-
+    const handleDateChange = (date_field,date) => {
+        setForm({...form, [date_field]:date });
+    };
     return(
         <Form 
             form={form} 
             handleChange={handleChange} 
             handleSubmit={handleSubmit} 
-        
+            handleDateChange={handleDateChange}
+         
         >
 
         </Form>
     )
+}

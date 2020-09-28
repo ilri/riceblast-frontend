@@ -21,7 +21,7 @@ export default function Table({data,handleDelete,handleEdit,riceGenotypes,genes}
     };
     
     const findGeneID = (props,event,newData) => {
-        console.log(newData);
+        console.log('nugu');
         genes.map((gene) => {
             if(gene.name === newData){
                 props.onChange(gene.pk);
@@ -29,10 +29,12 @@ export default function Table({data,handleDelete,handleEdit,riceGenotypes,genes}
         });
     };
 
+
     return(
         <div>
             <MaterialTable 
                 columns={[
+
                     {
                         title:'Rice Genotype', 
                         field:'rice_genotype',
@@ -50,6 +52,7 @@ export default function Table({data,handleDelete,handleEdit,riceGenotypes,genes}
                            />                            
                         )
                     },
+
                     {
                         title:'Rice Gene', 
                         field:'rice_gene',

@@ -9,12 +9,10 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import { makeStyles } from '@material-ui/core/styles';
 import RiceGenotypeServices from '../../../services/riceGenotype';
-import RiceGeneService from '../../../services/riceGene';
 
 
 
 
-const riceGeneService = new RiceGeneService();
 const genotypeService = new RiceGenotypeServices();
 
 
@@ -33,13 +31,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function Form({form, handleChange, handleSubmit}){
     const [riceGenotypes, setRiceGenotypes] = useState([]);
-    const [genes, setGenes] = useState([]);
 
     const classes = useStyles();
 
     React.useEffect(() =>{
         getGenotypes();
-        getRiceGenes();
     },[]);
 
     const getGenotypes = () => {
@@ -52,13 +48,7 @@ export default function Form({form, handleChange, handleSubmit}){
           error => console.log(error)
         );
     };
-    const getRiceGenes = () => {
-        riceGeneService.getRiceGenes().then(response => {
-            console.log(response.data);
-            setGenes(response.data);
-        }).catch(errors => console.log(errors));
-    };
-    
+
     return(
         <div>
             <Grid container spacing={3} direction="column" justify="center" alignItems="stretch">
@@ -70,6 +60,20 @@ export default function Form({form, handleChange, handleSubmit}){
 
             </Grid>
             <Grid spacing={3} container direction="column" justify="center" alignItems="stretch" >
+                
+                <Grid item xs={9}>
+                    <TextField
+                        id="outlined-secondary"
+                        label="Fungal Gene"
+                        size='small'
+                        name='fungal_gene'
+                        variant="outlined"
+                        color="primary"
+                        required={true}
+                        onChange={handleChange}
+                        value={form.fungal_gene}
+                    /> 
+                </Grid>
 
                 <Grid item xs={9}>
                     <FormControl className={classes.formControl}>
@@ -99,34 +103,6 @@ export default function Form({form, handleChange, handleSubmit}){
                     </FormControl>                
                 </Grid>
 
-                <Grid item xs={9}>
-                    <FormControl className={classes.formControl}>
-
-                        <Select
-                          displayEmpty
-                          name='rice_gene'
-                          value={form.rice_gene}
-                          onChange={handleChange}
-                          input={<Input />}
-                          inputProps={{ 'aria-label': 'Without label' }}
-                          renderValue={(selected) => {
-                            if (!selected) {
-                              return <em>Rice Gene</em>;
-                            }
-                        }}
-                        >
-                          <MenuItem disabled value="">
-                            <em>Rice Gene</em>
-                          </MenuItem>
-                          {genes.map((gene,i) => (
-                            <MenuItem key={i} value={gene.pk} >
-                              {gene.name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-
-                    </FormControl>                
-                </Grid>
 
                 <Grid item xs={9}>
                     <TextField
