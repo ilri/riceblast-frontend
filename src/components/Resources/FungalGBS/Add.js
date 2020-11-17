@@ -1,29 +1,26 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Form from './Form';
-import FGSService from '../../../services/FGS';
+import FungalGBSService from '../../../services/fungalGBS';
+
+const service = new FungalGBSService();
 
 
 
-const service = new FGSService();
-
-
-
-export default function Add({getData,openDrawer}){
+export default function Add({getData,openDrawer,people,labs}){
 
 
     const [form, setForm] = React.useState({
-        rice_genotype:0,
-        pcr_results:'',
-        replicate_id: '',
-        sample_id:'',
-        fungal_gene:'',
+        fungal_gbs_name:'',
+        person:'',
+        lab:'',
+        gbs_dataset:'',
+
 
         errorMsg: '',
         errors: false,
         load: false,
     });
-
 
 
     const handleChange = (event) => {
@@ -54,10 +51,13 @@ export default function Add({getData,openDrawer}){
         <Form 
             form={form} 
             handleChange={handleChange} 
-            handleSubmit={handleSubmit} 
+            handleSubmit={handleSubmit}
+            people={people}
+            labs={labs}
+
          
         >
 
         </Form>
     )
-}
+}   

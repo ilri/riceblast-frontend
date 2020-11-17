@@ -1,11 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Form from './Form';
-import FGSService from '../../../services/FGS';
+import FungalSmallService from '../../../services/fungalSmall';
 
 
 
-const service = new FGSService();
+const service = new FungalSmallService();
 
 
 
@@ -13,18 +13,23 @@ export default function Add({getData,openDrawer}){
 
 
     const [form, setForm] = React.useState({
-        rice_genotype:0,
-        pcr_results:'',
-        replicate_id: '',
-        sample_id:'',
-        fungal_gene:'',
-
+        activity_name:'',
+        fungal_gene_name:'',
+        fungal: '',
+        fungal_gene_sequence: '',
+        date_of_sequence:new Date(),
+        loci_id:'',
+        person:'',
+        target_gene:'', 
+        
         errorMsg: '',
         errors: false,
         load: false,
     });
 
-
+    const handleDateChange = (date_field,date) => {
+        setForm({...form, [date_field]:date });
+    };
 
     const handleChange = (event) => {
         const value = event.target.value;
@@ -55,9 +60,10 @@ export default function Add({getData,openDrawer}){
             form={form} 
             handleChange={handleChange} 
             handleSubmit={handleSubmit} 
+            handleDateChange={handleDateChange}
          
         >
 
         </Form>
     )
-}
+}   

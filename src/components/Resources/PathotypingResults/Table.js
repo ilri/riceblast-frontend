@@ -14,13 +14,13 @@ export default function Table({data,handleEdit,handleDelete,riceGenotypes,labs,i
                     if(data.name === newData){
                         props.onChange(data.pk);
                         console.log(data.pk);
-
+                        console.log();
                     }
                 });
                 break;
             case 'isolate':
                 isolates.map((data) => {
-                    if(data.name === newData){
+                    if(data.isolate_name === newData){
                         props.onChange(data.pk);
                         console.log(data.pk);
 
@@ -29,7 +29,7 @@ export default function Table({data,handleEdit,handleDelete,riceGenotypes,labs,i
                 break;
             case 'lab':
                 labs.map((data) => {
-                    if(data.name === newData){
+                    if(data.lab_name === newData){
                         props.onChange(data.pk);
                         console.log(data.pk);
 
@@ -38,7 +38,7 @@ export default function Table({data,handleEdit,handleDelete,riceGenotypes,labs,i
                 break;
             default:
                 people.map((data) => {
-                    if(data.name === newData){
+                    if(data.full_name === newData){
                         props.onChange(data.pk);
                         console.log(data.pk);
 

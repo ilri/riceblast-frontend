@@ -1,23 +1,19 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Form from './Form';
-import FGSService from '../../../services/FGS';
+import VCGGroupsService from '../../../services/vcgGroups';
 
 
-
-const service = new FGSService();
-
-
+const service = new VCGGroupsService();
 
 export default function Add({getData,openDrawer}){
 
 
     const [form, setForm] = React.useState({
-        rice_genotype:0,
-        pcr_results:'',
-        replicate_id: '',
-        sample_id:'',
-        fungal_gene:'',
+        group:'',
+        vcg_id:'',
+        lab: '',
+        person:'',
 
         errorMsg: '',
         errors: false,

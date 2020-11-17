@@ -1,23 +1,24 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Form from './Form';
-import FGSService from '../../../services/FGS';
+import VCGTestResultsService from '../../../services/vcgTestResults';
+
+const service = new VCGTestResultsService();
 
 
-
-const service = new FGSService();
-
-
-
-export default function Add({getData,openDrawer}){
+export default function Add({getData,openDrawer,isolates,vcgGroups,labs}){
 
 
     const [form, setForm] = React.useState({
-        rice_genotype:0,
-        pcr_results:'',
-        replicate_id: '',
-        sample_id:'',
-        fungal_gene:'',
+        vcg_test_id:'',
+        isolate:'',
+        vcg_tester_id: '',
+        tester_complimented_isolate: false,
+        tester_and_control:false,
+        lab:'',
+        vcg_replicate_id:'',
+        vcg:'', 
+
 
         errorMsg: '',
         errors: false,
@@ -25,10 +26,14 @@ export default function Add({getData,openDrawer}){
     });
 
 
-
     const handleChange = (event) => {
         const value = event.target.value;
         setForm({...form, [event.target.name]:value });
+    };
+
+    const handleBooleanChange= (event) => {
+        setForm({...form, [event.target.name]:event.target.checked });
+
     };
 
 
@@ -54,10 +59,13 @@ export default function Add({getData,openDrawer}){
         <Form 
             form={form} 
             handleChange={handleChange} 
-            handleSubmit={handleSubmit} 
-         
+            handleSubmit={handleSubmit}
+            labs={labs}
+            isolates={isolates}
+            vcgGroups={vcgGroups}      
+            handleBooleanChange={handleBooleanChange}   
         >
 
         </Form>
     )
-}
+}   

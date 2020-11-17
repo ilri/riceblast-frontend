@@ -38,6 +38,7 @@ export default function Add({getData,openDrawer}){
     const handleChange = (event) => {
         const value = event.target.value;
         setForm({...form, [event.target.name]:value });
+        console.log(form);
     };
 
 

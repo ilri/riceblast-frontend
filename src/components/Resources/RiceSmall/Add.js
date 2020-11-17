@@ -1,29 +1,34 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Form from './Form';
-import FGSService from '../../../services/FGS';
+import RiceSmallService from '../../../services/riceSmall';
 
 
 
-const service = new FGSService();
+const service = new RiceSmallService();
 
 
 
-export default function Add({getData,openDrawer}){
+export default function Add({getData,openDrawer,people,riceGenotypes,labs}){
 
 
     const [form, setForm] = React.useState({
-        rice_genotype:0,
-        pcr_results:'',
-        replicate_id: '',
-        sample_id:'',
-        fungal_gene:'',
+        rice_genotype:'',
+        taxa_name:'',
+        sequence_id: '',
+        description: '',
+        sequence_data:undefined,
+        chromosome_id:'',
+        chromosome_site_id:'',
+        loci_id:'', 
+        person:'',
+        lab:'',
+        target_gene:'',
 
         errorMsg: '',
         errors: false,
         load: false,
     });
-
 
 
     const handleChange = (event) => {
@@ -54,10 +59,13 @@ export default function Add({getData,openDrawer}){
         <Form 
             form={form} 
             handleChange={handleChange} 
-            handleSubmit={handleSubmit} 
+            handleSubmit={handleSubmit}
+            people={people}
+            riceGenotypes={riceGenotypes}
+            labs={labs}
          
         >
 
         </Form>
     )
-}
+}   

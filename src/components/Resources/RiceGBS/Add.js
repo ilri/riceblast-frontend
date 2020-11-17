@@ -3,25 +3,28 @@ import { makeStyles } from '@material-ui/core/styles';
 import Form from './Form';
 import RiceGBSService from '../../../services/riceGBS';
 
-const riceService = new RiceGBSService();
 
 
 
-export default function Add({getGenotypes,openDrawer}){
+
+const service = new RiceGBSService();
+
+
+
+export default function Add({getData,openDrawer,people,labs}){
 
 
     const [form, setForm] = React.useState({
-        rice_genotype:null,
-        rice_gene:null,
-        pcr_results:'',
-        replicate_id: '',
-        sample_id:'',
+        rice_gbs_name:'',
+        person:'',
+        lab:'',
+        gbs_dataset:'',
+
 
         errorMsg: '',
         errors: false,
         load: false,
     });
-
 
 
     const handleChange = (event) => {
@@ -33,10 +36,10 @@ export default function Add({getGenotypes,openDrawer}){
     const handleSubmit = () => {
 
 
-        genotypeService.addRiceGenotypes(form).then(
+        service.addData(form).then(
             response => {
                 console.log(response.data);
-                getGenotypes();
+                getData();
                 openDrawer();
             }
         ).catch(
@@ -52,9 +55,13 @@ export default function Add({getGenotypes,openDrawer}){
         <Form 
             form={form} 
             handleChange={handleChange} 
-            handleSubmit={handleSubmit} 
-        
+            handleSubmit={handleSubmit}
+            people={people}
+            labs={labs}
+
+         
         >
 
         </Form>
     )
+}   

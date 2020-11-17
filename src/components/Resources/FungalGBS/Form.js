@@ -52,14 +52,14 @@ export default function Form({form, handleChange, handleSubmit,people,labs}){
                 <Grid item xs={9}>
                     <TextField
                         id="outlined-secondary"
-                        label="Rice GBS Name"
+                        label="Fungal GBS Name"
                         size='small'
-                        name='rice_gbs_name'
+                        name='fungal_gbs_name'
                         variant="outlined"
                         color="primary"
                         required={true}
                         onChange={handleChange}
-                        value={form.rice_gbs_name}
+                        value={form.fungal_gbs_name}
                     /> 
                 </Grid>
 

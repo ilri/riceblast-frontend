@@ -326,7 +326,7 @@ export default function Form({form, handleChange, handleDateChange, handleSubmit
                           </MenuItem>
                           {people.map((person,i) => (
                             <MenuItem key={i} value={person.pk} >
-                              {person.name}
+                              {person.full_name}
                             </MenuItem>
                           ))}
                         </Select>
@@ -354,7 +354,7 @@ export default function Form({form, handleChange, handleDateChange, handleSubmit
                           </MenuItem>
                           {labs.map((lab,i) => (
                             <MenuItem key={i} value={lab.pk} >
-                              {lab.name}
+                              {lab.lab_name}
                             </MenuItem>
                           ))}
                         </Select>

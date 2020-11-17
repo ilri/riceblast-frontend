@@ -13,7 +13,7 @@ export default function Table({data}){
                 ]}
                 data={data}
                 title='Rice GBS'
-                style={{maxWidth:'90%',marginLeft:'250px',marginTop:150}}
+                style={{maxWidth:'90%',marginLeft:'250px'}}
                 options={{
                     exportButton:true
                 }}

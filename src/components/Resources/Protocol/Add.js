@@ -1,11 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Form from './Form';
-import FGSService from '../../../services/FGS';
+import ProtocolService from '../../../services/protocol';
 
 
 
-const service = new FGSService();
+const service = new ProtocolService();
 
 
 
@@ -13,17 +13,14 @@ export default function Add({getData,openDrawer}){
 
 
     const [form, setForm] = React.useState({
-        rice_genotype:0,
-        pcr_results:'',
-        replicate_id: '',
-        sample_id:'',
-        fungal_gene:'',
+        name:'',
+        protocol:'',
+
 
         errorMsg: '',
         errors: false,
         load: false,
     });
-
 
 
     const handleChange = (event) => {
@@ -54,10 +51,11 @@ export default function Add({getData,openDrawer}){
         <Form 
             form={form} 
             handleChange={handleChange} 
-            handleSubmit={handleSubmit} 
+            handleSubmit={handleSubmit}
+
          
         >
 
         </Form>
     )
-}
+}   

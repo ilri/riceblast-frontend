@@ -8,11 +8,17 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import { makeStyles } from '@material-ui/core/styles';
+import RiceGenotypeServices from '../../../services/riceGenotype';
+import PeopleService from '../../../services/people';
+import LabService from '../../../services/labs';
 
-  
 
 
 
+const labService = new LabService();
+
+
+const peopleService = new PeopleService();
 
 
 const useStyles = makeStyles(theme => ({
@@ -28,12 +34,36 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function Form({form, handleChange, handleSubmit,people,labs}){
+export default function Form({form, handleChange, handleSubmit}){
+    const [people,setPeople] = useState([]);
+    const [labs,setLabs] = useState([]);
 
+    
     const classes = useStyles();
 
+    React.useEffect(() =>{
+        getLabs();
+        getPeople();
+    },[]);
 
 
+    const getLabs = () => {
+        labService.getLabs().then(response => {
+            console.log(response.data);
+            setLabs(response.data);
+        }).catch(errors => console.log(errors));
+    };
+  
+    const getPeople = () => {
+      peopleService.getData().then(
+        response => {
+          setPeople(response.data);
+          console.log(response.data);
+        }
+      ).catch(
+        error => console.log(error)
+      );
+    };
 
     return(
         <div>
@@ -46,20 +76,34 @@ export default function Form({form, handleChange, handleSubmit,people,labs}){
 
             </Grid>
             <Grid spacing={3} container direction="column" justify="center" alignItems="stretch" >
+                
+                <Grid item xs={9}>
+                    <TextField
+                        id="outlined-secondary"
+                        label="Group"
+                        size='small'
+                        name='group'
+                        variant="outlined"
+                        color="primary"
+                        required={true}
+                        onChange={handleChange}
+                        value={form.group}
+                    /> 
+                </Grid>
 
 
 
                 <Grid item xs={9}>
                     <TextField
                         id="outlined-secondary"
-                        label="Rice GBS Name"
+                        label="VCG ID"
                         size='small'
-                        name='rice_gbs_name'
+                        name='vcg_id'
                         variant="outlined"
                         color="primary"
                         required={true}
                         onChange={handleChange}
-                        value={form.rice_gbs_name}
+                        value={form.vcg_id}
                     /> 
                 </Grid>
 
@@ -75,20 +119,18 @@ export default function Form({form, handleChange, handleSubmit,people,labs}){
                           inputProps={{ 'aria-label': 'Without label' }}
                           renderValue={(selected) => {
                             if (!selected) {
-                              return <em>Person</em>;
+                              return <em>People</em>;
                             }
                         }}
                         >
                           <MenuItem disabled value="">
-                            <em>Person</em>
+                            <em>People</em>
                           </MenuItem>
-
                           {people.map((person,i) => (
                             <MenuItem key={i} value={person.pk} >
                               {person.full_name}
                             </MenuItem>
                           ))}
-
                         </Select>
                     </FormControl>                
                 </Grid>
@@ -121,23 +163,6 @@ export default function Form({form, handleChange, handleSubmit,people,labs}){
                     </FormControl>                
                 </Grid>
 
-                <Grid item xs={9}>
-                    <TextField
-                        id="outlined-secondary"
-                        label="GBS Dataset"
-                        size='small'
-                        name='gbs_dataset'
-                        variant="outlined"
-                        color="primary"
-                        type='file'
-                        required={true}
-                        onChange={handleChange}
-                        value={form.gbs_dataset}
-
-                    /> 
-                </Grid>
-
-
 
                 <Grid container direction="row" justify='space-between' alignItems='flex-end' xs={9}>
                     <Grid item xs={3}>
@@ -153,3 +178,4 @@ export default function Form({form, handleChange, handleSubmit,people,labs}){
         </div>
     )
 }
+
