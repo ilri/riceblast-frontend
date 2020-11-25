@@ -46,13 +46,17 @@ export default function Add({getData,openDrawer}){
         );
     }
     
-
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        console.log(file);
+        setForm({...form, [event.target.name]:file });
+    } 
     return(
         <Form 
             form={form} 
             handleChange={handleChange} 
             handleSubmit={handleSubmit}
-
+            handleFileChange={handleFileChange}
          
         >
 

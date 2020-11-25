@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function Form({form, handleChange, handleSubmit,people,labs}){
+export default function Form({form, handleChange, handleSubmit,handleFileChange,people,labs}){
 
     const classes = useStyles();
 
@@ -131,8 +131,7 @@ export default function Form({form, handleChange, handleSubmit,people,labs}){
                         color="primary"
                         type='file'
                         required={true}
-                        onChange={handleChange}
-                        value={form.gbs_dataset}
+                        onChange={handleFileChange}
 
                     /> 
                 </Grid>

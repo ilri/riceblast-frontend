@@ -45,7 +45,11 @@ export default function Add({getData,openDrawer,people,labs}){
             }
         );
     }
-    
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        console.log(file);
+        setForm({...form, [event.target.name]:file });
+    }     
 
     return(
         <Form 
@@ -54,6 +58,7 @@ export default function Add({getData,openDrawer,people,labs}){
             handleSubmit={handleSubmit}
             people={people}
             labs={labs}
+            handleFileChange={handleFileChange}
 
          
         >

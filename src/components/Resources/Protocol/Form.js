@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function Form({form, handleChange, handleSubmit}){
+export default function Form({form, handleChange, handleFileChange,handleSubmit}){
 
     const classes = useStyles();
 
@@ -75,8 +75,7 @@ export default function Form({form, handleChange, handleSubmit}){
                         color="primary"
                         type='file'
                         required={true}
-                        onChange={handleChange}
-                        value={form.protocol}
+                        onChange={handleFileChange}
 
                     /> 
                 </Grid>

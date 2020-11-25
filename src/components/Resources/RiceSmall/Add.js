@@ -54,6 +54,11 @@ export default function Add({getData,openDrawer,people,riceGenotypes,labs}){
         );
     }
     
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        console.log(file);
+        setForm({...form, [event.target.name]:file });
+    } 
 
     return(
         <Form 
@@ -63,6 +68,7 @@ export default function Add({getData,openDrawer,people,riceGenotypes,labs}){
             people={people}
             riceGenotypes={riceGenotypes}
             labs={labs}
+            handleFileChange={handleFileChange}
          
         >
 

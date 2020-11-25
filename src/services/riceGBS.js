@@ -5,7 +5,13 @@ export default class RiceGBSService{
         return axiosInstance.get('rice_gbs/');
     }
     addData(data){
-        return axiosInstance.post('rice_gbs/',data);
+        const formData = new FormData();
+        const {gbs_dataset, ...info} = data;
+
+        formData.append('gbs_dataset', gbs_dataset);
+        formData.append('info', JSON.stringify(info));
+
+        return axiosInstance.post('rice_gbs/',formData);  
     }
 
     editData(data){

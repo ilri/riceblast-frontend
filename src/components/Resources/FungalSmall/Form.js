@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function Form({form, handleChange, handleDateChange, handleSubmit}){
+export default function Form({form, handleChange, handleDateChange,handleFileChange,handleSubmit}){
     const [people, setPeople] = useState([]);
 
     const classes = useStyles();
@@ -53,6 +53,7 @@ export default function Form({form, handleChange, handleDateChange, handleSubmit
           error => console.log(error)
         );
     };
+
 
     return(
         <div>
@@ -122,9 +123,7 @@ export default function Form({form, handleChange, handleDateChange, handleSubmit
                         color="primary"
                         type='file'
                         required={true}
-                        onChange={handleChange}
-                        value={form.fungal_gene_sequence}
-
+                        onChange={handleFileChange}
                     /> 
                 </Grid>
 

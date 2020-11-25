@@ -6,7 +6,13 @@ export default class ProtocolService{
     }
 
     addData(data){
-        return axiosInstance.post('protocol/',data);
+        const formData = new FormData();
+        const {protocol, ...info} = data;
+
+        formData.append('protocol', protocol);
+        formData.append('info', JSON.stringify(info));
+
+        return axiosInstance.post('protocol/',formData);  
     }
 
     editData(data){

@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function Form({form, handleChange, handleSubmit,people,riceGenotypes,labs}){
+export default function Form({form, handleChange, handleSubmit,people,handleFileChange,riceGenotypes,labs}){
 
     const classes = useStyles();
 
@@ -131,8 +131,7 @@ export default function Form({form, handleChange, handleSubmit,people,riceGenoty
                         color="primary"
                         type='file'
                         required={true}
-                        onChange={handleChange}
-                        value={form.sequence_data}
+                        onChange={handleFileChange}
 
                     /> 
                 </Grid>

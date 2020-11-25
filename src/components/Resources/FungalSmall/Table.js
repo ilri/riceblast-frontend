@@ -3,10 +3,18 @@ import MaterialTable from 'material-table';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles';
+import {fileDownload} from '../../../services/downloads';
+const useStyles = makeStyles((theme) => ({
+    margin: {
+      margin: theme.spacing(1),
+    },
 
-
-
+}));
 export default function Table({data,handleDelete,handleEdit,people}){
+    const classes = useStyles();
 
     const findID = (props,event,newData,field) => {
 
@@ -18,6 +26,9 @@ export default function Table({data,handleDelete,handleEdit,people}){
         });
     
     };
+    const handleDownload = (file) => {
+        fileDownload(file);
+    };
 
     return(
         <div>
@@ -26,7 +37,15 @@ export default function Table({data,handleDelete,handleEdit,people}){
                     {title:'Activity Name', field:'activity_name'},
                     {title:'Fungal Gene Name', field:'fungal_gene_name'},
                     {title:'Fungal', field:'fungal'},
-                    {title:'Fungal Gene Sequence', field:'fungal_gene_sequence',},
+                    {
+                        title:'Fungal Gene Sequence', 
+                        field:'fungal_gene_sequence',
+                        render: rowData => (
+                        <IconButton aria-label="delete" onClick={() => handleDownload(rowData.fungal_gene_sequence)} className={classes.margin}>
+                            <GetAppIcon />
+                        </IconButton>
+                        )
+                    },
                     {title:'Date of Sequence', field:'date_of_sequence',},
                     {title:'Project Name', field:'project_name',},
                     {title:'Loci ID', field:'loci_id',},
