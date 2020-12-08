@@ -16,6 +16,7 @@ import PeopleService from '../../../services/people';
 import VCGTestResultsService from '../../../services/vcgTestResults';
 import IsolatesService from '../../../services/isolates';
 import LabService from '../../../services/labs';
+import IconButton from '@material-ui/core/IconButton';
 
 
 
@@ -36,7 +37,7 @@ const useStyles = makeStyles(theme => ({
     },
     drawer:{
         width:550,
-        height: 300,
+        height: '100%',
     }
 }));
 
@@ -160,8 +161,9 @@ export default function FungalSmall(props){
                             <Paper className={classes.drawer}>
                                 <Grid container alignItems='flex-end' justify='flex-start'>
  
-                                    <CloseIcon fontSize='large' onClick={openDrawer} />
-
+                                    <IconButton variant="outlined" onClick={openDrawer} size="medium" color="secondary" className='close-button'>        
+                                        <CloseIcon fontSize='large' />
+                                    </IconButton>
                                 </Grid>
 
                                 

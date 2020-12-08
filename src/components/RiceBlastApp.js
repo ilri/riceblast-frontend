@@ -42,7 +42,7 @@ export default function RiceBlastApp(props){
                         <Route path='/login' exact component={Login} />
                         <Route path='/about' exact component={About} />
                         <Route path='/media/newsletters' exact component={Newsletters} />
-                        <Route path='/media/stakeholder_engagements' exact component={Stakeholders} />
+                        <Route path='/media/outreach' exact component={Stakeholders} />
                         <Route path='/media/meetings' exact component={Meetings} />
                         <Route path='/media/factsheets' exact component={Factsheets} />
                         <Route path='/publications' exact component={Publications} />
@@ -57,8 +57,8 @@ export default function RiceBlastApp(props){
                         <Route path='/resources/fungal_gene_screen_results' exact component={FGScreenResults} />
                         <Route path='/resources/pathotyping_results' exact component={PathotypingResults} />
                         <Route path='/resources/vcg_groups' exact component={VCGGroups} />
-                        <Route path='/resources/rice_small__dna_fragments_sequence' exact component={RiceSmall} />
-                        <Route path='/resources/fungal_small__dna_fragments_sequence' exact component={FungalSmall} />
+                        <Route path='/resources/rice_dna_amplicon_sequence' exact component={RiceSmall} />
+                        <Route path='/resources/fungal_dna_amplicon_sequence' exact component={FungalSmall} />
                         <Route path='/resources/vcg_test_results' exact component={VCGResults} />
                         <Route path='/resources/protocols' exact component={Protocols} />
                         <Route path='/resources/rice_gbs' exact component={RiceGBS} />

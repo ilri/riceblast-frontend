@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function SideBar({showSide}){
     const classes = useStyles();
-    const [open,setOpen] = useState(true);
+    const [open,setOpen] = useState(false);
     const handleClick = () => {
         setOpen(!open);
     };
@@ -59,10 +59,10 @@ export default function SideBar({showSide}){
 
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    {['Newsletters','Meetings', 'Stakeholder Engagements','Factsheets'].map((media, index)=>(
+                    {['Newsletters','Meetings', 'Outreach','Factsheets'].map((media, index)=>(
                     <div key={index + 1}>
                     <Link 
-                        to={`/media/${(media === "Newsletters") ? "newletters": (media === "Meetings") ? "meetings": (media == 'Factsheets') ? "factsheets" : "stakeholder_engagements"}`}
+                        to={`/media/${(media === "Newsletters") ? "newsletters": (media === "Meetings") ? "meetings": (media == 'Factsheets') ? "factsheets" : "outreach"}`}
                         className={classes.links}
                     >
                         <ListItem button className={classes.nested}>

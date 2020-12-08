@@ -8,23 +8,18 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import { makeStyles } from '@material-ui/core/styles';
-import RiceGenotypeServices from '../../../services/riceGenotype';
-import IsolatesService from '../../../services/isolates';
-import PeopleService from '../../../services/people';
-import LabService from '../../../services/labs';
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers/';
 import DateFnsUtils from '@date-io/date-fns';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Container from '@material-ui/core/Container';
+import Upload from './Upload';
 
 
-
-const labService = new LabService();
-const genotypeService = new RiceGenotypeServices();
-const isolatesService = new IsolatesService();
-const peopleService = new PeopleService();
 
 const useStyles = makeStyles(theme => ({
     
@@ -35,65 +30,31 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Container fixed style={{marginTop:'50px'}}>
+          {children}
+        </Container>
+      )}
+    </div>
+  );
+}
 
 
-
-
-export default function Form({form, handleChange, handleDateChange, handleSubmit}){
-    const [riceGenotypes, setRiceGenotypes] = useState([]);
-    const [isolates, setIsolates] = useState([]);
-    const [people,setPeople] = React.useState([]);
-    const [labs,setLabs] = useState([]);
-    const classes = useStyles();
-
-    React.useEffect(() =>{
-        getGenotypes();
-        getPeople();
-        getIsolates();
-        getLabs();
-    },[]);
-
-    const getGenotypes = () => {
-        genotypeService.getRiceGenotypes().then(
-          response => {
-            setRiceGenotypes(response.data);
-            console.log(response.data);
-          }
-        ).catch(
-          error => console.log(error)
-        );
-    };
-
-
-
-    const getIsolates = () => {
-        isolatesService.getIsolates().then(response => {
-            console.log(response.data);
-            setIsolates(response.data);
-        }).catch(errors => console.log(errors));
-    };
-
-    const getLabs = () => {
-      labService.getLabs().then(response => {
-          console.log(response.data);
-          setLabs(response.data);
-      }).catch(errors => console.log(errors));
-    };
-
-    const getPeople = () => {
-      peopleService.getData().then(
-        response => {
-          setPeople(response.data);
-          console.log(response.data);
-        }
-      ).catch(
-        error => console.log(error)
-      );
-    };
-
-    
-    return(
-        <div>
+function ActualForm({form,openDrawer,riceGenotypes,handleSubmit,isolates,people,labs,handleChange, handleDateChange}){
+  const classes = useStyles();
+  return(
+  <div>
             <Grid container spacing={3} direction="column" justify="center" alignItems="stretch">
                 {form.errorMsg ? 
                     (
@@ -298,7 +259,7 @@ export default function Form({form, handleChange, handleDateChange, handleSubmit
                           </MenuItem>
                           {isolates.map((isolate,i) => (
                             <MenuItem key={i} value={isolate.pk} >
-                              {isolate.name}
+                              {isolate.isolate_name}
                             </MenuItem>
                           ))}
                         </Select>
@@ -361,18 +322,84 @@ export default function Form({form, handleChange, handleDateChange, handleSubmit
                     </FormControl>                
                 </Grid>
 
-
-                <Grid container direction="row" justify='space-between' alignItems='flex-end' xs={9}>
+                <Grid container style={{marginTop:'50px'}} direction="row" justify='space-between' alignItems='flex-end' xs={9}>
                     <Grid item xs={3}>
                         <Button variant="contained" onClick={handleSubmit}> Submit</Button>
                     </Grid>
 
                     <Grid item xs={3}>
-                        <Button variant="contained" >Close</Button>
+                        <Button variant="contained" onClick={openDrawer} color='secondary'>Close</Button>
                     </Grid>
                 </Grid>
 
+
+
             </Grid>
+
+  </div>    
+  )
+}
+
+
+export default function Form({form, 
+  handleFileUpload,riceGenotypes,isolates,
+  people,labs,handleChange, handleDateChange,
+  handlePostFile, handleSubmit,openDrawer
+}){
+
+
+    const [tabValue, setTabValue] = useState(0);
+
+    const handleTabChange = (event, newTabValue) => {
+      setTabValue(newTabValue)
+    }    
+    return(
+        <div>
+
+            <Tabs
+              value={tabValue}
+              indicatorColor="primary"
+              textColor="primary"
+              onChange={handleTabChange}
+              aria-label="disabled tabs example"
+            >
+              <Tab label="FORM" />
+              <Tab label="" disabled />
+              <Tab label="UPLOAD DATA" />
+            </Tabs>
+            <TabPanel value={tabValue} index={0}>
+              
+              <ActualForm
+                form={form}
+                riceGenotypes={riceGenotypes}
+                labs={labs}
+                isolates={isolates}
+                people={people}
+                handleSubmit={handleSubmit}
+                handleChange={handleChange}
+                handleDateChange={handleDateChange}
+              />
+ 
+            </TabPanel>
+
+            <TabPanel value={tabValue} index={2}>
+
+              <Upload
+                  handleFileUpload={handleFileUpload}
+              />
+            
+            <Grid container style={{marginTop:'50px'}} direction="row" justify='space-between' alignItems='flex-end' xs={9}>
+                <Grid item xs={3}>
+                    <Button variant="contained" onClick={handlePostFile}>Upload</Button>
+                </Grid>
+
+                <Grid item xs={3}>
+                    <Button variant="contained" onClick={openDrawer} color='secondary'>Close</Button>
+                </Grid>
+            </Grid>
+
+            </TabPanel>
+
         </div>
     )
 }

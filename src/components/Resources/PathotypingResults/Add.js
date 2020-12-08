@@ -4,19 +4,18 @@ import Form from './Form';
 import PathotypingService from '../../../services/pathotypingResults';
 
 
-
 const service = new PathotypingService();
 
 
 
-export default function Add({getData,openDrawer}){
-
+export default function Add({getData,openDrawer,riceGenotypes,isolates,people,labs}){
+    
 
     const [form, setForm] = React.useState({
-        rice_genotype:null,
-        isolate:null,
-        person:null,
-        lab:null,
+        rice_genotype:'',
+        isolate:'',
+        person:'',
+        lab:'',
 
         stock_id:'',
         replicate_id: '',
@@ -32,8 +31,30 @@ export default function Add({getData,openDrawer}){
         errors: false,
         load: false,
     });
+    // UPLOAD FILE
+    const [pathotyping_results,setPathotypingResults] = React.useState(null);
 
+    const handleFileUpload = (event) =>{
+        const file = event.target.files[0];
+        console.log(file);
+        setPathotypingResults(file);
+        // handlePostFile(pathotyping_results);
+    }
 
+    const handlePostFile = () => {
+        service.uploadFile(pathotyping_results).then(
+            response => {
+                console.log(response.data);
+                getData();
+                openDrawer();
+            }
+        ).catch(
+            error => {
+                console.log(error.response.data.message);
+                setForm({...form, errorMsg:error.response.data.message});
+            }            
+        )
+    }
 
     const handleChange = (event) => {
         const value = event.target.value;
@@ -63,14 +84,26 @@ export default function Add({getData,openDrawer}){
         setForm({...form, [date_field]:date });
     };
     return(
-        <Form 
-            form={form} 
-            handleChange={handleChange} 
-            handleSubmit={handleSubmit} 
-            handleDateChange={handleDateChange}
-         
-        >
+        <div>
+            <Form 
+                form={form} 
+                handleChange={handleChange} 
+                handleSubmit={handleSubmit} 
+                handleDateChange={handleDateChange}
+                riceGenotypes={riceGenotypes}
+                isolates={isolates}
+                people={people}
+                labs={labs}
+                handleFileUpload={handleFileUpload}
+                handlePostFile={handlePostFile}
+                openDrawer={openDrawer}
 
-        </Form>
+            >
+
+            </Form>
+
+
+        </div>
+
     )
 }

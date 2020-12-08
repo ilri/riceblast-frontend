@@ -14,4 +14,12 @@ export default class RiceGeneServices {
     deleteRiceGenes(id){
         return axiosInstance.delete(`rice_genes/${id}`);
     }
+
+    uploadFile(rice_genes){
+        const formData = new FormData();
+
+        formData.append('rice_genes', rice_genes);
+
+        return axiosInstance.post('upload_rice_genes/',formData);  
+    }
 }

@@ -59,6 +59,7 @@ export default function Add({getData,openDrawer,people,labs}){
             people={people}
             labs={labs}
             handleFileChange={handleFileChange}
+            openDrawer={openDrawer}
 
          
         >

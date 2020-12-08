@@ -4,9 +4,24 @@ import MaterialTable from 'material-table';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import IconButton from '@material-ui/core/IconButton';
+import {fileDownload} from '../../../services/downloads';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    margin: {
+      margin: theme.spacing(1),
+    },
+
+}));
+
 
 export default function Table({data,handleEdit,handleDelete,riceGenotypes,labs,people}){
-
+    const classes = useStyles();
+    const handleDownload = (file) => {
+        fileDownload(file);
+    };
     const findID = (props,event,newData,field) => {
         switch(field){
             case 'rice_genotype':
@@ -62,7 +77,15 @@ export default function Table({data,handleEdit,handleDelete,riceGenotypes,labs,p
                     {title:'Taxa Name', field:'taxa_name'},
                     {title:'Sequence ID', field:'sequence_id'},
                     {title:'Description', field:'description',},
-                    {title:'Sequence Data', field:'sequence_data',},
+                    {
+                        title:'Sequence Data', 
+                        field:'sequence_data',
+                        render: rowData => (
+                            <IconButton disabled aria-label="delete" onClick={() => handleDownload(rowData.sequence_data)} className={classes.margin}>
+                                <GetAppIcon />
+                            </IconButton>
+                        )
+                    },
                     {title:'Chromosome ID', field:'chromosome_id',},
                     {title:'Chromosome Site ID', field:'chromosome_site_id',},
                     {title:'Loci ID', field:'loci_id',},
@@ -101,7 +124,7 @@ export default function Table({data,handleEdit,handleDelete,riceGenotypes,labs,p
                     {title:'Target Gene', field:'target_gene',},
                 ]}
                 data={data}
-                title='Rice Small DNA Fragments Sequence'
+                title='Rice DNA Amplicon Sequence'
                 style={{maxWidth:'90%',marginLeft:'250px'}}
                 editable={{
                     onRowUpdate: (newData, oldData) =>

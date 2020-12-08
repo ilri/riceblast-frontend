@@ -15,6 +15,7 @@ export function downloadFactsheet(factSheet, factSheetName){
             var file = new Blob([oReq.response], { 
                 type: 'application/pdf' 
             });
+            console.log(file)
 
             FileSaver.saveAs(file, factSheetName);
         };

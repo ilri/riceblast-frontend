@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Form from './Form';
 import LabService from '../../../services/labs';
+import Container from '@material-ui/core/Container';
 
 
 const labService = new LabService();
@@ -53,15 +54,18 @@ export default function AddLabs({getLabs,openDrawer}){
     
 
     return(
-        <Form 
-            form={form} 
-            handleChange={handleChange} 
-            handleSubmit={handleSubmit} 
-            onSelect={onSelect}
-        
-        >
+        <Container fixed className='form-container'>
+            <Form 
+                form={form} 
+                handleChange={handleChange} 
+                handleSubmit={handleSubmit} 
+                onSelect={onSelect}
+                openDrawer={openDrawer}
+            >
 
-        </Form>
+            </Form>
+        </Container>
+
     )
 
 }

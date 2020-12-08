@@ -11,6 +11,10 @@ import Paper from '@material-ui/core/Paper';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Add from './Add';
+import IconButton from '@material-ui/core/IconButton';
+
+
+
 
 const genotypeService = new RiceGenotypeServices();
 
@@ -27,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     },
     drawer:{
         width:550,
-        height: 300,
+        height: '100%',
     }
 }));
 
@@ -115,9 +119,9 @@ export default function RiceGenotype(props){
                         >
                             <Paper className={classes.drawer}>
                                 <Grid container alignItems='flex-end' justify='flex-start'>
- 
-                                    <CloseIcon fontSize='large' onClick={openDrawer} />
-
+                                    <IconButton variant="outlined" onClick={openDrawer} size="medium" color="secondary" className='close-button'>        
+                                        <CloseIcon fontSize='large' />
+                                    </IconButton>
                                 </Grid>
 
                                 

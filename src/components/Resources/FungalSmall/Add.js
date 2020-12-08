@@ -66,6 +66,7 @@ export default function Add({getData,openDrawer}){
             handleSubmit={handleSubmit} 
             handleDateChange={handleDateChange}
             handleFileChange={handleFileChange}         
+            openDrawer={openDrawer}
         >
 
         </Form>

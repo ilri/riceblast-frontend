@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function Form({form, handleChange, handleDateChange,handleFileChange,handleSubmit}){
+export default function Form({form, handleChange, openDrawer,handleDateChange,handleFileChange,handleSubmit}){
     const [people, setPeople] = useState([]);
 
     const classes = useStyles();
@@ -55,8 +55,10 @@ export default function Form({form, handleChange, handleDateChange,handleFileCha
     };
 
 
+
     return(
         <div>
+
             <Grid container spacing={3} direction="column" justify="center" alignItems="stretch">
                 {form.errorMsg ? 
                     (
@@ -122,6 +124,7 @@ export default function Form({form, handleChange, handleDateChange,handleFileCha
                         variant="outlined"
                         color="primary"
                         type='file'
+                        inputProps= {{accept:"text/plain,.fasta"}}
                         required={true}
                         onChange={handleFileChange}
                     /> 
@@ -227,7 +230,7 @@ export default function Form({form, handleChange, handleDateChange,handleFileCha
                     </Grid>
 
                     <Grid item xs={3}>
-                        <Button variant="contained" >Close</Button>
+                        <Button variant="contained" onClick={openDrawer} color='secondary'>Close</Button>
                     </Grid>
                 </Grid>
 

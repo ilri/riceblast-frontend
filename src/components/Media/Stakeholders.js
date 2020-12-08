@@ -1,5 +1,6 @@
 import React from 'react';
 import Appbar from '../Appbar/Appbar';
+import Container from '@material-ui/core/Container';
 
 
 export default function Stakeholders(props){
@@ -9,8 +10,12 @@ export default function Stakeholders(props){
                 <Appbar props={props} />
             </div>
 
-            <div>
-                Stakeholder Engagements
+            <div style={{marginLeft:'100px',marginTop:'100px'}}>
+                <Container fixed>
+                    <div>
+                        <h6>OUTREACH</h6>
+                    </div>
+                </Container>
             </div>
         </div>
 

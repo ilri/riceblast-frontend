@@ -57,6 +57,7 @@ export default function Add({getData,openDrawer}){
             handleChange={handleChange} 
             handleSubmit={handleSubmit}
             handleFileChange={handleFileChange}
+            openDrawer={openDrawer}
          
         >
 

@@ -7,6 +7,8 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import {fileDownload} from '../../../services/downloads';
+
+
 const useStyles = makeStyles((theme) => ({
     margin: {
       margin: theme.spacing(1),
@@ -41,7 +43,7 @@ export default function Table({data,handleDelete,handleEdit,people}){
                         title:'Fungal Gene Sequence', 
                         field:'fungal_gene_sequence',
                         render: rowData => (
-                        <IconButton aria-label="delete" onClick={() => handleDownload(rowData.fungal_gene_sequence)} className={classes.margin}>
+                        <IconButton disabled aria-label="delete" onClick={() => handleDownload(rowData.fungal_gene_sequence)} className={classes.margin}>
                             <GetAppIcon />
                         </IconButton>
                         )
@@ -69,7 +71,7 @@ export default function Table({data,handleDelete,handleEdit,people}){
                     {title:'Target Gene', field:'target_gene',},
                 ]}
                 data={data}
-                title='Fungal Small DNA FragmentsSequence'
+                title='Fungal DNA Amplicon Sequence'
                 style={{maxWidth:'90%',marginLeft:'250px'}}
 
 

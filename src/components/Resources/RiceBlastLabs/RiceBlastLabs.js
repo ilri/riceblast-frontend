@@ -12,7 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import CloseIcon from '@material-ui/icons/Close';
 import Form from './Form';
 import AddLabs from './AddLabs';
-
+import IconButton from '@material-ui/core/IconButton';
 
 
 
@@ -39,7 +39,6 @@ const useStyles = makeStyles(theme => ({
     },
     drawer:{
         width:550,
-        height: 300,
     }
 }));
 
@@ -122,17 +121,19 @@ export default function RiceBlastLabs(props){
                             disableBackdropClick={true}
                                 
                         >
-                            <Paper className={classes.drawer}>
+                            <div className={classes.drawer}>
                                 <Grid container alignItems='flex-end' justify='flex-start'>
- 
-                                    <CloseIcon fontSize='large' onClick={openDrawer} />
+                                    <IconButton variant="outlined" onClick={openDrawer} size="medium" color="secondary" className='close-button'>
+
+                                        <CloseIcon fontSize='large' />
+                                    </IconButton>
 
                                 </Grid>
 
                                 
                                 <AddLabs getLabs={getLabs} openDrawer={openDrawer} />                                    
                                 
-                            </Paper>
+                            </div>
                         </Drawer> 
                     </Grid>
                 

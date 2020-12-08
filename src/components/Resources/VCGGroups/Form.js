@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function Form({form, handleChange, handleSubmit}){
+export default function Form({form, handleChange,openDrawer, handleSubmit}){
     const [people,setPeople] = useState([]);
     const [labs,setLabs] = useState([]);
 
@@ -170,7 +170,7 @@ export default function Form({form, handleChange, handleSubmit}){
                     </Grid>
 
                     <Grid item xs={3}>
-                        <Button variant="contained" >Close</Button>
+                        <Button variant="contained" onClick={openDrawer} color='secondary'>Close</Button>
                     </Grid>
                 </Grid>
 

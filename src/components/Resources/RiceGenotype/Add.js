@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Form from './Form';
 import RiceGenotypeServices from '../../../services/riceGenotype';
+import Container from '@material-ui/core/Container';
 
 
 const genotypeService = new RiceGenotypeServices();
@@ -53,14 +54,17 @@ export default function Add({getGenotypes,openDrawer}){
     
 
     return(
-        <Form 
-            form={form} 
-            handleChange={handleChange} 
-            handleSubmit={handleSubmit} 
-        
-        >
+        <Container fixed className='form-container'>
 
-        </Form>
+            <Form 
+                form={form} 
+                handleChange={handleChange} 
+                handleSubmit={handleSubmit} 
+                openDrawer={openDrawer}
+            >
+
+            </Form>
+        </Container>
     )
 
 }

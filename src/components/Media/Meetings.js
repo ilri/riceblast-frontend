@@ -1,5 +1,6 @@
 import React from 'react';
 import Appbar from '../Appbar/Appbar';
+import Container from '@material-ui/core/Container';
 
 
 export default function Meetings(props){
@@ -9,8 +10,12 @@ export default function Meetings(props){
                 <Appbar props={props} />
             </div>
 
-            <div>
-                Meetings
+            <div style={{marginLeft:'100px',marginTop:'100px'}}>
+                <Container fixed>
+                    <div>
+                        <h6>MEETINGS</h6>
+                    </div>
+                </Container>
             </div>
         </div>
 

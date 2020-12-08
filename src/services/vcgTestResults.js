@@ -13,4 +13,11 @@ export default class VCGTestResultsService{
     deleteData(id){
         return axiosInstance.delete(`vcg_test_results/${id}`);
     }
+    uploadFile(vcg_test_results){
+        const formData = new FormData();
+
+        formData.append('vcg_test_results', vcg_test_results);
+
+        return axiosInstance.post('upload_vcg_test_results/',formData);  
+    }
 }

@@ -4,7 +4,7 @@ import Form from './Form';
 import IsolatesService from '../../../services/isolates';
 
 
-const isolatesService = new IsolatesService();
+const service = new IsolatesService();
 
 
 
@@ -30,8 +30,28 @@ export default function AddIsolate({getIsolates,openDrawer}){
         load: false,
     });
 
+    const [fileUpload,setFileUPload] = React.useState(null);
 
+    const handleFileUpload = (event) =>{
+        const file = event.target.files[0];
+        console.log(file);
+        setFileUPload(file);
+    }
 
+    const handlePostFile = () => {
+        service.uploadFile(fileUpload).then(
+            response => {
+                console.log(response.data);
+                getIsolates();
+                openDrawer();
+            }
+        ).catch(
+            error => {
+                console.log(error.response.data.message);
+                setForm({...form, errorMsg:error.response.data.message});
+            }            
+        )
+    }
     const handleChange = (event) => {
         const value = event.target.value;
         setForm({...form, [event.target.name]:value });
@@ -50,7 +70,7 @@ export default function AddIsolate({getIsolates,openDrawer}){
         
         console.log(form);
         const {errorMsg, errors,load, ...data } = form;
-        isolatesService.addIsolate(data).then(
+        service.addIsolate(data).then(
             response => {
                 console.log(response.data);
                 getIsolates();
@@ -76,7 +96,10 @@ export default function AddIsolate({getIsolates,openDrawer}){
             handleSubmit={handleSubmit} 
             onSelect={onSelect}    
             handleDateChange={handleDateChange}   
-            handlePeopleChange={handlePeopleChange} 
+            handlePeopleChange={handlePeopleChange}
+            handleFileUpload={handleFileUpload}
+            handlePostFile={handlePostFile} 
+            openDrawer={openDrawer}
         >
 
         </Form>

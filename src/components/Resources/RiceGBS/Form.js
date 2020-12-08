@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function Form({form, handleChange, handleFileChange,handleSubmit,people,labs}){
+export default function Form({form, handleChange, openDrawer,handleFileChange,handleSubmit,people,labs}){
 
     const classes = useStyles();
 
@@ -144,7 +144,7 @@ export default function Form({form, handleChange, handleFileChange,handleSubmit,
                     </Grid>
 
                     <Grid item xs={3}>
-                        <Button variant="contained" >Close</Button>
+                        <Button variant="contained" onClick={openDrawer} color='secondary'>Close</Button>
                     </Grid>
                 </Grid>
 

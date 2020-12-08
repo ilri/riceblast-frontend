@@ -4,7 +4,7 @@ import Form from './Form';
 import RiceGeneService from '../../../services/riceGene';
 
 
-const riceGeneService = new RiceGeneService();
+const service = new RiceGeneService();
 
 
 
@@ -25,6 +25,28 @@ export default function Add({getRiceGenes,openDrawer}){
     });
 
 
+    const [fileUpload,setFileUPload] = React.useState(null);
+
+    const handleFileUpload = (event) =>{
+        const file = event.target.files[0];
+        console.log(file);
+        setFileUPload(file);
+    }
+
+    const handlePostFile = () => {
+        service.uploadFile(fileUpload).then(
+            response => {
+                console.log(response.data);
+                getRiceGenes();
+                openDrawer();
+            }
+        ).catch(
+            error => {
+                console.log(error.response.data.message);
+                setForm({...form, errorMsg:error.response.data.message});
+            }            
+        )
+    }
 
     const handleChange = (event) => {
         const value = event.target.value;
@@ -35,7 +57,7 @@ export default function Add({getRiceGenes,openDrawer}){
     const handleSubmit = () => {
 
 
-        riceGeneService.addiceGenes(form).then(
+        service.addiceGenes(form).then(
             response => {
                 console.log(response.data);
                 getRiceGenes();
@@ -55,7 +77,9 @@ export default function Add({getRiceGenes,openDrawer}){
             form={form} 
             handleChange={handleChange} 
             handleSubmit={handleSubmit} 
-        
+            handlePostFile={handlePostFile}
+            handleFileUpload={handleFileUpload}
+            openDrawer={openDrawer}
         >
 
         </Form>

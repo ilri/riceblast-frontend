@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+var FileSaver = require('file-saver');
 
 const APIURLDEV = 'http://localhost:8000/api/';
 const APIURLPROD = 'https://riceblast.herokuapp.com/api/';
@@ -23,9 +23,10 @@ export const fileDownload = (file) => {
        }
     }).then(
        response => {
-           console.log(response)
-           const fd = window.URL.createObjectURL(new Blob([response.data]))
+        //    console.log(response)
+           const fd = new Blob([response.data]);
            console.log(fd)
+           FileSaver.saveAs(fd, 'test.xlsx');
 
     }).catch((error) => {
         console.log(error);

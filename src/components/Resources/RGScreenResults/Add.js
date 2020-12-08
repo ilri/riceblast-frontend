@@ -53,6 +53,7 @@ export default function Add({getData,openDrawer}){
             form={form} 
             handleChange={handleChange} 
             handleSubmit={handleSubmit} 
+            openDrawer={openDrawer}
         
         >
 

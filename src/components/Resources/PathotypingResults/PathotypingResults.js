@@ -15,6 +15,7 @@ import RiceGenotypeServices from '../../../services/riceGenotype';
 import IsolatesService from '../../../services/isolates';
 import PeopleService from '../../../services/people';
  import LabService from '../../../services/labs';
+ import IconButton from '@material-ui/core/IconButton';
 
 
 
@@ -39,7 +40,7 @@ const useStyles = makeStyles(theme => ({
     },
     drawer:{
         width:550,
-        height: 300,
+        height: '100%',
     }
 }));
 
@@ -172,12 +173,21 @@ export default function PathotypingResults(props){
                             <Paper className={classes.drawer}>
                                 <Grid container alignItems='flex-end' justify='flex-start'>
  
-                                    <CloseIcon fontSize='large' onClick={openDrawer} />
-
+                                    <IconButton variant="outlined" onClick={openDrawer} size="medium" color="secondary" className='close-button'>        
+                                        <CloseIcon fontSize='large' />
+                                    </IconButton>
                                 </Grid>
 
                                 
-                                <Add getData={getData} openDrawer={openDrawer} />                                    
+                                <Add 
+                                
+                                getData={getData} 
+                                openDrawer={openDrawer} 
+                                riceGenotypes={riceGenotypes}
+                                isolates={isolates}
+                                people={people}
+                                labs={labs}
+                                />                                    
                                 
                             </Paper>
                         </Drawer> 

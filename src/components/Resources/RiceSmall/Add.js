@@ -69,6 +69,7 @@ export default function Add({getData,openDrawer,people,riceGenotypes,labs}){
             riceGenotypes={riceGenotypes}
             labs={labs}
             handleFileChange={handleFileChange}
+            openDrawer={openDrawer}
          
         >
 

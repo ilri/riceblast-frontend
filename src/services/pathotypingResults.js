@@ -14,4 +14,12 @@ export default class PathotypingService {
     deleteData(id){
         return axiosInstance.delete(`pathotyping_results/${id}`);
     }
+
+    uploadFile(pathotyping_results){
+        const formData = new FormData();
+
+        formData.append('pathotyping_results', pathotyping_results);
+
+        return axiosInstance.post('upload_pathotyping_results/',formData);  
+    }
 }

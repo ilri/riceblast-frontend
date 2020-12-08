@@ -12,6 +12,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Form from './Form';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import AddIsolate from './AddIsolate';
+import IconButton from '@material-ui/core/IconButton';
 
 
 
@@ -109,14 +110,14 @@ export default function Isolates(props){
                     >
                         <Paper className={classes.drawer}>
                             <Grid container alignItems='flex-end' justify='flex-start'>
-
-                                <CloseIcon fontSize='large' onClick={openDrawer} />
+                                <IconButton variant="outlined" onClick={openDrawer} size="medium" color="secondary" className='close-button'>
+                                    <CloseIcon fontSize='large' />
+                                </IconButton>
                             </Grid>
                             
                             <AddIsolate 
                                 getIsolates={getIsolates} 
                                 openDrawer={openDrawer}
-                                getIsolates={getIsolates}
                             />                                    
                             
                         </Paper>

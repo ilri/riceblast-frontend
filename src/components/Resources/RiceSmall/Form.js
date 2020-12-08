@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function Form({form, handleChange, handleSubmit,people,handleFileChange,riceGenotypes,labs}){
+export default function Form({form, openDrawer,handleChange, handleSubmit,people,handleFileChange,riceGenotypes,labs}){
 
     const classes = useStyles();
 
@@ -130,6 +130,7 @@ export default function Form({form, handleChange, handleSubmit,people,handleFile
                         variant="outlined"
                         color="primary"
                         type='file'
+                        inputProps= {{accept:"text/plain,.fasta"}}
                         required={true}
                         onChange={handleFileChange}
 
@@ -263,7 +264,7 @@ export default function Form({form, handleChange, handleSubmit,people,handleFile
                     </Grid>
 
                     <Grid item xs={3}>
-                        <Button variant="contained" >Close</Button>
+                        <Button variant="contained" onClick={openDrawer} color='secondary'>Close</Button>
                     </Grid>
                 </Grid>
 

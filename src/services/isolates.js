@@ -13,4 +13,12 @@ export default class IsolatesService{
     deleteIsolate(id){
         return axiosInstance.delete(`isolates/${id}`);
     }
+
+    uploadFile(isolates){
+        const formData = new FormData();
+
+        formData.append('isolates', isolates);
+
+        return axiosInstance.post('upload_isolates/',formData);  
+    }
 }

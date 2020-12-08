@@ -24,7 +24,28 @@ export default function Add({getData,openDrawer,isolates,vcgGroups,labs}){
         errors: false,
         load: false,
     });
+    const [fileUpload,setFileUPload] = React.useState(null);
 
+    const handleFileUpload = (event) =>{
+        const file = event.target.files[0];
+        console.log(file);
+        setFileUPload(file);
+    }
+
+    const handlePostFile = () => {
+        service.uploadFile(fileUpload).then(
+            response => {
+                console.log(response.data);
+                getData();
+                openDrawer();
+            }
+        ).catch(
+            error => {
+                console.log(error.response.data.message);
+                setForm({...form, errorMsg:error.response.data.message});
+            }            
+        )
+    }
 
     const handleChange = (event) => {
         const value = event.target.value;
@@ -64,6 +85,9 @@ export default function Add({getData,openDrawer,isolates,vcgGroups,labs}){
             isolates={isolates}
             vcgGroups={vcgGroups}      
             handleBooleanChange={handleBooleanChange}   
+            handleFileUpload={handleFileUpload}
+            handlePostFile={handlePostFile}
+            openDrawer={openDrawer}
         >
 
         </Form>
