@@ -18,6 +18,7 @@ export default function Add({getRiceGenes,openDrawer}){
         donor_line: '',
         resistance_type:'',
         reference:'',
+        project:'',
 
         errorMsg: '',
         errors: false,
@@ -50,12 +51,13 @@ export default function Add({getRiceGenes,openDrawer}){
 
     const handleChange = (event) => {
         const value = event.target.value;
+        console.log(value);
         setForm({...form, [event.target.name]:value });
     };
 
 
     const handleSubmit = () => {
-
+        // console.log('ray');
 
         service.addiceGenes(form).then(
             response => {

@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import RiceGenotypeServices from '../../../services/riceGenotype';
 import PeopleService from '../../../services/people';
 import LabService from '../../../services/labs';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
 
@@ -34,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function Form({form, handleChange,openDrawer, handleSubmit}){
+export default function Form({form, handleChange,openDrawer, handleSelectChange, handleSubmit}){
     const [people,setPeople] = useState([]);
     const [labs,setLabs] = useState([]);
 
@@ -110,56 +111,36 @@ export default function Form({form, handleChange,openDrawer, handleSubmit}){
                 <Grid item xs={9}>
                     <FormControl className={classes.formControl}>
 
-                        <Select
-                          displayEmpty
-                          name='person'
-                          value={form.person}
-                          onChange={handleChange}
-                          input={<Input />}
-                          inputProps={{ 'aria-label': 'Without label' }}
-                          renderValue={(selected) => {
-                            if (!selected) {
-                              return <em>People</em>;
-                            }
-                        }}
-                        >
-                          <MenuItem disabled value="">
-                            <em>People</em>
-                          </MenuItem>
-                          {people.map((person,i) => (
-                            <MenuItem key={i} value={person.pk} >
-                              {person.full_name}
-                            </MenuItem>
-                          ))}
-                        </Select>
+                        <Autocomplete 
+                          id="combo-box-demo"
+                          options={labs}
+                          onInputChange={(event,newData) => {
+                              let labID = newData.split(": ");                     
+                              handleSelectChange('lab',labID[0])
+                          }}
+                          getOptionLabel={(option) => option.pk + ": " + option.lab_name  }
+                          size='small'
+                          style={{width:300}}
+                          renderInput={(params) => <TextField {...params} label="Rice Blast Labs" variant="outlined" />}
+                        /> 
                     </FormControl>                
                 </Grid>
 
                 <Grid item xs={9}>
                     <FormControl className={classes.formControl}>
 
-                        <Select
-                          displayEmpty
-                          name='lab'
-                          value={form.lab}
-                          onChange={handleChange}
-                          input={<Input />}
-                          inputProps={{ 'aria-label': 'Without label' }}
-                          renderValue={(selected) => {
-                            if (!selected) {
-                              return <em>Labs</em>;
-                            }
-                        }}
-                        >
-                          <MenuItem disabled value="">
-                            <em>Labs</em>
-                          </MenuItem>
-                          {labs.map((lab,i) => (
-                            <MenuItem key={i} value={lab.pk} >
-                              {lab.lab_name}
-                            </MenuItem>
-                          ))}
-                        </Select>
+                        <Autocomplete 
+                          id="combo-box-demo"
+                          options={people}
+                          style={{width:300}}
+                          onInputChange={(event,newData) => {
+                              let personID = newData.split(": ");                     
+                              handleSelectChange('person',personID[0])
+                          }}
+                          getOptionLabel={(option) => option.pk + ": " + option.full_name  }
+                          size='small'
+                          renderInput={(params) => <TextField {...params} label="People" variant="outlined" />}
+                        /> 
                     </FormControl>                
                 </Grid>
 

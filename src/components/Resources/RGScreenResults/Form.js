@@ -10,6 +10,8 @@ import Input from '@material-ui/core/Input';
 import { makeStyles } from '@material-ui/core/styles';
 import RiceGenotypeServices from '../../../services/riceGenotype';
 import RiceGeneService from '../../../services/riceGene';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { FindInPageOutlined } from '@material-ui/icons';
 
 
 
@@ -31,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function Form({form, handleChange, openDrawer,handleSubmit}){
+export default function Form({form, handleChange, handleSelectChange,openDrawer,handleSubmit}){
     const [riceGenotypes, setRiceGenotypes] = useState([]);
     const [genes, setGenes] = useState([]);
 
@@ -58,6 +60,7 @@ export default function Form({form, handleChange, openDrawer,handleSubmit}){
             setGenes(response.data);
         }).catch(errors => console.log(errors));
     };
+
     
     return(
         <div>
@@ -74,57 +77,42 @@ export default function Form({form, handleChange, openDrawer,handleSubmit}){
                 <Grid item xs={9}>
                     <FormControl className={classes.formControl}>
 
-                        <Select
-                          displayEmpty
-                          name='rice_genotype'
-                          value={form.rice_genotype}
-                          onChange={handleChange}
-                          input={<Input />}
-                          inputProps={{ 'aria-label': 'Without label' }}
-                          renderValue={(selected) => {
-                            if (!selected) {
-                              return <em>Rice Genotype</em>;
-                            }
-                        }}
-                        >
-                          <MenuItem disabled value="">
-                            <em>Rice Genotype</em>
-                          </MenuItem>
-                          {riceGenotypes.map((genotype,i) => (
-                            <MenuItem key={i} value={genotype.pk} >
-                              {genotype.name}
-                            </MenuItem>
-                          ))}
-                        </Select>
+
+
+
+
+                        <Autocomplete 
+                          id="combo-box-demo"
+                          options={riceGenotypes}
+                          onInputChange={(event,newData) => {
+                              let genotypeID = newData.split(": ");                     
+                              handleSelectChange('rice_genotype',genotypeID[0])
+                          }}
+                          getOptionLabel={(option) => option.pk + ": " + option.name  }
+                          size='small'
+                          style={{width:300}}
+                          renderInput={(params) => <TextField {...params} label="Rice Genotypes" variant="outlined" />}
+                        /> 
+
                     </FormControl>                
                 </Grid>
 
                 <Grid item xs={9}>
                     <FormControl className={classes.formControl}>
 
-                        <Select
-                          displayEmpty
-                          name='rice_gene'
-                          value={form.rice_gene}
-                          onChange={handleChange}
-                          input={<Input />}
-                          inputProps={{ 'aria-label': 'Without label' }}
-                          renderValue={(selected) => {
-                            if (!selected) {
-                              return <em>Rice Gene</em>;
-                            }
-                        }}
-                        >
-                          <MenuItem disabled value="">
-                            <em>Rice Gene</em>
-                          </MenuItem>
-                          {genes.map((gene,i) => (
-                            <MenuItem key={i} value={gene.pk} >
-                              {gene.name}
-                            </MenuItem>
-                          ))}
-                        </Select>
 
+                        <Autocomplete 
+                          id="combo-box-demo"
+                          options={genes}
+                          style={{width:300}}
+                          onInputChange={(event,newData) => {
+                              let geneID = newData.split(": ");                     
+                              handleSelectChange('rice_gene',geneID[0])
+                          }}
+                          getOptionLabel={(option) => option.pk + ": " + option.name  }
+                          size='small'
+                          renderInput={(params) => <TextField {...params} label="Rice Genes" variant="outlined" />}
+                        /> 
                     </FormControl>                
                 </Grid>
 

@@ -27,6 +27,10 @@ export default function Add({getData,openDrawer}){
         setForm({...form, [event.target.name]:value });
     };
 
+    const handleSelectChange = (field,pk) => {
+        console.log(pk);
+        setForm({...form, [field]:pk });
+    };
 
     const handleSubmit = () => {
 
@@ -52,6 +56,7 @@ export default function Add({getData,openDrawer}){
             handleChange={handleChange} 
             handleSubmit={handleSubmit} 
             openDrawer={openDrawer}
+            handleSelectChange={handleSelectChange}
          
         >
 

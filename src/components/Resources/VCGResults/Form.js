@@ -14,6 +14,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Container from '@material-ui/core/Container';
 import Upload from './Upload';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
 
@@ -52,7 +53,7 @@ function TabPanel(props) {
 function ActualForm({
   form, handleChange, handleSubmit,
   handleBooleanChange,isolates,labs,
-  vcgGroups,openDrawer
+  vcgGroups,openDrawer,handleSelectChange
 }){
 
   const classes = useStyles();
@@ -89,28 +90,20 @@ function ActualForm({
         <Grid item xs={9}>
             <FormControl className={classes.formControl}>
 
-                <Select
-                  displayEmpty
-                  name='isolate'
-                  value={form.isolate}
-                  onChange={handleChange}
-                  input={<Input />}
-                  inputProps={{ 'aria-label': 'Without label' }}
-                  renderValue={(selected) => {
-                    if (!selected) {
-                      return <em>Isolate</em>;
-                    }
-                }}
-                >
-                  <MenuItem disabled value="">
-                    <em>Isolate</em>
-                  </MenuItem>
-                  {isolates.map((isolate,i) => (
-                    <MenuItem key={i} value={isolate.pk} >
-                      {isolate.isolate_name}
-                    </MenuItem>
-                  ))}
-                </Select>
+                <Autocomplete 
+                  id="combo-box-demo"
+                  options={isolates}
+                  style={{width:300}}
+                  onInputChange={(event,newData) => {
+                      let isolateID = newData.split(": ");                     
+                      handleSelectChange('isolate',isolateID[0])
+                  }}
+                  getOptionLabel={(option) => option.pk + ": " + option.isolate_name  }
+                  size='small'
+                  renderInput={(params) => <TextField {...params} label="Isolates" variant="outlined" />}
+                /> 
+
+
             </FormControl>                
         </Grid>
 
@@ -161,29 +154,18 @@ function ActualForm({
 
         <Grid item xs={9}>
             <FormControl className={classes.formControl}>
-
-                <Select
-                  displayEmpty
-                  name='lab'
-                  value={form.lab}
-                  onChange={handleChange}
-                  input={<Input />}
-                  inputProps={{ 'aria-label': 'Without label' }}
-                  renderValue={(selected) => {
-                    if (!selected) {
-                      return <em>Labs</em>;
-                    }
-                }}
-                >
-                  <MenuItem disabled value="">
-                    <em>Labs</em>
-                  </MenuItem>
-                  {labs.map((lab,i) => (
-                    <MenuItem key={i} value={lab.pk} >
-                      {lab.lab_name}
-                    </MenuItem>
-                  ))}
-                </Select>
+              <Autocomplete 
+               id="combo-box-demo"
+               options={labs}
+               onInputChange={(event,newData) => {
+                   let labID = newData.split(": ");                     
+                   handleSelectChange('lab',labID[0])
+               }}
+               getOptionLabel={(option) => option.pk + ": " + option.lab_name  }
+               size='small'
+               style={{width:300}}
+               renderInput={(params) => <TextField {...params} label="Rice Blast Labs" variant="outlined" />}
+              /> 
             </FormControl>                
         </Grid>
 
@@ -208,30 +190,22 @@ function ActualForm({
         <Grid item xs={9}>
             <FormControl className={classes.formControl}>
 
-                <Select
-                  displayEmpty
-                  name='vcg'
-                  value={form.vcg}
-                  onChange={handleChange}
-                  input={<Input />}
-                  inputProps={{ 'aria-label': 'Without label' }}
-                  renderValue={(selected) => {
-                    if (!selected) {
-                      return <em>VCG Groups</em>;
-                    }
-                }}
-                >
-                  <MenuItem disabled value="">
-                    <em>VCG Groups</em>
-                  </MenuItem>
 
-                  {vcgGroups.map((vcg,i) => (
-                    <MenuItem key={i} value={vcg.pk} >
-                      {vcg.group}
-                    </MenuItem>
-                  ))}
 
-                </Select>
+                <Autocomplete 
+                  id="combo-box-demo"
+                  options={vcgGroups}
+                  style={{width:300}}
+                  onInputChange={(event,newData) => {
+                      let vcgID = newData.split(": ");                     
+                      handleSelectChange('vcg',vcgID[0])
+                  }}
+                  getOptionLabel={(option) => option.pk + ": " + option.group  }
+                  size='small'
+                  renderInput={(params) => <TextField {...params} label="VCG Groups" variant="outlined" />}
+                /> 
+
+
             </FormControl>                
         </Grid>
 
@@ -259,7 +233,7 @@ export default function Form(
   {
     form, handleChange, handleSubmit,
     handleBooleanChange,isolates,labs,openDrawer,
-    vcgGroups,handleFileUpload,handlePostFile
+    vcgGroups,handleFileUpload,handlePostFile,handleSelectChange
   }){
 
     
@@ -297,6 +271,7 @@ export default function Form(
           labs={labs}
           vcgGroups={vcgGroups}
           openDrawer={openDrawer}
+          handleSelectChange={handleSelectChange}
         />
 
       </TabPanel>

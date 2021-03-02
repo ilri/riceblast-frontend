@@ -15,6 +15,7 @@ import {
     KeyboardDatePicker,
 } from '@material-ui/pickers/';
 import DateFnsUtils from '@date-io/date-fns';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
   
 
@@ -34,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function Form({form, handleChange, openDrawer,handleDateChange,handleFileChange,handleSubmit}){
+export default function Form({form, handleChange,handleSelectChange, openDrawer,handleDateChange,handleFileChange,handleSubmit}){
     const [people, setPeople] = useState([]);
 
     const classes = useStyles();
@@ -182,30 +183,18 @@ export default function Form({form, handleChange, openDrawer,handleDateChange,ha
                 <Grid item xs={9}>
                     <FormControl className={classes.formControl}>
 
-                        <Select
-                          displayEmpty
-                          name='person'
-                          value={form.person}
-                          onChange={handleChange}
-                          input={<Input />}
-                          inputProps={{ 'aria-label': 'Without label' }}
-                          renderValue={(selected) => {
-                            if (!selected) {
-                              return <em>Person</em>;
-                            }
-                        }}
-                        >
-                          <MenuItem disabled value="">
-                            <em>Person</em>
-                          </MenuItem>
-
-                          {people.map((person,i) => (
-                            <MenuItem key={i} value={person.pk} >
-                              {person.full_name}
-                            </MenuItem>
-                          ))}
-
-                        </Select>
+                        <Autocomplete 
+                          id="combo-box-demo"
+                          options={people}
+                          style={{width:300}}
+                          onInputChange={(event,newData) => {
+                              let personID = newData.split(": ");                     
+                              handleSelectChange('person',personID[0])
+                          }}
+                          getOptionLabel={(option) => option.pk + ": " + option.full_name  }
+                          size='small'
+                          renderInput={(params) => <TextField {...params} label="People" variant="outlined" />}
+                        /> 
                     </FormControl>                
                 </Grid>
 

@@ -62,6 +62,10 @@ export default function Add({getData,openDrawer,riceGenotypes,isolates,people,la
         console.log(form);
     };
 
+    const handleSelectChange = (field,pk) => {
+        console.log(pk);
+        setForm({...form, [field]:pk });
+    };
 
     const handleSubmit = () => {
 
@@ -97,6 +101,7 @@ export default function Add({getData,openDrawer,riceGenotypes,isolates,people,la
                 handleFileUpload={handleFileUpload}
                 handlePostFile={handlePostFile}
                 openDrawer={openDrawer}
+                handleSelectChange={handleSelectChange}
 
             >
 

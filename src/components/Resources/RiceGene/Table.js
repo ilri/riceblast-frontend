@@ -12,6 +12,8 @@ export default function Table({genes,handleEdit,handleDelete}){
                     {title:'Donor Line', field: 'donor_line'},
                     {title:'Resistance Type', field: 'resistance_type'},
                     {title:'Reference', field: 'reference'},
+                    {title:'Project', field: 'project'},
+
                 ]}
                 data={genes}
                 title='Rice Genes'

@@ -26,11 +26,10 @@ const useStyles = makeStyles(theme => ({
 
 
 const choices = [
-    ['released_variety','Released Variety'],
-    ['microgenic_line','Microgenic Line'],
-    ['interspecific_variety','Interspecific Variety'],
-    ['introgession_line', 'Introgession Line'],
-    ['adapted_african_cultiva', 'Adapted African Cultiva'],   
+  
+
+    ['Partial','Partial'],
+    ['Complete','Complete'],
 ];
 
 
@@ -133,8 +132,8 @@ function ActualForm({form,openDrawer, handleChange, handleSubmit}){
 
                     <Select
                       displayEmpty
-                      name='category'
-                      value={form.catogory}
+                      name='resistance_type'
+                      value={form.resistance_type}
                       onChange={handleChange}
                       input={<Input />}
                       inputProps={{ 'aria-label': 'Without label' }}
@@ -172,6 +171,20 @@ function ActualForm({form,openDrawer, handleChange, handleSubmit}){
                 /> 
             </Grid>
 
+            <Grid item xs={9}>
+                <TextField
+                    id="outlined-secondary"
+                    label="Project"
+                    size='small'
+                    name='project'
+                    variant="outlined"
+                    color="primary"
+                    required={true}
+                    onChange={handleChange}
+                    value={form.project}
+
+                /> 
+            </Grid>
 
             <Grid container direction="row" justify='space-between' alignItems='flex-end' xs={9}>
                 <Grid item xs={3}>

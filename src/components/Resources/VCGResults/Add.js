@@ -52,6 +52,11 @@ export default function Add({getData,openDrawer,isolates,vcgGroups,labs}){
         setForm({...form, [event.target.name]:value });
     };
 
+    const handleSelectChange = (field,pk) => {
+        console.log(pk);
+        setForm({...form, [field]:pk });
+    }
+
     const handleBooleanChange= (event) => {
         setForm({...form, [event.target.name]:event.target.checked });
 
@@ -88,6 +93,7 @@ export default function Add({getData,openDrawer,isolates,vcgGroups,labs}){
             handleFileUpload={handleFileUpload}
             handlePostFile={handlePostFile}
             openDrawer={openDrawer}
+            handleSelectChange={handleSelectChange}
         >
 
         </Form>

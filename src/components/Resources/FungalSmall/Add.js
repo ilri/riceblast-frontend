@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Form from './Form';
 import FungalSmallService from '../../../services/fungalSmall';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
 
@@ -36,6 +37,10 @@ export default function Add({getData,openDrawer}){
         setForm({...form, [event.target.name]:value });
     };
 
+    const handleSelectChange = (field,pk) => {
+        console.log(pk);
+        setForm({...form, [field]:pk });
+    };
 
     const handleSubmit = () => {
 
@@ -65,6 +70,7 @@ export default function Add({getData,openDrawer}){
             handleChange={handleChange} 
             handleSubmit={handleSubmit} 
             handleDateChange={handleDateChange}
+            handleSelectChange={handleSelectChange}
             handleFileChange={handleFileChange}         
             openDrawer={openDrawer}
         >

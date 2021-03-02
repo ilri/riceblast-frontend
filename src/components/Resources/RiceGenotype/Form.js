@@ -10,7 +10,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
-
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 
 const useStyles = makeStyles(theme => ({
@@ -29,8 +29,8 @@ export default function Form({form, handleChange, openDrawer,handleSubmit}){
         ['released_variety','Released Variety'],
         ['microgenic_line','Microgenic Line'],
         ['interspecific_variety','Interspecific Variety'],
-        ['introgession_line','Introgession Line'],
-        ['adapted_african_cultiva','Adapted African Cultiva']
+        ['introgession_line', 'Introgession Line'],
+        ['adapted_african_cultiva', 'Adapted African Cultiva'], 
     ]
     return(
         <div>
@@ -136,10 +136,11 @@ export default function Form({form, handleChange, openDrawer,handleSubmit}){
 
 
                 <Grid item xs={9}>
-                    <TextField
+                    <TextareaAutosize
                         id="outlined-secondary"
-                        label="Pedigree"
+                        placeholder="Pedigree"
                         size='small'
+                        rowsMin={7}
                         name='pedigree'
                         variant="outlined"
                         color="primary"
