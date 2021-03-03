@@ -14,6 +14,7 @@ export default function Table({riceGenotypes,handleEdit,handleDelete}){
                     {title:'Accession Number', field: 'accession_number'},
                     {title:'Pedigree', field: 'pedigree'},
                     {title:'Category', field:'category'},     
+                    {title:'Project Title', field:'project'},
                 ]}
                 data={riceGenotypes}
                 title='Rice Genotypes'
@@ -44,4 +45,4 @@ export default function Table({riceGenotypes,handleEdit,handleDelete}){
             />
         </div>
     )
-} 
+}  

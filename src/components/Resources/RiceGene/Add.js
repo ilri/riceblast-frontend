@@ -18,7 +18,6 @@ export default function Add({getRiceGenes,openDrawer}){
         donor_line: '',
         resistance_type:'',
         reference:'',
-        project:'',
 
         errorMsg: '',
         errors: false,
@@ -54,7 +53,10 @@ export default function Add({getRiceGenes,openDrawer}){
         console.log(value);
         setForm({...form, [event.target.name]:value });
     };
-
+    const handleSelectChange = (type) => {
+        console.log(type);
+        setForm({...form, 'resistance_type':type });
+    }
 
     const handleSubmit = () => {
         // console.log('ray');
@@ -82,6 +84,7 @@ export default function Add({getRiceGenes,openDrawer}){
             handlePostFile={handlePostFile}
             handleFileUpload={handleFileUpload}
             openDrawer={openDrawer}
+            handleSelectChange={handleSelectChange}
         >
 
         </Form>

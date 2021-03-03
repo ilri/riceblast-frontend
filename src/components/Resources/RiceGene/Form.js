@@ -12,6 +12,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Container from '@material-ui/core/Container';
 import Upload from './Upload';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
 const useStyles = makeStyles(theme => ({
@@ -25,12 +26,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-const choices = [
-  
-
-    ['Partial','Partial'],
-    ['Complete','Complete'],
-];
+const choices = ['Complete','Partial'];
 
 
 function TabPanel(props) {
@@ -53,7 +49,7 @@ function TabPanel(props) {
     );
   }
 
-function ActualForm({form,openDrawer, handleChange, handleSubmit}){
+function ActualForm({form,openDrawer, handleSelectChange,handleChange, handleSubmit}){
     const classes = useStyles();
     return (
         <div>
@@ -130,29 +126,18 @@ function ActualForm({form,openDrawer, handleChange, handleSubmit}){
             <Grid item xs={9}>
                 <FormControl className={classes.formControl}>
 
-                    <Select
-                      displayEmpty
-                      name='resistance_type'
-                      value={form.resistance_type}
-                      onChange={handleChange}
-                      input={<Input />}
-                      inputProps={{ 'aria-label': 'Without label' }}
-                      renderValue={(selected) => {
-                        if (!selected) {
-                          return <em>Resistance Type</em>;
-                        }
-                    }}
-                    >
-                      <MenuItem disabled value="">
-                        <em>Resistance Type</em>
-                      </MenuItem>
-                      {choices.map((name,i) => (
-                        <MenuItem key={i} value={name[0]} >
-                          {name[1]}
-                        </MenuItem>
-                      ))}
-                    </Select>
 
+
+                    <Autocomplete 
+                          id="combo-box-demo"
+                          options={choices}
+                          style={{width:300}}
+                          onInputChange={(event,newData) => {
+                              handleSelectChange(newData)
+                          }}
+                          size='small'
+                          renderInput={(params) => <TextField {...params} label="Resistence Type" variant="outlined" />}
+                        /> 
                 </FormControl>                
             </Grid>
 
@@ -171,20 +156,6 @@ function ActualForm({form,openDrawer, handleChange, handleSubmit}){
                 /> 
             </Grid>
 
-            <Grid item xs={9}>
-                <TextField
-                    id="outlined-secondary"
-                    label="Project"
-                    size='small'
-                    name='project'
-                    variant="outlined"
-                    color="primary"
-                    required={true}
-                    onChange={handleChange}
-                    value={form.project}
-
-                /> 
-            </Grid>
 
             <Grid container direction="row" justify='space-between' alignItems='flex-end' xs={9}>
                 <Grid item xs={3}>
@@ -204,7 +175,7 @@ function ActualForm({form,openDrawer, handleChange, handleSubmit}){
 
 export default function Form(
     {form, handleChange, handlePostFile, 
-    handleFileUpload, handleSubmit,openDrawer
+    handleFileUpload, handleSubmit,openDrawer,handleSelectChange
 }){
 
     const [tabValue, setTabValue] = React.useState(0);
@@ -236,6 +207,7 @@ export default function Form(
                 handleSubmit={handleSubmit}
                 handleChange={handleChange}
                 openDrawer={openDrawer}
+                handleSelectChange={handleSelectChange}
               />
  
             </TabPanel>

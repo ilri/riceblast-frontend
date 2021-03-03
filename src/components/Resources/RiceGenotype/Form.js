@@ -11,6 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
 const useStyles = makeStyles(theme => ({
@@ -22,16 +23,12 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function Form({form, handleChange, openDrawer,handleSubmit}){
+export default function Form({form, handleChange,handleSelectChange, openDrawer,handleSubmit}){
 
     const classes = useStyles();
     const catogoryChoices = [
-        ['released_variety','Released Variety'],
-        ['microgenic_line','Microgenic Line'],
-        ['interspecific_variety','Interspecific Variety'],
-        ['introgession_line', 'Introgession Line'],
-        ['adapted_african_cultiva', 'Adapted African Cultiva'], 
-    ]
+        'released_variety','microgenic_line','interspecific_variety','introgession_line','adapted_african_cultiva'
+    ];
     return(
         <div>
             <Grid container spacing={3} direction="column" justify="center" alignItems="stretch">
@@ -151,33 +148,40 @@ export default function Form({form, handleChange, openDrawer,handleSubmit}){
                     /> 
                 </Grid>
 
-                <FormControl className={classes.formControl}>
 
-                    <Select
-                      displayEmpty
-                      name='category'
-                      value={form.catogory}
-                      onChange={handleChange}
-                      input={<Input />}
-                      inputProps={{ 'aria-label': 'Without label' }}
-                      renderValue={(selected) => {
-                        if (!selected) {
-                          return <em>Category</em>;
-                        }
-                    }}
-                    >
-                      <MenuItem disabled value="">
-                        <em>Category</em>
-                      </MenuItem>
-                      {catogoryChoices.map((name,i) => (
-                        <MenuItem key={i} value={name[0]} >
-                          {name[1]}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                <Grid item xs={9}>
+                    <FormControl className={classes.formControl}>
 
-                </FormControl>
+                    <Autocomplete 
+                          id="combo-box-demo"
+                          options={catogoryChoices}
+                          onInputChange={(event,newData) => {
+                                console.log(newData)
+                                handleSelectChange(newData)
+                          }}
 
+                          size='small'
+                          style={{width:300}}
+                          renderInput={(params) => <TextField {...params} label="Category" variant="outlined" />}
+                    /> 
+
+                    </FormControl>                
+                </Grid>
+
+                <Grid item xs={9}>
+                    <TextField
+                        id="outlined-secondary"
+                        label="Project Title"
+                        size='small'
+                        name='project'
+                        variant="outlined"
+                        color="primary"
+                        required={true}
+                        onChange={handleChange}
+                        value={form.project}
+
+                    /> 
+                </Grid>
 
                 <Grid container direction="row" justify='space-between' alignItems='flex-end' xs={9}>
                     <Grid item xs={3}>

@@ -21,6 +21,7 @@ export default function Add({getGenotypes,openDrawer}){
         accession_number:'',
         pedigree:'',
         category:'',
+        project:'',
 
         errorMsg: '',
         errors: false,
@@ -34,6 +35,9 @@ export default function Add({getGenotypes,openDrawer}){
         setForm({...form, [event.target.name]:value });
     };
 
+    const handleSelectChange = (category) => {
+        setForm({...form, 'category':category });
+    };
 
     const handleSubmit = () => {
 
@@ -59,6 +63,7 @@ export default function Add({getGenotypes,openDrawer}){
             <Form 
                 form={form} 
                 handleChange={handleChange} 
+                handleSelectChange={handleSelectChange}
                 handleSubmit={handleSubmit} 
                 openDrawer={openDrawer}
             >
