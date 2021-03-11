@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import Alert from '@material-ui/lab/Alert';
+import {Alert,AlertTitle} from '@material-ui/lab';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -23,19 +23,104 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function Form({form, openDrawer,handleChange, handleSubmit, onSelect}){
+export default function Form({form, openDrawer,handleChange, 
+    handleSubmit, onSelect,successMsg}){
 
     const classes = useStyles();
 
     return(
         <div>
             <Grid container spacing={3} direction="column" justify="center" alignItems="stretch">
-                {form.errorMsg ? 
-                    (
-                        <Alert severity="error">{form.errorMsg}</Alert>
-                    ): ''
-                }
+                <Grid container spacing={3}>
+ 
+                    <Grid container item xs={12} spacing={3}>                         
+                         {(successMsg) ? 
+                             (
+                                 <Grid>
+ 
+                                     <Alert severity="success">
+                                         {successMsg}
+                                     </Alert>
+                                 </Grid>
+                             ): ''
+                         }
+                     </Grid> 
+ 
+ 
+ 
+ 
+                    <Grid container item xs={12} spacing={3}>
 
+                        {(typeof form.errorMsg == 'string') ? 
+                            (
+                                <Grid>
+
+                                    <Alert severity="error">
+                                        <AlertTitle><strong>Lab ID</strong></AlertTitle>
+                                        {form.errorMsg.lab_id}
+                                    </Alert>
+                                </Grid>
+                            ): ''
+                        }
+                    </Grid>
+
+
+                    <Grid container item xs={12} spacing={3}>
+                        <Grid item xs={4}>
+                            {form.errorMsg.hasOwnProperty('lab_id') ? 
+                                (
+                                    <Grid>
+                                        <Alert severity="error">
+                                            <AlertTitle><strong>Lab ID</strong></AlertTitle>                        
+                                            {form.errorMsg.lab_id}
+                                        </Alert>
+                                    </Grid>
+                                ): ''
+                            }
+                        </Grid>
+                        <Grid item xs={4}>
+                            {form.errorMsg.hasOwnProperty('lab_name') ? 
+                                (
+                                    <Grid>
+                                        <Alert severity="error">
+                                            <AlertTitle><strong>Lab Name</strong></AlertTitle>
+                                            {form.errorMsg.lab_name}
+                                        </Alert>
+                                    </Grid>
+                                ): ''
+                            }
+                        </Grid>
+                    </Grid>
+                    <Grid container item xs={12} spacing={3}>
+                        <Grid item xs={4}>
+                            {form.errorMsg.hasOwnProperty('institution') ? 
+                                (
+                                    <Grid>
+
+                                        <Alert severity="error">
+                                            <AlertTitle><strong>Institution</strong></AlertTitle>
+                                            {form.errorMsg.institution}
+                                        </Alert>
+                                    </Grid>
+                                ): ''
+                            }
+                        </Grid>
+                        <Grid item xs={4}>
+                            {form.errorMsg.hasOwnProperty('principal_investigator') ? 
+                                (
+                                    <Grid>
+                                        <Alert severity="error">
+                                            <AlertTitle><strong>Principal Investigator</strong></AlertTitle>
+                                
+                                            {form.errorMsg.principal_investigator}
+                                        </Alert>
+                                    </Grid>
+                                ): ''
+                            }
+                        </Grid>
+                    </Grid>
+
+                </Grid>
             </Grid>
             <Grid spacing={3} container direction="column" justify="center" alignItems="stretch" >
                 <Grid item xs={9}>
@@ -45,6 +130,7 @@ export default function Form({form, openDrawer,handleChange, handleSubmit, onSel
                         size='small'
                         variant="outlined"
                         color="primary"
+                        error={(form.errorMsg.hasOwnProperty('lab_id'))}
                         required={true}
                         name='lab_id'
                         onChange={handleChange}
@@ -59,6 +145,8 @@ export default function Form({form, openDrawer,handleChange, handleSubmit, onSel
                         label="Lab Name"
                         size='small'
                         name='lab_name'
+                        error={(form.errorMsg.hasOwnProperty('lab_name'))}
+
                         variant="outlined"
                         color="primary"
                         required={true}
@@ -87,6 +175,7 @@ export default function Form({form, openDrawer,handleChange, handleSubmit, onSel
                         name='institution'
                         variant="outlined"
                         color="primary"
+                        error={(form.errorMsg.hasOwnProperty('institution'))}                        
                         required={true}
                         onChange={handleChange}
                         value={form.institution}
@@ -99,6 +188,8 @@ export default function Form({form, openDrawer,handleChange, handleSubmit, onSel
                         label="Principal Investigator"
                         size='small'
                         name='principal_investigator'
+                        error={(form.errorMsg.hasOwnProperty('principal_investigator'))}
+
                         variant="outlined"
                         color="primary"
                         required={true}

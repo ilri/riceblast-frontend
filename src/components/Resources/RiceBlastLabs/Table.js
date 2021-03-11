@@ -37,6 +37,7 @@ export default function Table({labs, handleDelete,handleEdit}){
                     }),
                 }}
                 options={{
+                    exportButton:true,
                     actionsColumnIndex: -1
                 }} 
             />

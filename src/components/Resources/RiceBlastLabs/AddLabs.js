@@ -19,12 +19,17 @@ export default function AddLabs({getLabs,openDrawer}){
         institution: '',
         principal_investigator:'',
 
-        errorMsg: '',
+        errorMsg:{},
         errors: false,
         load: false,
     });
+    const [successMsg, setSuccessMsg] = React.useState('');
+    const [initial, setInitial] = React.useState({}); 
 
-
+    React.useEffect(() => {
+      const initialFormState = Object.assign({}, form);
+      setInitial(initialFormState);
+    },[]);
 
     const handleChange = (event) => {
         const value = event.target.value;
@@ -33,24 +38,31 @@ export default function AddLabs({getLabs,openDrawer}){
     const onSelect = (code) => {
         console.log(code);
         setForm({...form, country:code});
-    }
+    };
 
     const handleSubmit = () => {
 
-
         labService.addLab(form).then(
             response => {
-                console.log(response.data);
+                console.log(response.data.message);
+                const success = response.data.message;
+                setSuccessMsg(success);
+                setForm(initial);
                 getLabs();
-                openDrawer();
+                // openDrawer();
             }
         ).catch(
             error => {
                 console.log(error.response.data.message);
-                setForm({...form, errorMsg:error.response.data.message});
+                const backendErrors = error.response.data.message;
+                if(typeof backendErrors == "string" ){
+                    setForm({...form, errorMsg:backendErrors});
+                }else{
+                    setForm({...form, errorMsg:backendErrors});
+                }
             }
         );
-    }
+    };
     
 
     return(
@@ -61,6 +73,7 @@ export default function AddLabs({getLabs,openDrawer}){
                 handleSubmit={handleSubmit} 
                 onSelect={onSelect}
                 openDrawer={openDrawer}
+                successMsg={successMsg}
             >
 
             </Form>

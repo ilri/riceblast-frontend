@@ -46,6 +46,7 @@ export default function Table({data}){
                 title='Fungal GBS'
                 style={{maxWidth:'90%',marginLeft:'250px',}}
                 options={{
+                    exportButton:true,
                     exportButton:true
                 }}
             />

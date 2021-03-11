@@ -61,7 +61,7 @@ export default function FGScreenResults(props){
         service.getData().then(response => {
             console.log(response.data);
             setData(response.data);
-            setLoad();
+            setLoad(false);
         }).catch(errors => console.log(errors));
     }
 

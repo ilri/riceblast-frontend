@@ -77,7 +77,8 @@ export default function Table({data,handleDelete,handleEdit,riceGenotypes,genes}
                 title='Rice Gene Screen Results'
                 style={{maxWidth:'70%',margin:'0 auto'}}
                 options={{
-                    exportButton:true
+                    exportButton:true,
+                    actionsColumnIndex:-1,
                 }}
                 editable={{
                     onRowUpdate: (newData, oldData) =>
@@ -95,9 +96,6 @@ export default function Table({data,handleDelete,handleEdit,riceGenotypes,genes}
                             resolve();
                         }, 1000);
                     }),
-                }}
-                options={{
-                    actionsColumnIndex: -1
                 }}
             />
         </div>

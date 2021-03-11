@@ -40,6 +40,7 @@ export default function Table({riceGenotypes,handleEdit,handleDelete}){
                     }),
                 }}
                 options={{
+                    exportButton:true,
                     actionsColumnIndex: -1
                 }}
             />

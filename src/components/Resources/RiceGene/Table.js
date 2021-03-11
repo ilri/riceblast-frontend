@@ -8,7 +8,8 @@ export default function Table({genes,handleEdit,handleDelete}){
                 columns={[
                     {title:'Name', field:'name'},
                     {title:'Chromosome ID', field:'chromosome_id'},
-                    {title:'Marker', field:'marker'},
+                    {title:'Marker Type', field:'marker_type'},
+                    {title:'Marker Name', field:'marker_name'},
                     {title:'Donor Line', field: 'donor_line'},
                     {title:'Resistance Type', field: 'resistance_type'},
                     {title:'Reference', field: 'reference'},
@@ -17,7 +18,9 @@ export default function Table({genes,handleEdit,handleDelete}){
                 title='Rice Genes'
                 style={{maxWidth:'70%',margin:'0 auto'}}
                 options={{
-                    exportButton:true
+                    exportButton:true,
+                    actionsColumnIndex: -1
+
                 }}
 
                 editable={{
@@ -37,9 +40,7 @@ export default function Table({genes,handleEdit,handleDelete}){
                         }, 1000);
                     }),
                 }}
-                options={{
-                    actionsColumnIndex: -1
-                }}
+
             />
         </div>
     )

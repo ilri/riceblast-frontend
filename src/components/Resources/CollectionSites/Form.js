@@ -1,33 +1,37 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import IsolatesService from '../../../services/isolates';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import { makeStyles } from '@material-ui/core/styles';
+import ReactFlagsSelect from 'react-flags-select';
+
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import PeopleService from '../../../services/people';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Container from '@material-ui/core/Container';
 import Upload from './Upload';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+
+
+
+
+const peopleService = new PeopleService();
 
 
 const useStyles = makeStyles(theme => ({
-    
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-        maxWidth: 300,
+    selectCountry: {
+      width: '90%',
+      border:'1px solid black'
     },
 }));
-
-
-
-const choices = ['Complete','Partial'];
-
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -47,11 +51,18 @@ function TabPanel(props) {
         )}
       </div>
     );
-  }
+}
 
-function ActualForm({form,openDrawer, handleSelectChange,handleChange, handleSubmit}){
+function ActualForm(
+    {
+        findPersonID,form,people,handleSubmit,
+        handleChange,handleDateChange,
+        onSelect,openDrawer
+    }){
+        
     const classes = useStyles();
-    return (
+
+    return(
         <div>
         <Grid container spacing={3} direction="column" justify="center" alignItems="stretch">
             {form.errorMsg ? 
@@ -72,7 +83,20 @@ function ActualForm({form,openDrawer, handleSelectChange,handleChange, handleSub
                     required={true}
                     name='name'
                     onChange={handleChange}
+                /> 
+            </Grid>
 
+            <Grid item xs={9}>
+                <TextField
+                    id="outlined-secondary"
+                    label="Type"
+                    size='small'
+                    name='type'
+                    variant="outlined"
+                    color="primary"
+                    required={true}
+                    value={form.type}
+                    onChange={handleChange}
 
                 /> 
             </Grid>
@@ -80,104 +104,68 @@ function ActualForm({form,openDrawer, handleSelectChange,handleChange, handleSub
             <Grid item xs={9}>
                 <TextField
                     id="outlined-secondary"
-                    label="Chromosome ID"
+                    label="Latitude"
                     size='small'
-                    name='chromosome_id'
+                    name='latitude'
                     variant="outlined"
                     color="primary"
                     required={true}
-                    value={form.chromosome_id}
+                    value={form.latitude}
                     onChange={handleChange}
 
-                /> 
-            </Grid>
-
-
-            <Grid item xs={9}>
-                <TextField
-                    id="outlined-secondary"
-                    label="Marker Type"
-                    size='small'
-                    name='marker_type'
-                    variant="outlined"
-                    color="primary"
-                    required={true}
-                    onChange={handleChange}
-                    value={form.marker_type}
                 /> 
             </Grid>
 
             <Grid item xs={9}>
                 <TextField
                     id="outlined-secondary"
-                    label="Marker Name"
+                    label="Longitude"
                     size='small'
-                    name='marker_name'
+                    name='longitude'
                     variant="outlined"
                     color="primary"
                     required={true}
+                    value={form.longitude}
                     onChange={handleChange}
-                    value={form.marker}
-                /> 
-            </Grid>
-
-            <Grid item xs={9}>
-                <TextField
-                    id="outlined-secondary"
-                    label="Donor Line"
-                    size='small'
-                    name='donor_line'
-                    variant="outlined"
-                    color="primary"
-                    required={true}
-                    onChange={handleChange}
-                    value={form.donor_line}
 
                 /> 
             </Grid>
 
 
-            <Grid item xs={9}>
-                <FormControl className={classes.formControl}>
-
-
-
-                    <Autocomplete 
-                          id="combo-box-demo"
-                          options={choices}
-                          style={{width:300}}
-                          onInputChange={(event,newData) => {
-                              handleSelectChange(newData)
-                          }}
-                          size='small'
-                          renderInput={(params) => <TextField {...params} label="Resistence Type" variant="outlined" />}
-                        /> 
-                </FormControl>                
-            </Grid>
+            
 
             <Grid item xs={9}>
-                <TextField
-                    id="outlined-secondary"
-                    label="Reference"
-                    size='small'
-                    name='reference'
-                    variant="outlined"
-                    color="primary"
-                    required={true}
-                    onChange={handleChange}
-                    value={form.reference}
-
+                <ReactFlagsSelect
+                    defaultCountry='KE'
+                    searchable={true}
+                    selectedSize={15}
+                    className={classes.selectCountry}
+                    name='country'
+                    onSelect={code => onSelect(code)}
                 /> 
             </Grid>
 
+            <Grid item xs={9}>
+                <Autocomplete 
+                  id="combo-box-demo"
+                  options={people}
+                  value={form.people}
+                  onInputChange={(event,newData) => {
+                    findPersonID(newData)
+                  }}
+                  getOptionLabel={(option) => option.full_name}
+                  style={{ width: 300 }}
+                  renderInput={(params) => <TextField {...params} size='small' label="People" variant="outlined" />}
+                 />
+            </Grid>
 
             <Grid container direction="row" justify='space-between' alignItems='flex-end' xs={9}>
                 <Grid item xs={3}>
-                    <Button variant="contained" onClick={handleSubmit}> Submit</Button>
+                    <Button variant="contained" onClick={handleSubmit}>Submit</Button>
                 </Grid>
 
                 <Grid item xs={3}>
-                    <Button variant="contained" onClick={openDrawer} color='secondary'>Close</Button>
+                    <Button variant="contained" color='secondary' onClick={openDrawer}>Close</Button>
                 </Grid>
             </Grid>
 
@@ -185,22 +173,43 @@ function ActualForm({form,openDrawer, handleSelectChange,handleChange, handleSub
     </div>
     )
 }
-
-
 export default function Form(
-    {form, handleChange, handlePostFile, 
-    handleFileUpload, handleSubmit,openDrawer,handleSelectChange
-}){
+    {form,handlePeopleChange,
+        handleChange,handleDateChange, openDrawer,
+        handleSubmit, onSelect,handleFileUpload,handlePostFile}){
 
+    const [people, setPeople] = React.useState([]);
     const [tabValue, setTabValue] = React.useState(0);
 
     const handleTabChange = (event, newTabValue) => {
       setTabValue(newTabValue)
-    }  
-    
+    }
 
+    React.useEffect(() => {
+        getPeople();
+    },[]);
+
+    const getPeople = () => {
+        peopleService.getData().then(
+            response => {
+                setPeople(response.data);
+            }
+        ).then(
+            errors => {
+                console.log(errors);
+            }
+        )
+    };
+    const findPersonID = (newData) => {
+        people.map((person,id) => {
+            if(person.full_name === newData){
+                handlePeopleChange(person.user.pk);
+            }
+        })
+    }
     return(
         <div>
+
             <Tabs
               value={tabValue}
               indicatorColor="primary"
@@ -212,18 +221,19 @@ export default function Form(
               <Tab label="" disabled />
               <Tab label="UPLOAD DATA" />
             </Tabs>
-
-
             <TabPanel value={tabValue} index={0}>
               
               <ActualForm
                 form={form}
+                findPersonID={findPersonID}
+                people={people}
                 handleSubmit={handleSubmit}
+                handleDateChange={handleDateChange}
+                onSelect={onSelect}
                 handleChange={handleChange}
                 openDrawer={openDrawer}
-                handleSelectChange={handleSelectChange}
               />
- 
+
             </TabPanel>
 
             <TabPanel value={tabValue} index={2}>
@@ -238,11 +248,11 @@ export default function Form(
                 </Grid>
 
                 <Grid item xs={3}>
-                    <Button variant="contained" onClick={openDrawer} color='secondary'>Close</Button>
+                    <Button variant="contained" color='secondary' onClick={openDrawer}>Close</Button>
                 </Grid>
             </Grid>
 
-            </TabPanel>            
-        </div>
+            </TabPanel>
+        </div>        
     )
-}
+} 

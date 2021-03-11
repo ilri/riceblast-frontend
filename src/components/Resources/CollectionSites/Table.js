@@ -26,34 +26,12 @@ const useStyles = makeStyles(theme => ({
       minWidth: 170,
     },
 }));
-export default function Table({sites,handleEditSite,people,getSite}){
+export default function Table({data,handleEdit,handleDelete,people}){
 
     const [errors,setErrors] = React.useState({});
 
-    const editSite = (newData, oldData) => {
-        console.log(newData,oldData);
-        handleEditSite(newData);
-    };
 
-    const addSite = (newSite,resolve,reject) => {
-        siteService.addCollectionSIte(newSite).then(response => {
-            getSite();
-            resolve();
-        }).catch(errors => {
-            setErrors(errors.response.data)
-            console.log(errors.response.data);
-            reject();
-        });
-    };
 
-    const deleteSite = (site,resolve,reject) => {
-        siteService.deleteCollectionSite(site).then(response => {
-            getSite();
-            resolve();
-        }).catch(() => {
-            reject();
-        });
-    };
     const classes = useStyles();
 
     return(
@@ -127,28 +105,7 @@ export default function Table({sites,handleEditSite,people,getSite}){
                             </FormControl>                            
                         )
                     },   
-                    {
-                        title:'Project', field: 'project',
-                        editComponent: props => (
-                            <FormControl variant="outlined"  size='small' className={classes.formControl}> 
-                                <InputLabel id="demo-simple-select-outlined-label">Project</InputLabel>
-                                <Select
-                                  labelId="demo-simple-select-outlined-label"
-                                  id="demo-simple-select-outlined"
-                                  value={props.value}
-                                  onChange={e => props.onChange(e.target.value)}
-                                  size='small'
-                                >
-                                  <MenuItem value="">
-                                    <em style={{fontSize:'15px'}}>No Projects.</em>
-                                  </MenuItem>
-                                  {/* {labs.map((lab,index) => (
-                                    <MenuItem key={index + 1} value={lab.pk}>{lab.lab_name}</MenuItem>
-                                  ))} */}
-                                </Select>
-                            </FormControl>
-                        )
-                    },
+
                     {
                         title:'Person', field: 'person',
                         editComponent: props => (
@@ -177,11 +134,13 @@ export default function Table({sites,handleEditSite,people,getSite}){
                         )
                     },
                 ]}
-                data={sites}
+                data={data}
                 title='Fungal Collection Sites'
-                style={{maxWidth:'70%',margin:'0 auto',marginTop:150}}
+                style={{maxWidth:'70%',margin:'0 auto'}}
                 options={{
-                    exportButton:true
+                    exportButton:true,
+                    actionsColumnIndex:-1,
+
                 }}
                 detailPanel={rowData => {
                     return (
@@ -195,29 +154,21 @@ export default function Table({sites,handleEditSite,people,getSite}){
                     onRowUpdate:(newData,oldData) => 
                         new Promise((resolve, reject) => {
                             setTimeout(() => {
-                                editSite(newData,oldData); 
-                                resolve();
-                                    
+                                handleEdit(newData); 
+                                resolve();                                
                             },1000);
                         }),
-                    onRowAdd:newData =>
-                        new Promise((resolve,reject) => {
-                            setTimeout(() => {
-                                console.log(newData);
-                                addSite(newData,resolve,reject); 
-                            });
-                        }),
+
                     onRowDelete:oldData =>
                         new Promise((resolve,reject) => {
                             setTimeout(() => {
                                 console.log(oldData);
-                                deleteSite(oldData.pk,resolve,reject);
+                                handleDelete(oldData.pk);
+                                resolve();
                             });
                         }),
                 }}   
-                options={{
-                    actionsColumnIndex: -1
-                }}            
+           
             />
         </div>
     )

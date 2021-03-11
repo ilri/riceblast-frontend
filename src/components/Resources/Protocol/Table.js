@@ -42,7 +42,8 @@ export default function Table({data}){
                 title='Protocols'
                 style={{maxWidth:'90%',marginLeft:'250px'}}
                 options={{
-                    exportButton:true
+                    exportButton:true,
+                    actionsColumnIndex:-1,
                 }}
             />
         </div>

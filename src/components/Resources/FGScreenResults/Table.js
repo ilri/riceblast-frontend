@@ -85,7 +85,8 @@ export default function Table({data,handleDelete,handleEdit,riceGenotypes,genes}
                     }),
                 }}
                 options={{
-                    actionsColumnIndex: -1
+                    actionsColumnIndex: -1,
+                    exportButton:true,
                 }}
             />
         </div>

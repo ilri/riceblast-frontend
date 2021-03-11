@@ -4,13 +4,13 @@ export default class CollectionSiteService{
     getCollectionSites(){
         return axiosInstance.get('collection_sites/');
     }
-    editCollectionSite(data){
+    editData(data){
         return axiosInstance.put('collection_sites/',data);
     }
-    addCollectionSIte(data){
+    addData(data){
         return axiosInstance.post('collection_sites/',data);
     }
-    deleteCollectionSite(data){
+    deleteData(data){
         return axiosInstance.delete(`collection_sites/${data}`)
     }
 }

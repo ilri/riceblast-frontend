@@ -101,6 +101,7 @@ export default function Table({isolates,handleDelete,handleEdit}){
                 title='Isolates'
                 style={{maxWidth:'70%',margin:'0 auto'}}
                 options={{
+                    actionsColumnIndex:-1,
                     exportButton:true
                 }}
 
@@ -122,9 +123,7 @@ export default function Table({isolates,handleDelete,handleEdit}){
                         }, 1000);
                     }),
                 }}
-                options={{
-                    actionsColumnIndex: -1
-                }} 
+
             />
         </div>
     )

@@ -14,7 +14,8 @@ export default function Add({getRiceGenes,openDrawer}){
     const [form, setForm] = React.useState({
         name:'',
         chromosome_id:'',
-        marker:'',
+        marker_type:'', //MARKER_TYPE
+        marker_name:'',
         donor_line: '',
         resistance_type:'',
         reference:'',
