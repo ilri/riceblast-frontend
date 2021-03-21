@@ -1,4 +1,7 @@
 import {axiosInstance} from './constants';
+import axios from 'axios';
+
+
 
 export default class PathotypingService {
     getData(){
@@ -22,4 +25,32 @@ export default class PathotypingService {
 
         return axiosInstance.post('upload_pathotyping_results/',formData);  
     }
+
+    uploadFile1(pathotyping_results, onUploadProgress){
+        const formData = new FormData();
+    
+        formData.append('pathotyping_results', pathotyping_results);
+    
+        return axiosInstance.post('upload_pathotyping_results/',formData,{
+            headers: {
+                'Authorization': "Bearer " + localStorage.getItem('access'),
+                'Content-Type': 'multipart/form-data', 
+            },
+            onUploadProgress,
+        });  
+    }
 }
+// GET UPLOAD PROGRESS
+// uploadFile1 = (pathotyping_results, onUploadProgress) => {
+    // const formData = new FormData();
+// 
+    // formData.append('pathotyping_results', pathotyping_results);
+// 
+    // return axios.post('upload_pathotyping_results/',formData,{
+        // headers: {
+            // 'Authorization': "Bearer " + localStorage.getItem('access'),
+            // 'Content-Type': 'multipart/form-data', 
+        // },
+        // onUploadProgress,
+    // });  
+// }

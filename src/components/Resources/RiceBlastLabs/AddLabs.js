@@ -41,7 +41,6 @@ export default function AddLabs({getLabs,openDrawer}){
     };
 
     const handleSubmit = () => {
-
         labService.addLab(form).then(
             response => {
                 console.log(response.data.message);

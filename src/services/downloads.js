@@ -1,5 +1,6 @@
 import axios from 'axios';
-var FileSaver = require('file-saver');
+
+var downloadFile = require('js-file-download');
 
 const APIURLDEV = 'http://localhost:8000/api/';
 const APIURLPROD = 'https://riceblast.herokuapp.com/api/';
@@ -7,7 +8,7 @@ const APIURLPROD = 'https://riceblast.herokuapp.com/api/';
 
 
 const axiosInstance = axios.create({
-    baseURL: APIURLDEV,
+    baseURL: APIURLPROD,
     // timeout: 5000,
     headers: {
         'Authorization': "Bearer " + localStorage.getItem('access'),
@@ -16,21 +17,18 @@ const axiosInstance = axios.create({
     }
 });
 
-export const fileDownload = (file) => {
-   return axiosInstance.get(`download/`,{
-       params:{
-            name:file,
-       }
-    }).then(
-       response => {
-        //    console.log(response)
-           const fd = new Blob([response.data]);
-           console.log(fd)
-           FileSaver.saveAs(fd, 'test.xlsx');
+export const fileDownload = (path,name) => {
+    axiosInstance.get(`${APIURLDEV}download/`, { 
+        responseType: 'blob',
+        params:{
+            path:path
+        }
+    }).then(res => {
+        downloadFile(res.data, name);
+    }).catch(err => {
+        console.log(err);
+    })
 
-    }).catch((error) => {
-        console.log(error);
-    });
 };
 
 

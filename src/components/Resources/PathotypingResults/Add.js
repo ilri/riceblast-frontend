@@ -26,35 +26,65 @@ export default function Add({getData,openDrawer,riceGenotypes,isolates,people,la
         disease_score:'',
         test:'',
         tray:'',
-
-        errorMsg: '',
-        errors: false,
-        load: false,
     });
     // UPLOAD FILE
-    const [pathotyping_results,setPathotypingResults] = React.useState(null);
+    const [pathotyping_results,setPathotypingResults] = React.useState('');
+    const [progressBar,setProgressBar] = React.useState(false);
+    const [intialFormState,setIntialFormState] = React.useState({});
+    const [success,setSuccess] = React.useState('');
+    const [error,setError] = React.useState('');
+    // const uploadRef = React.createRef();
+
+
+    React.useEffect(()=>{
+        setIntialFormState(form);
+    },[])
 
     const handleFileUpload = (event) =>{
         const file = event.target.files[0];
-        console.log(file);
-        setPathotypingResults(file);
+        var ext = event.target.value.match(/\.([^\.]+)$/)[1];
+        switch(ext){
+            case 'xls':
+            case 'xlsx':
+            case 'csv':
+                setPathotypingResults(file);
+                break;
+            default:
+                setError('Unsupported File Format. Use EXCEL files');
+
+        }
         // handlePostFile(pathotyping_results);
+        // event.target.value = null //RESET INUT FIELD
+
     }
 
     const handlePostFile = () => {
-        service.uploadFile(pathotyping_results).then(
+        service.uploadFile1(pathotyping_results,(event)=>{
+            setProgressBar(true); //PROGRESS BAR
+        }).then(
             response => {
-                console.log(response.data);
+                setSuccess(response.data.message);
                 getData();
-                openDrawer();
+                setPathotypingResults('');
+                setProgressBar(false);
+                // openDrawer();
             }
         ).catch(
             error => {
-                console.log(error.response.data.message);
-                setForm({...form, errorMsg:error.response.data.message});
+                console.log(error);
+                setError(error.response.data.message);
+                setProgressBar(false);
             }            
         )
     }
+    // CLOSE success/error MESSAGE
+    const closeMessage = (type) => {
+        if (type ==='success'){
+            setSuccess('');
+        }else{
+            setError('');
+        }
+    };
 
     const handleChange = (event) => {
         const value = event.target.value;
@@ -72,9 +102,10 @@ export default function Add({getData,openDrawer,riceGenotypes,isolates,people,la
 
         service.addData(form).then(
             response => {
-                console.log(response.data);
+                console.log(response.data);            
                 getData();
                 openDrawer();
+                setForm(intialFormState);
             }
         ).catch(
             error => {
@@ -102,6 +133,11 @@ export default function Add({getData,openDrawer,riceGenotypes,isolates,people,la
                 handlePostFile={handlePostFile}
                 openDrawer={openDrawer}
                 handleSelectChange={handleSelectChange}
+                progressBar={progressBar}
+                pathotyping_results={pathotyping_results}
+                success={success}
+                error={error}
+                closeMessage={closeMessage}
 
             >
 

@@ -48,7 +48,7 @@ export default function RiceBlastLabs(props){
     const [labs,setLabs] = useState([]);
     const [load,setLoad] = useState(true);
     // DRAWER
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
     useEffect(() => {
         getLabs();

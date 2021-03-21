@@ -6,7 +6,7 @@ const APIURLPROD = 'https://riceblast.ilri.org/api/';
 
 
 export const axiosInstance = axios.create({
-    baseURL: APIURLDEV,
+    baseURL: APIURLPROD,
     // timeout: 5000,
     headers: {
         'Authorization': "Bearer " + localStorage.getItem('access'),

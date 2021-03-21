@@ -12,6 +12,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import ReactFlagsSelect from 'react-flags-select';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 
 
@@ -47,22 +48,7 @@ export default function Form({form, openDrawer,handleChange,
                      </Grid> 
  
  
- 
- 
-                    <Grid container item xs={12} spacing={3}>
 
-                        {(typeof form.errorMsg == 'string') ? 
-                            (
-                                <Grid>
-
-                                    <Alert severity="error">
-                                        <AlertTitle><strong>Lab ID</strong></AlertTitle>
-                                        {form.errorMsg.lab_id}
-                                    </Alert>
-                                </Grid>
-                            ): ''
-                        }
-                    </Grid>
 
 
                     <Grid container item xs={12} spacing={3}>
@@ -124,19 +110,22 @@ export default function Form({form, openDrawer,handleChange,
             </Grid>
             <Grid spacing={3} container direction="column" justify="center" alignItems="stretch" >
                 <Grid item xs={9}>
-                    <TextField
-                        id="outlined-secondary"
-                        label="Lab ID"
-                        size='small'
-                        variant="outlined"
-                        color="primary"
-                        error={(form.errorMsg.hasOwnProperty('lab_id'))}
-                        required={true}
-                        name='lab_id'
-                        onChange={handleChange}
+                    <FormControl>
 
-
-                    /> 
+                        <TextField
+                            id="outlined-secondary"
+                            label="Lab ID"
+                            size='small'
+                            variant="outlined"
+                            color="primary"
+                            error={(form.errorMsg.hasOwnProperty('lab_id'))}
+                            required={true}
+                            name='lab_id'
+                            onChange={handleChange}                            
+                        />
+                         
+                        <FormHelperText>{form.errorMsg.lab_id}</FormHelperText>
+                    </FormControl>
                 </Grid>
 
                 <Grid item xs={9}>

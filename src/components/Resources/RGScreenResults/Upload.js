@@ -23,7 +23,7 @@ export default function Upload(
         <TextField
             id="outlined-secondary"
             size='small'
-            name='upload_pr'
+            name='upload_rgs'
             variant="outlined"
             color="primary"
             type='file'

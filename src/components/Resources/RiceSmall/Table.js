@@ -20,7 +20,11 @@ const useStyles = makeStyles((theme) => ({
 export default function Table({data,handleEdit,handleDelete,riceGenotypes,labs,people}){
     const classes = useStyles();
     const handleDownload = (file) => {
-        fileDownload(file);
+        console.log(file);
+        const path = file.split('/media')[1];
+        const name = file.split('/media/RiceSmallDnaFragmentsSequence/rice_sequence_data')[1];
+              
+        fileDownload(path,name);
     };
     const findID = (props,event,newData,field) => {
         switch(field){
@@ -81,7 +85,7 @@ export default function Table({data,handleEdit,handleDelete,riceGenotypes,labs,p
                         title:'Sequence Data', 
                         field:'sequence_data',
                         render: rowData => (
-                            <IconButton disabled aria-label="delete" onClick={() => handleDownload(rowData.sequence_data)} className={classes.margin}>
+                            <IconButton aria-label="delete" onClick={() => handleDownload(rowData.sequence_data)} className={classes.margin}>
                                 <GetAppIcon />
                             </IconButton>
                         )

@@ -19,7 +19,11 @@ const useStyles = makeStyles((theme) => ({
 export default function Table({data}){
     const classes = useStyles();
     const handleDownload = (file) => {
-        fileDownload(file);
+        console.log(file);
+        const path = file.split('/media')[1];
+        const name = file.split('/media/RiceGBS/rice_gbs_dataset')[1];
+              
+        fileDownload(path,name);
     };
     return(
         <div>
@@ -32,7 +36,7 @@ export default function Table({data}){
                         title:'GBS Dataset', 
                         field:'gbs_dataset',
                         render: rowData => (
-                            <IconButton disabled aria-label="delete" onClick={() => handleDownload(rowData.gbs_dataset)} className={classes.margin}>
+                            <IconButton aria-label="delete" onClick={() => handleDownload(rowData.gbs_dataset)} className={classes.margin}>
                                 <GetAppIcon />
                             </IconButton>
                         )  

@@ -1,7 +1,7 @@
 import React from 'react';
 import Appbar from '../Appbar/Appbar';
 import Container from '@material-ui/core/Container';
-
+import MeetingsMain from './Meetings/Meetings'
 
 export default function Meetings(props){
     return(
@@ -12,9 +12,7 @@ export default function Meetings(props){
 
             <div style={{marginLeft:'100px',marginTop:'100px'}}>
                 <Container fixed>
-                    <div>
-                        <h6>MEETINGS</h6>
-                    </div>
+                    <MeetingsMain />
                 </Container>
             </div>
         </div>

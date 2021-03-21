@@ -29,7 +29,12 @@ export default function Table({data,handleDelete,handleEdit,people}){
     
     };
     const handleDownload = (file) => {
-        fileDownload(file);
+        console.log(file);
+        const path = file.split('/media')[1];
+        const name = file.split('/media/FungalSmallDnaFragmentsSequence/fungal_gene_sequence')[1];
+  
+              
+        fileDownload(path,name);
     };
 
     return(
@@ -43,7 +48,7 @@ export default function Table({data,handleDelete,handleEdit,people}){
                         title:'Fungal Gene Sequence', 
                         field:'fungal_gene_sequence',
                         render: rowData => (
-                        <IconButton disabled aria-label="delete" onClick={() => handleDownload(rowData.fungal_gene_sequence)} className={classes.margin}>
+                        <IconButton aria-label="delete" onClick={() => handleDownload(rowData.fungal_gene_sequence)} className={classes.margin}>
                             <GetAppIcon />
                         </IconButton>
                         )

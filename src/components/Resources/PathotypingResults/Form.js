@@ -290,7 +290,7 @@ function ActualForm({form,openDrawer,riceGenotypes,handleSubmit,
                     </FormControl>                
                 </Grid>
 
-                <Grid container style={{marginTop:'50px'}} direction="row" justify='space-between' alignItems='flex-end' xs={9}>
+                <Grid container style={{marginTop:'50px'}} direction="row" justify='space-between' alignItems='flex-end' >
                     <Grid item xs={3}>
                         <Button variant="contained" onClick={handleSubmit}> Submit</Button>
                     </Grid>
@@ -310,9 +310,9 @@ function ActualForm({form,openDrawer,riceGenotypes,handleSubmit,
 
 
 export default function Form({form, 
-  handleFileUpload,riceGenotypes,isolates,
+  handleFileUpload,riceGenotypes,isolates,closeMessage,
   people,labs,handleChange, handleSelectChange, handleDateChange,
-  handlePostFile, handleSubmit,openDrawer
+  handlePostFile, handleSubmit,openDrawer,progressBar,success,error,pathotyping_results
 }){
 
 
@@ -347,19 +347,25 @@ export default function Form({form,
                 handleChange={handleChange}
                 handleDateChange={handleDateChange}
                 handleSelectChange={handleSelectChange}
+
               />
  
             </TabPanel>
 
             <TabPanel value={tabValue} index={2}>
-
+            
+            {/* UPLOAD FILE */}
               <Upload
                   handleFileUpload={handleFileUpload}
+                  progressBar={progressBar}
+                  success={success}
+                  error={error}
+                  closeMessage={closeMessage}
               />
             
-            <Grid container style={{marginTop:'50px'}} direction="row" justify='space-between' alignItems='flex-end' xs={9}>
+            <Grid container style={{marginTop:'50px'}} direction="row" justify='space-between' alignItems='flex-end'>
                 <Grid item xs={3}>
-                    <Button variant="contained" onClick={handlePostFile}>Upload</Button>
+                    <Button disabled={((pathotyping_results === '') ? true: false)} variant="contained" onClick={handlePostFile}>Upload</Button>
                 </Grid>
 
                 <Grid item xs={3}>

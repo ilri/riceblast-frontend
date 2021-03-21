@@ -30,6 +30,13 @@ import People from './Resources/People/People';
 
 
 export default function RiceBlastApp(props){
+
+    // LOG OUT USER AFTER 6 HRS
+    // setTimeout(() => {
+        // localStorage.clear();
+        // console.log('ray');
+    // },21600);
+
     return(
 
         <div>

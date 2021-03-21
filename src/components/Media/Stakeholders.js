@@ -1,7 +1,7 @@
 import React from 'react';
 import Appbar from '../Appbar/Appbar';
 import Container from '@material-ui/core/Container';
-
+import OutreachMain from './Outreach/Outreach';
 
 export default function Stakeholders(props){
     return(
@@ -12,9 +12,7 @@ export default function Stakeholders(props){
 
             <div style={{marginLeft:'100px',marginTop:'100px'}}>
                 <Container fixed>
-                    <div>
-                        <h6>OUTREACH</h6>
-                    </div>
+                    <OutreachMain />
                 </Container>
             </div>
         </div>

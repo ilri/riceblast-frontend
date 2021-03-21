@@ -106,20 +106,6 @@ function ActualForm(
                 /> 
             </Grid>
 
-            <Grid item xs={9}>
-                <TextField
-                    id="outlined-secondary"
-                    label="Taxa Name"
-                    size='small'
-                    name='taxa_name'
-                    variant="outlined"
-                    color="primary"
-                    required={true}
-                    value={form.taxa_name}
-                    onChange={handleChange}
-
-                /> 
-            </Grid>
 
             <Grid item xs={9}>
                 <TextField

@@ -1,17 +1,17 @@
 import React from 'react';
-import Appbar from '../Appbar/Appbar';
 import {Icon,Grid,Message,List,Popup,
   Card,Button,Segment} from 'semantic-ui-react';
 import Container from '@material-ui/core/Container';
 import Add from './Add';
-import PublicationsService from '../../services/publications';
-import {fileDownload} from '../../services/downloads';
+import NewslettersService from '../../../services/newsletter';
 
-const service = new PublicationsService();
+import {fileDownload} from '../../../services/downloads';
+
+const service = new NewslettersService();
 
 
 
-function OnePublication({publication,handleDownload,handleDelete,handleEdit}){
+function OneNewsletter({newsletter,handleDownload,handleDelete,handleEdit}){
 
   
   return (
@@ -22,9 +22,9 @@ function OnePublication({publication,handleDownload,handleDelete,handleEdit}){
             <Grid.Column width={12}>
               <Segment>
                 <List.Content>
-                  <List.Header as='a'> {publication.title}</List.Header>
-                  <List.Description as='a'>{publication.date}</List.Description>
-                  <List.Description as='strong'>{publication.description}</List.Description>
+                  <List.Header as='a'> {newsletter.title}</List.Header>
+                  <List.Description as='a'>{newsletter.date}</List.Description>
+                  <List.Description as='strong'>{newsletter.description}</List.Description>
                 </List.Content>
               </Segment>
             </Grid.Column>
@@ -32,7 +32,7 @@ function OnePublication({publication,handleDownload,handleDelete,handleEdit}){
             <Grid.Column width={2}>
               <Segment>
 
-                <Button animated='fade' onClick={() => handleDownload(publication.publication)}>
+                <Button animated='fade' onClick={() => handleDownload(newsletter.newsletter)}>
                   <Button.Content visible>
                   <List.Icon name='download' size='large' verticalAlign='middle' color='green' />
                   </Button.Content>
@@ -45,14 +45,14 @@ function OnePublication({publication,handleDownload,handleDelete,handleEdit}){
               <Segment>
                 <Popup 
                   trigger={
-                    <Button animated='fade' onClick={() => handleDelete(publication.pk)}>
+                    <Button animated='fade' onClick={() => handleDelete(newsletter.pk)}>
                       <Button.Content visible>
                       <List.Icon name='trash alternate outline' size='large' verticalAlign='middle' color='red' />
                       </Button.Content>
                       <Button.Content hidden>Delete</Button.Content>
                     </Button>
                   }
-                  content="Are you sure you want to delete this publication?"
+                  content="Are you sure you want to delete this newsletter?"
                   basic                  
                 />
 
@@ -66,7 +66,7 @@ function OnePublication({publication,handleDownload,handleDelete,handleEdit}){
 }
 
 
-export default function Publications(props){
+export default function NewslettersMain(props){
     const [open, setOpen] = React.useState(false)
 
     const [data, setData] = React.useState([]);
@@ -91,7 +91,7 @@ export default function Publications(props){
     const handleDownload = (file) => {
       console.log(file);
       const path = file.split('/media')[1];
-      const name = file.split('/media/Publications/publication/')[1];
+      const name = file.split('/media/Newsletters/newsletter/')[1];
 
             
       fileDownload(path,name);
@@ -116,11 +116,7 @@ export default function Publications(props){
     };
     return(
         <div>
-            <div>
-                <Appbar props={props} />
-            </div>
-
-            
+           
             <Container fixed style={{marginTop:'80px',}}>
               <div>
                 <Button animated='fade' onClick={openModal}>
@@ -151,10 +147,10 @@ export default function Publications(props){
 
             <Container fixed style={{marginTop:'10px'}}> 
 
-                {data.map((publication,i) => 
-                  <OnePublication
+                {data.map((newsletter,i) => 
+                  <OneNewsletter
                     key={i}
-                    publication={publication}
+                    newsletter={newsletter}
                     handleDownload={handleDownload}
                     handleDelete={handleDelete}
                     handleEdit={handleEdit}

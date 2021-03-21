@@ -42,7 +42,6 @@ export default function Table({isolates,handleDelete,handleEdit}){
                 columns={[
                     {title:'Isolate ID', field:'isolate_id'},
                     {title:'Name', field:'isolate_name'},
-                    {title:'Taxa Name', field:'taxa_name'},
                     {title:'Tissue Type', field:'tissue_type',},
                     {
                         title:'Date Collected', 

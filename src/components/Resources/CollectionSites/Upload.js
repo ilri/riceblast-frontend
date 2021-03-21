@@ -16,8 +16,10 @@ export default function Upload({handleFileUpload}){
             type='file'
             required={true}
             onChange={handleFileUpload}
+            disabled={true}
 
-        /> 
+        />
+        <h1>IN DEVELOPMENT</h1> 
     </Grid>
     )
 }

@@ -102,7 +102,11 @@ export default function Login(props){
                             <hr className={classes.hr} />
                         </div>
 
+
                         <div className={classes.formWrapper}>
+                            <div>
+                              <Typography component='strong' variant='strong'>To access database resources, please contact Samuel Mutiga email address: mutiga@uark.edu </Typography>
+                            </div>
                             {errors? <Alert severity="error">Wrong Login Credentials</Alert> : ''}
                             <form className={classes.form} onSubmit={handleSubmit}>
 

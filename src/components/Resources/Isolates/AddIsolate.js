@@ -14,7 +14,6 @@ export default function AddIsolate({getIsolates,openDrawer}){
     const [form, setForm] = React.useState({
         isolate_id:'',
         isolate_name:'',
-        taxa_name:'',
         tissue_type:'',
         date_collected: new Date(),
         date_isolated:new Date(),

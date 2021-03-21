@@ -7,5 +7,5 @@ echo "Building app"
 npm run build
 
 echo "Deploying files to server"
-rsync -avP build/ rndegwa@139.162.252.21:/var/www/riceblast.ilri.org/
+rsync -avP build/ rndegwa@139.162.252.21:/srv/riceblast.ilri.org/frontend/
 echo "Deployment complete"
