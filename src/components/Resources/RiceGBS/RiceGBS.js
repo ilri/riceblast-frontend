@@ -129,6 +129,18 @@ export default function RiceGBS(props){
     };
 
 
+    const handleDeleteSelected = (data) => {
+        console.log(data);
+        service.deleteMultiple(data).then(
+            response => {
+                getData();
+            }
+        ).catch(
+            errors => {
+                console.log(errors);
+            }
+        )
+    }
 
     return(
         <div>
@@ -180,7 +192,8 @@ export default function RiceGBS(props){
                         handleDelete={handleDelete}
                         handleEdit={handleEdit}
                         people={people}    
-                        labs={labs}                    
+                        labs={labs}  
+                        handleDeleteSelected={handleDeleteSelected}                  
                     />
                 </Grid>
             </Grid>

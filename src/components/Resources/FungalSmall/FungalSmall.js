@@ -86,7 +86,18 @@ export default function FungalSmall(props){
             }
         )
     };
-
+    const handleDeleteSelected = (data) => {
+        console.log(data);
+        service.deleteMultiple(data).then(
+            response => {
+                getData();
+            }
+        ).catch(
+            errors => {
+                console.log(errors);
+            }
+        )
+    }
     const handleEdit = (newData) => {
         console.log(newData);
         service.editData(newData).then(
@@ -156,7 +167,8 @@ export default function FungalSmall(props){
                         data={data} 
                         handleDelete={handleDelete}
                         handleEdit={handleEdit}
-                        people={people}                        
+                        people={people}  
+                        handleDeleteSelected={handleDeleteSelected}                      
                     />
                 </Grid>
             </Grid>

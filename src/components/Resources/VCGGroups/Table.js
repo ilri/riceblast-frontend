@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-export default function Table({data,handleEdit,handleDelete,labs,people}){
+export default function Table({data,handleEdit,handleDelete,labs,handleDeleteSelected,people}){
     
     
     const findID = (props,event,newData,field) => {
@@ -77,9 +77,6 @@ export default function Table({data,handleEdit,handleDelete,labs,people}){
                 data={data}
                 title='VCG Groups'
                 style={{maxWidth:'90%',marginLeft:'250px'}}
-                options={{
-                    exportButton:true
-                }}
                 editable={{
                     onRowUpdate: (newData, oldData) =>
                     new Promise((resolve, reject) => {
@@ -98,9 +95,21 @@ export default function Table({data,handleEdit,handleDelete,labs,people}){
                     }),
                 }}
                 options={{
+                    exportButton:true,
                     actionsColumnIndex: -1,
-                    exportButton:true
-                }}                
+                    selection: true,
+                }} 
+
+                actions={[
+                    {
+                      tooltip: 'Remove All Selected',
+                      icon: 'delete',
+                      onClick: (evt, data) =>{
+                          console.log(data);                          
+                          handleDeleteSelected(data)
+                      } 
+                    }
+                  ]}               
             />
         </div>
     )

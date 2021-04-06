@@ -84,7 +84,18 @@ export default function Isolates(props){
             }
         )
     };
-
+    const handleDeleteSelected = (data) => {
+        console.log(data);
+        isolatesService.deleteMultiple(data).then(
+            response => {
+                getIsolates();
+            }
+        ).catch(
+            errors => {
+                console.log(errors);
+            }
+        )
+    }
     return(
         <div>
             <div>
@@ -130,6 +141,7 @@ export default function Isolates(props){
                         isolates={isolates}
                         handleDelete={handleDelete} 
                         handleEdit={handleEdit}
+                        handleDeleteSelected={handleDeleteSelected}
                     />
                 </Grid>
             </Grid>

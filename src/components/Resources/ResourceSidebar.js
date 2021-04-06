@@ -8,9 +8,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import Typography from '@material-ui/core/Typography';
-import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 
-const drawerWidth = 240;
+const drawerWidth = 170;
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -59,8 +59,15 @@ const resourceOptions = [
 
 export default function ResourceSidebar(props){
     const classes = useStyles();
+    const [active,setActive] = React.useState('');
+    React.useEffect(()=>{
+      // const {props:{props:{props:location}}}=props;
+      setActive(props.props.props.location.pathname)
+
+    })
 
     return(
+
         <div>
             <Drawer
                 className={classes.drawerResource}
@@ -70,24 +77,31 @@ export default function ResourceSidebar(props){
                 }}
             >
                 <List className={classes.list}>
-                    <Link to='/resources/people' className={classes.link}>                        
-                        <ListItem button>
-                          <ListItemIcon><ArrowForwardIosIcon fontSize='small' /></ListItemIcon>
+                    <NavLink to='/resources/people' 
+                    className={classes.link} active
+                    activeStyle={{
+                      fontWeight: "bold",
+                      fontSize:'16px',
+                      color: "black",
+                    }}
+                    >                        
+                        <ListItem button style={{backgroundColor:(active === '/resources/people' ? '#f5f4f4': 'none')}} divider>
                           <ListItemText primary='People' />
                         </ListItem>
-                    </Link>  
+                    </NavLink>  
 
-                    <Divider />     
-                              
-                    <Typography>TABLES</Typography>
-                    <Divider />
                     {resourceOptions.map((option, index) => (
-                      <Link to={option[1]} className={classes.link} key={index + 1}>                        
-                        <ListItem button>
-                          <ListItemIcon><ArrowForwardIosIcon fontSize='small' /></ListItemIcon>
+                      <NavLink to={option[1]} className={classes.link} key={index + 1}
+                      activeStyle={{
+                        fontWeight: "bold",
+                        fontSize:'16px',
+                        color: "black",
+                      }}
+                      >                        
+                        <ListItem button style={{backgroundColor:(active === option[1] ? '#f5f4f4': 'none')}} divider>
                           <ListItemText primary={option[0]} />
                         </ListItem>
-                      </Link>
+                      </NavLink>
                     ))}
                 </List>
             </Drawer>

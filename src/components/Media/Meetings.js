@@ -10,10 +10,8 @@ export default function Meetings(props){
                 <Appbar props={props} />
             </div>
 
-            <div style={{marginLeft:'100px',marginTop:'100px'}}>
-                <Container fixed>
-                    <MeetingsMain />
-                </Container>
+            <div>
+                <MeetingsMain />
             </div>
         </div>
 

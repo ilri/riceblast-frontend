@@ -48,7 +48,7 @@ export default function RiceBlastLabs(props){
     const [labs,setLabs] = useState([]);
     const [load,setLoad] = useState(true);
     // DRAWER
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         getLabs();
@@ -58,8 +58,9 @@ export default function RiceBlastLabs(props){
         labService.getLabs().then(response => {
             console.log(response.data);
             setLabs(response.data);
-            setLoad(false);
-        }).catch(errors => console.log(errors));
+        })
+        .then(()=> setLoad(false))
+        .catch(errors => console.log(errors));
     };
     const classes = useStyles();
 
@@ -94,7 +95,18 @@ export default function RiceBlastLabs(props){
             }
         )
     };
-
+    const handleDeleteSelected = (data) => {
+        console.log(data);
+        labService.deleteLabs(data).then(
+            response => {
+                getLabs();
+            }
+        ).catch(
+            errors => {
+                console.log(errors);
+            }
+        )
+    }
 
 
     return(
@@ -143,6 +155,7 @@ export default function RiceBlastLabs(props){
                         labs={labs} 
                         handleDelete={handleDelete} 
                         handleEdit={handleEdit}
+                        handleDeleteSelected={handleDeleteSelected}
                     />
                 </Grid>
             </Grid>

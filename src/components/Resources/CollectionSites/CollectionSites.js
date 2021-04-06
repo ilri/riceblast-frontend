@@ -113,7 +113,18 @@ export default function CollectionSite(props){
         )
     };
 
-
+    const handleDeleteSelected = (data) => {
+        console.log(data);
+        service.deleteMultiple(data).then(
+            response => {
+                getData();
+            }
+        ).catch(
+            errors => {
+                console.log(errors);
+            }
+        )
+    }
 
     return(
         <div>
@@ -160,6 +171,7 @@ export default function CollectionSite(props){
                         handleDelete={handleDelete}
                         handleEdit={handleEdit}
                         people={people}
+                        handleDeleteSelected={handleDeleteSelected}
                     />
                 </Grid>
             </Grid>

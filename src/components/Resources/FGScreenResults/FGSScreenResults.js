@@ -106,7 +106,18 @@ export default function FGScreenResults(props){
           error => console.log(error)
         );
     };
-
+    const handleDeleteSelected = (data) => {
+        console.log(data);
+        service.deleteMultiple(data).then(
+            response => {
+                getData();
+            }
+        ).catch(
+            errors => {
+                console.log(errors);
+            }
+        )
+    }
 
     return(
         <div>
@@ -153,6 +164,7 @@ export default function FGScreenResults(props){
                         handleDelete={handleDelete}
                         handleEdit={handleEdit}
                         riceGenotypes={riceGenotypes}
+                        handleDeleteSelected={handleDeleteSelected}
                     />
                 </Grid>
             </Grid>

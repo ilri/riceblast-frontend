@@ -22,13 +22,14 @@ import agro_12 from '../../../assets/factsheets/pests/Spotted_stem_borer1.pdf';
 import agro_13 from '../../../assets/factsheets/pests/white_rice_stem_borer.pdf';
 import agro_14 from '../../../assets/factsheets/pests/Stalk-eyed_fly2.pdf';
 import agro_15 from '../../../assets/factsheets/pests/The_African_armyworm1.pdf';
+import Paper from '@material-ui/core/Paper';
 
 
 
 
 const useStyles = makeStyles(theme => ({
     root: {
-      marginTop:150,
+      marginTop:50,
     },
     heading: {
       fontSize: theme.typography.pxToRem(19),
@@ -62,13 +63,15 @@ export default function Pests(props){
         <div>            
             <div className={classes.root}>
             <Container fixed>
+            <Paper elevation={5}>
+
                 <ExpansionPanel expanded={true}>
                     <ExpansionPanelSummary
                       expandIcon={<ExpandMoreIcon />}
                       aria-controls="panel1a-content"
                       id="panel1a-header"
                     >
-                      <Typography className={classes.heading}>Pests</Typography>\
+                      <Typography className={classes.heading}>Pests</Typography>
                       <Divider />
                     </ExpansionPanelSummary>
 
@@ -85,6 +88,7 @@ export default function Pests(props){
                     </ExpansionPanelDetails>
                 ))}                                                      
                   </ExpansionPanel>
+            </Paper>
             </Container>
             </div>
         </div>

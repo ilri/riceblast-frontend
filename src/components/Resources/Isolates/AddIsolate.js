@@ -21,7 +21,7 @@ export default function AddIsolate({getIsolates,openDrawer}){
         host_genotype:'',
         collection_site:'',
         collection_site:'',
-        person:0,
+        person:null,
 
 
         errorMsg: '',

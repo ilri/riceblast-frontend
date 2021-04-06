@@ -2,6 +2,7 @@ import React from 'react';
 import Appbar from '../Appbar/Appbar';
 import Container from '@material-ui/core/Container';
 import NewslettersMain from './Newsletters/Newsletters' 
+import Grid from '@material-ui/core/Grid';
 
 export default function Newsletters(props){
     return(
@@ -10,10 +11,8 @@ export default function Newsletters(props){
                 <Appbar props={props} />
             </div>
 
-            <div style={{marginLeft:'100px',marginTop:'100px'}}>
-                <Container fixed>
-                    <NewslettersMain />
-                </Container>
+            <div>
+                <NewslettersMain />
             </div>
         </div>
 

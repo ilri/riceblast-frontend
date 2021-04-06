@@ -9,7 +9,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
 
-export default function Table({data,handleDelete,handleEdit,riceGenotypes,genes}){
+export default function Table({data,handleDeleteSelected,handleDelete,handleEdit,riceGenotypes,genes}){
 
     const findGenotypeID = (props,event,newData) => {
         console.log(newData)
@@ -85,9 +85,21 @@ export default function Table({data,handleDelete,handleEdit,riceGenotypes,genes}
                     }),
                 }}
                 options={{
-                    actionsColumnIndex: -1,
                     exportButton:true,
-                }}
+                    actionsColumnIndex: -1,
+                    selection: true,
+                }} 
+
+                actions={[
+                    {
+                      tooltip: 'Remove All Selected',
+                      icon: 'delete',
+                      onClick: (evt, data) =>{
+                          console.log(data);                          
+                          handleDeleteSelected(data)                      
+                        } 
+                    }
+                  ]}
             />
         </div>
     )

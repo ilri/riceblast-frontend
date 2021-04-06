@@ -12,8 +12,8 @@ export default function Add({getData,openDrawer}){
     const [form, setForm] = React.useState({
         group:'',
         vcg_id:'',
-        lab: '',
-        person:'',
+        lab: null,
+        person:null,
 
         errorMsg: '',
         errors: false,

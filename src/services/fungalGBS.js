@@ -15,10 +15,19 @@ export default class FungalGBSService{
     }
 
     editData(data){
-        return axiosInstance.put('fungal_gbs/',data);
+        const formData = new FormData();
+        const {gbs_dataset, ...info} = data;
+
+        formData.append('gbs_dataset', gbs_dataset);
+        formData.append('info', JSON.stringify(info));
+
+        return axiosInstance.put('fungal_gbs/',formData)    
     }
     
     deleteData(id){
         return axiosInstance.delete(`fungal_gbs/${id}`);
     }  
+    deleteMultiple(data){
+        return axiosInstance.put(`delete_fungal_gbs/`,data);
+    }
 }

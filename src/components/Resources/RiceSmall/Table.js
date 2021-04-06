@@ -8,6 +8,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import IconButton from '@material-ui/core/IconButton';
 import {fileDownload} from '../../../services/downloads';
 import { makeStyles } from '@material-ui/core/styles';
+import {Input} from 'semantic-ui-react';
 
 const useStyles = makeStyles((theme) => ({
     margin: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function Table({data,handleEdit,handleDelete,riceGenotypes,labs,people}){
+export default function Table({data,handleEdit,handleDeleteSelected,handleDelete,riceGenotypes,labs,people}){
     const classes = useStyles();
     const handleDownload = (file) => {
         console.log(file);
@@ -57,7 +58,11 @@ export default function Table({data,handleEdit,handleDelete,riceGenotypes,labs,p
                 break;
         }
     };
-
+    const handleFileChange = (event,props) => {
+        const file = event.target.files[0];
+        console.log(file);
+        props.onChange(file);
+    };
     return(
         <div>
             <MaterialTable 
@@ -88,6 +93,17 @@ export default function Table({data,handleEdit,handleDelete,riceGenotypes,labs,p
                             <IconButton aria-label="delete" onClick={() => handleDownload(rowData.sequence_data)} className={classes.margin}>
                                 <GetAppIcon />
                             </IconButton>
+                        ),
+                        editComponent: props => (
+                            <Input
+                                id="outlined-secondary"
+                                size='small'
+                                name='sequence_data'
+                                variant="outlined"
+                                color="primary"
+                                type='file'
+                                onChange={(event) => handleFileChange(event,props)}
+                            />
                         )
                     },
                     {title:'Chromosome ID', field:'chromosome_id',},
@@ -148,9 +164,21 @@ export default function Table({data,handleEdit,handleDelete,riceGenotypes,labs,p
                     }),
                 }}
                 options={{
+                    exportButton:true,
                     actionsColumnIndex: -1,
-                    exportButton:true
-                }}
+                    selection: true,
+                }} 
+
+                actions={[
+                    {
+                      tooltip: 'Remove All Selected',
+                      icon: 'delete',
+                      onClick: (evt, data) =>{
+                          console.log(data);                          
+                          handleDeleteSelected(data)
+                      } 
+                    }
+                ]}
             />
         </div>
     )

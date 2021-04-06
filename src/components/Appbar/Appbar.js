@@ -12,6 +12,9 @@ import SideBar from './Sidebar';
 import MenuIcon from '@material-ui/icons/Menu';
 import ResourceSidebar from '../Resources/ResourceSidebar';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import Hidden from '@material-ui/core/Hidden';
+import Container from '@material-ui/core/Container';
+import { Menu, Segment } from 'semantic-ui-react'
 
 
 
@@ -21,16 +24,20 @@ const useStyles = makeStyles(theme => ({
   },
   appBar:{
     zIndex: theme.zIndex.drawer + 1,
+
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 10,
+    },
   },
   logo : {
-    height:40,
-    width:40,
+    height:50,
+    width:50,
     borderRadius:5,
   },
   links: {
@@ -39,6 +46,15 @@ const useStyles = makeStyles(theme => ({
   },
   homeIcon: {
       margin:5,
+  },
+  sideMenuButton:{
+    [theme.breakpoints.up('lg')]: {
+      display: 'none',
+    },
+  },
+  logoWrapper:{
+    zIndex: theme.zIndex.drawer + 3,
+
   }
 }));
 export default function Appbar(props) {
@@ -46,6 +62,7 @@ export default function Appbar(props) {
   const [home,setHome] = useState(true);
   const [dash, setDash] = useState(false); //RESOURCES
   const [showSide, setShowSide] = useState(true);
+  const [responsiveDrawer,setRespDrawer] = useState(false);
 
   useEffect(() => {
     // console.log(props)
@@ -71,6 +88,9 @@ export default function Appbar(props) {
   const showSidebar = () => {
     setShowSide(!showSide);
   }
+  const handleResponsiveDrawer=()=>{
+    setRespDrawer(!responsiveDrawer);
+  }
   
   const classes = useStyles();
 
@@ -79,26 +99,32 @@ export default function Appbar(props) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" className={classes.appBar} position='fixed'>
-        <Toolbar>
-          {dash ? (
-            // <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={showSidebar} >
-            //   <MenuIcon />
-            // </IconButton>
 
-            <Link to='/'>
-              <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                <img alt='Rice Blast Logo' src={logo} variant='rounded' className={classes.logo} />
-              </IconButton>
-            </Link>
-          ) : (
-            <Link to='/'>
-              <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                <img alt='Rice Blast Logo' src={logo} variant='rounded' className={classes.logo} />
-              </IconButton>
-            </Link>
-          )}
+        <AppBar className={classes.appBar} position='fixed'>
+        <Toolbar>
+
+        <Hidden only={['xs','sm','md']} implementation="css">
+
+            <div className={classes.logoWrapper}>
+
+              <Link to='/'>
+                <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                  <img alt='Rice Blast Logo' src={logo} variant='rounded' className={classes.logo} />
+                </IconButton>
+              </Link>
+            </div>
+        </Hidden>
+        <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleResponsiveDrawer}
+            className={classes.sideMenuButton}
+          >
+          <MenuIcon />
+        </IconButton>
           <Typography variant="h6" className={classes.title}>
+
             DURABLE RICEBLAST FOR SUB-SAHARAN AFRICA
           </Typography>
 
@@ -109,7 +135,7 @@ export default function Appbar(props) {
                   <HomeIcon className={classes.homeIcon} />
               </Button>
             </Link>
-            
+
             {dash ? (
             <Link to='/resources/dashboard' className={classes.links}>
               <Button color="inherit" >
@@ -121,12 +147,13 @@ export default function Appbar(props) {
           ): ''}
 
         </Toolbar>
-      </AppBar>
-      
+        </AppBar>
 
       
 
-      {dash ? (<ResourceSidebar />):(<SideBar showSide={showSide} />)}
+      
+
+      {dash ? (<ResourceSidebar props={props} />):(<SideBar handleResponsiveDrawer={handleResponsiveDrawer} responsiveDrawer={responsiveDrawer} showSide={showSide} />)}
       
     </div>
   );

@@ -10,7 +10,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 const peopleService = new PeopleService();
 
 
-export default function Table({isolates,handleDelete,handleEdit}){
+export default function Table({isolates,handleDeleteSelected,handleDelete,handleEdit}){
     const [people, setPeople] = React.useState([]);
 
     React.useEffect(() => {
@@ -100,9 +100,20 @@ export default function Table({isolates,handleDelete,handleEdit}){
                 title='Isolates'
                 style={{maxWidth:'70%',margin:'0 auto'}}
                 options={{
-                    actionsColumnIndex:-1,
-                    exportButton:true
-                }}
+                    exportButton:true,
+                    actionsColumnIndex: -1,
+                    selection: true,
+                }} 
+
+                actions={[
+                    {
+                      tooltip: 'Remove All Selected',
+                      icon: 'delete',
+                      onClick: (evt, data) =>{
+                          handleDeleteSelected(data);                      
+                        } 
+                    }
+                  ]}
 
                 editable={{
                     onRowUpdate: (newData, oldData) =>

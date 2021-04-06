@@ -18,12 +18,13 @@ import w_7 from '../../../assets/factsheets/weeds/Wood_sorrels.pdf';
 import w_8 from '../../../assets/factsheets/weeds/Billy_goat_weed1.pdf';
 import w_9 from '../../../assets/factsheets/weeds/Purslane1.pdf';
 import w_10 from '../../../assets/factsheets/weeds/Broad-leaf_weed_management1.pdf';
+import Paper from '@material-ui/core/Paper';
 
 
 
 const useStyles = makeStyles(theme => ({
     root: {
-      marginTop:150,
+      marginTop:50,
     },
     heading: {
       fontSize: theme.typography.pxToRem(19),
@@ -52,6 +53,8 @@ export default function Weeds(props){
         <div>            
             <div className={classes.root}>
             <Container fixed>
+            <Paper elevation={5}>
+
                 <ExpansionPanel expanded={true}>
                     <ExpansionPanelSummary
                       expandIcon={<ExpandMoreIcon />}
@@ -77,6 +80,7 @@ export default function Weeds(props){
                                        
 
                   </ExpansionPanel>
+                  </Paper>
             </Container>
             </div>
         </div>

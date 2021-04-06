@@ -16,12 +16,13 @@ import agro_5 from '../../../assets/factsheets/agronomy/planting_seedlings.pdf';
 import agro_6 from '../../../assets/factsheets/agronomy/Weeding.pdf';
 import agro_7 from '../../../assets/factsheets/agronomy/Bird_Scaring.pdf';
 import agro_8 from '../../../assets/factsheets/agronomy/bbsrc_varieties_kenya.pdf';
+import Paper from '@material-ui/core/Paper';
 
 
 
 const useStyles = makeStyles(theme => ({
     root: {
-      marginTop:150,
+      marginTop:50,
     },
     heading: {
       fontSize: theme.typography.pxToRem(19),
@@ -37,6 +38,7 @@ export default function Agronomy(props){
         <div>            
             <div className={classes.root}>
             <Container fixed>
+              <Paper elevation={5}>
                 <ExpansionPanel expanded={true}>
                     <ExpansionPanelSummary
                       expandIcon={<ExpandMoreIcon />}
@@ -119,6 +121,7 @@ export default function Agronomy(props){
                     </ExpansionPanelDetails>                                        
 
                   </ExpansionPanel>
+                </Paper>
             </Container>
             </div>
         </div>

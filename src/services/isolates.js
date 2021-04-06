@@ -21,4 +21,7 @@ export default class IsolatesService{
 
         return axiosInstance.post('upload_isolates/',formData);  
     }
+    deleteMultiple(data){
+        return axiosInstance.put(`delete_isolates/`,data);
+    }
 }

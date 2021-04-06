@@ -16,9 +16,18 @@ export default class ProtocolService{
     }
 
     editData(data){
-        return axiosInstance.put('protocol/',data);
+        const formData = new FormData();
+        const {protocol, ...info} = data;
+
+        formData.append('protocol', protocol);
+        formData.append('info', JSON.stringify(info));
+
+        return axiosInstance.put('protocol/',formData);    
     }
     deleteData(id){
         return axiosInstance.delete(`protocol/${id}`);
     }   
+    deleteMultiple(data){
+        return axiosInstance.put(`delete_protocols/`,data);
+    } 
 }

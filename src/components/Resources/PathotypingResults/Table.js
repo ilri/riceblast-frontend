@@ -4,7 +4,8 @@ import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-export default function Table({data,handleEdit,handleDelete,riceGenotypes,labs,isolates,people}){
+export default function Table({data,handleEdit,handleDeleteSelected,handleDelete,
+    riceGenotypes,labs,isolates,people}){
     
     
     const findID = (props,event,newData,field) => {
@@ -20,9 +21,10 @@ export default function Table({data,handleEdit,handleDelete,riceGenotypes,labs,i
                 break;
             case 'isolate':
                 isolates.map((data) => {
-                    if(data.isolate_name === newData){
+                    if(data.isolate_id === newData){
                         props.onChange(data.pk);
                         console.log(data.pk);
+                        return;
 
                     }
                 });
@@ -133,7 +135,7 @@ export default function Table({data,handleEdit,handleDelete,riceGenotypes,labs,i
                                 onInputChange={(event,newData) => {
                                     findID(props,event,newData,'isolate')
                                 }}
-                                getOptionLabel={(option) => option.isolate_name}
+                                getOptionLabel={(option) => option.isolate_id }
                                 size='small'
                                 renderInput={(params) => <TextField {...params} label="Isolates" variant="outlined" />}
                            />                            
@@ -193,9 +195,21 @@ export default function Table({data,handleEdit,handleDelete,riceGenotypes,labs,i
                     }),
                 }}
                 options={{
+                    exportButton:true,
                     actionsColumnIndex: -1,
-                    exportButton:true
-                }}
+                    selection: true,
+                }} 
+
+                actions={[
+                    {
+                      tooltip: 'Remove All Selected',
+                      icon: 'delete',
+                      onClick: (evt, data) =>{
+                          console.log(data);                          
+                          handleDeleteSelected(data);                      
+                        } 
+                    }
+                  ]}
             />
         </div>
     )

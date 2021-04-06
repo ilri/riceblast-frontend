@@ -10,10 +10,8 @@ export default function Stakeholders(props){
                 <Appbar props={props} />
             </div>
 
-            <div style={{marginLeft:'100px',marginTop:'100px'}}>
-                <Container fixed>
-                    <OutreachMain />
-                </Container>
+            <div>
+                <OutreachMain />
             </div>
         </div>
 

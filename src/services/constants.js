@@ -5,7 +5,7 @@ const APIURLDEV = 'http://localhost:8000/api/';
 const APIURLPROD = 'https://riceblast.ilri.org/api/';
 
 
-export const axiosInstance = axios.create({
+const axiosInstance = axios.create({
     baseURL: APIURLPROD,
     // timeout: 5000,
     headers: {
@@ -15,3 +15,10 @@ export const axiosInstance = axios.create({
     }
 });
    
+
+const axiosInstanceMedia = axios.create({
+    baseURL: APIURLPROD,
+
+});
+
+export {axiosInstance,axiosInstanceMedia}

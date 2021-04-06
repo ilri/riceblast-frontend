@@ -117,7 +117,19 @@ export default function RGScreenResults(props){
             setGenes(response.data);
         }).catch(errors => console.log(errors));
     }
-
+    const handleDeleteSelected = (data) => {
+        console.log(data);
+        setLoad(true);
+        service.deleteMultiple(data).then(
+            response => {
+                getData();
+            }
+        ).catch(
+            errors => {
+                console.log(errors);
+            }
+        ).finally(() => setLoad(false))
+    }
     return(
         <div>
             <div>
@@ -164,6 +176,7 @@ export default function RGScreenResults(props){
                         handleEdit={handleEdit}
                         riceGenotypes={riceGenotypes}
                         genes={genes}
+                        handleDeleteSelected={handleDeleteSelected}
                     />
                 </Grid>
             </Grid>

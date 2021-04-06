@@ -7,6 +7,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import {fileDownload} from '../../../services/downloads';
+import {Input} from 'semantic-ui-react';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -15,13 +16,13 @@ const useStyles = makeStyles((theme) => ({
     },
 
 }));
-export default function Table({data,handleDelete,handleEdit,people}){
+export default function Table({data,handleDelete,handleEdit,people,handleDeleteSelected}){
     const classes = useStyles();
 
     const findID = (props,event,newData,field) => {
 
         people.map((data) => {
-            if(data.lab_name === newData){
+            if(data.full_name === newData){
                 props.onChange(data.pk);
                 console.log(data.pk);
             }
@@ -35,6 +36,11 @@ export default function Table({data,handleDelete,handleEdit,people}){
   
               
         fileDownload(path,name);
+    };
+    const handleFileChange = (event,props) => {
+        const file = event.target.files[0];
+        console.log(file);
+        props.onChange(file);
     };
 
     return(
@@ -51,6 +57,17 @@ export default function Table({data,handleDelete,handleEdit,people}){
                         <IconButton aria-label="delete" onClick={() => handleDownload(rowData.fungal_gene_sequence)} className={classes.margin}>
                             <GetAppIcon />
                         </IconButton>
+                        ),
+                        editComponent: props => (
+                            <Input
+                                id="outlined-secondary"
+                                size='small'
+                                name='fungal_gene_sequence'
+                                variant="outlined"
+                                color="primary"
+                                type='file'
+                                onChange={(event) => handleFileChange(event,props)}
+                            />
                         )
                     },
                     {title:'Date of Sequence', field:'date_of_sequence',},
@@ -63,7 +80,6 @@ export default function Table({data,handleDelete,handleEdit,people}){
                             <Autocomplete 
                                 id="combo-box-demo"
                                 options={people}
-                                defaultValue={(option) => option.pk}
                                 onInputChange={(event,newData) => {
                                     findID(props,event,newData,'person')
                                 }}
@@ -99,9 +115,21 @@ export default function Table({data,handleDelete,handleEdit,people}){
                     }),
                 }}
                 options={{
+                    exportButton:true,
                     actionsColumnIndex: -1,
-                    exportButton:true
-                }}                
+                    selection: true,
+                }} 
+
+                actions={[
+                    {
+                      tooltip: 'Remove All Selected',
+                      icon: 'delete',
+                      onClick: (evt, data) =>{
+                          console.log(data);                          
+                          handleDeleteSelected(data)
+                      } 
+                    }
+                  ]}               
             />
         </div>
     )

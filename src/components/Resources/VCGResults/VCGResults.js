@@ -134,7 +134,18 @@ export default function FungalSmall(props){
             setLoad(false);
         }).catch(errors => console.log(errors));
     };  
-
+    const handleDeleteSelected = (data) => {
+        console.log(data);
+        service.deleteMultiple(data).then(
+            response => {
+                getData();
+            }
+        ).catch(
+            errors => {
+                console.log(errors);
+            }
+        )
+    }
     return(
         <div>
             <div>
@@ -187,7 +198,8 @@ export default function FungalSmall(props){
                         handleEdit={handleEdit}
                         labs={labs} 
                         vcgGroups={vcgGroups}
-                        isolates={isolates}    
+                        isolates={isolates} 
+                        handleDeleteSelected={handleDeleteSelected}   
                     />
                 </Grid>
             </Grid>

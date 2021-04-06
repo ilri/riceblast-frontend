@@ -1,9 +1,11 @@
-import {axiosInstance} from './constants';
+import {axiosInstanceMedia,axiosInstance} from './constants';
+import axios from 'axios';
 
 export default class PublicationsService{
     getData(){
-        return axiosInstance.get('publications/');
+        return axiosInstanceMedia.get('publications/');
     }
+
     addData(data){
 
         const formData = new FormData();

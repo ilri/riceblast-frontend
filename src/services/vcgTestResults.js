@@ -20,4 +20,7 @@ export default class VCGTestResultsService{
 
         return axiosInstance.post('upload_vcg_test_results/',formData);  
     }
+    deleteMultiple(data){
+        return axiosInstance.put(`delete_vcg_results/`,data);
+    } 
 }

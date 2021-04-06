@@ -20,7 +20,7 @@ export default function Add({getData,openDrawer}){
         fungal_gene_sequence: '',
         date_of_sequence:new Date(),
         loci_id:'',
-        person:'',
+        person:null,
         target_gene:'', 
         
         errorMsg: '',

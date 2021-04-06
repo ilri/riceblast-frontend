@@ -15,9 +15,18 @@ export default class RiceGBSService{
     }
 
     editData(data){
-        return axiosInstance.put('rice_gbs/',data);
+        const formData = new FormData();
+        const {gbs_dataset, ...info} = data;
+
+        formData.append('gbs_dataset', gbs_dataset);
+        formData.append('info', JSON.stringify(info));
+
+        return axiosInstance.put('rice_gbs/',formData);    
     }
     deleteData(id){
         return axiosInstance.delete(`rice_gbs/${id}`);
+    }
+    deleteMultiple(data){
+        return axiosInstance.put(`delete_rice_gbs/`,data);
     }
 }

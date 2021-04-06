@@ -16,4 +16,7 @@ export default class RiceGenotypeServices {
     deleteRiceGenotypes(id){
         return axiosInstance.delete(`rice_genotypes/${id}`);
     }
+    deleteMultiple(data){
+        return axiosInstance.put(`delete_genotypes/`,data);
+    }
 }

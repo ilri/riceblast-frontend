@@ -13,13 +13,15 @@ import contributor8 from '../../assets/africa-rice.png';
 import contributor9 from '../../assets/IRRI-logo.svg';
 import contributor10 from '../../assets/uoa.png';
 import contributor11 from '../../assets/ohio.png';
-
-
+import Paper from '@material-ui/core/Paper';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import Grid from '@material-ui/core/Grid';
 
 
 const useStyles = makeStyles({
     root:{
-        marginTop:20,
+        marginTop:15,
     },
 
     hr: {
@@ -54,14 +56,28 @@ export default function Contributors(){
     const classes = useStyles();
     return(
         <div className={classes.root}>
-            <Container fixed>
+            <Grid container spacing={1} className={classes.container}>
+            <Grid item xs={12}></Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={8}>            
                 <Typography variant='h5' align='center'>CONTRIBUTORS<hr className={classes.hr} /></Typography>
-                <Typography component='div' className={classes.wrappper}>
-                    {[contributor4,contributor5,contributor6,contributor7,contributor3,contributor8,contributor9,contributor10,contributor11].map((image,index)=>(
-                        <img key={index + 1} src={image} className={(image === contributor6) ? classes.bioImage : (image === contributor7) ? classes.uoeImage : classes.image} style={{margin:5}} />
+                <Paper elevation={3}> 
+                    <GridList cellHeight={150} className={classes.gridList} cols={3}>
+                    {[contributor6,contributor4,contributor5,contributor7,
+                    contributor3,contributor8,contributor9,contributor10,contributor11]
+                    .map((image,index)=>(
+                        <GridListTile key={index} cols={(image == contributor6) ? 3:(index == 2 ) ? 2 : 1} cellHeight='auto'>
+                          <img src={image} alt={image} />
+                        </GridListTile>
+
                     ))}
-                </Typography>
-            </Container>
+                    </GridList>
+                </Paper>
+
+                <Grid item xs={2}></Grid>
+
+            </Grid>
+            </Grid>        
         </div>
     )
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import MaterialTable from 'material-table';
 
-export default function Table({genes,handleEdit,handleDelete}){
+export default function Table({genes,handleEdit,handleDeleteSelected,handleDelete}){
     return(
         <div>
             <MaterialTable 
@@ -19,9 +19,20 @@ export default function Table({genes,handleEdit,handleDelete}){
                 style={{maxWidth:'70%',margin:'0 auto'}}
                 options={{
                     exportButton:true,
-                    actionsColumnIndex: -1
+                    actionsColumnIndex: -1,
+                    selection: true,
+                }} 
 
-                }}
+                actions={[
+                    {
+                      tooltip: 'Remove All Selected',
+                      icon: 'delete',
+                      onClick: (evt, data) =>{
+                          console.log(data);                          
+                          handleDeleteSelected(data)                    
+                      } 
+                    }
+                ]}
 
                 editable={{
                     onRowUpdate: (newData, oldData) =>

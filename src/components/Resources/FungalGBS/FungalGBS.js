@@ -91,6 +91,18 @@ export default function FungalGBS(props){
     };
 
 
+    const handleDeleteSelected = (data) => {
+        console.log(data);
+        service.deleteMultiple(data).then(
+            response => {
+                getData();
+            }
+        ).catch(
+            errors => {
+                console.log(errors);
+            }
+        )
+    }
 
 
 
@@ -179,7 +191,9 @@ export default function FungalGBS(props){
                         handleDelete={handleDelete}
                         handleEdit={handleEdit}
                         people={people}    
-                        labs={labs}                    
+                        labs={labs} 
+                        handleDeleteSelected={handleDeleteSelected}
+                                           
                     />
                 </Grid>
             </Grid>

@@ -98,7 +98,18 @@ export default function Protocol(props){
         )
     };
 
-
+    const handleDeleteSelected = (data) => {
+        console.log(data);
+        service.deleteMultiple(data).then(
+            response => {
+                getData();
+            }
+        ).catch(
+            errors => {
+                console.log(errors);
+            }
+        )
+    }
 
     return(
         <div>
@@ -146,7 +157,8 @@ export default function Protocol(props){
                     <Table 
                         data={data} 
                         handleDelete={handleDelete}
-                        handleEdit={handleEdit}                  
+                        handleEdit={handleEdit}    
+                        handleDeleteSelected={handleDeleteSelected}              
                     />
                 </Grid>
             </Grid>

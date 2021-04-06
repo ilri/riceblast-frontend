@@ -44,7 +44,7 @@ export default function OutreachForm({form,handleChange,handleFileChange}){
                     <Grid.Column>
                         <Input
                             id="outlined-secondary"
-                            label="Image"
+                            label="Upload Image"
                             size='small'
                             name='image'
                             variant="outlined"
@@ -55,7 +55,23 @@ export default function OutreachForm({form,handleChange,handleFileChange}){
                         /> 
                     </Grid.Column>
                 </Grid.Row>
-                
+
+                <Grid.Row>  
+                    <Grid.Column>
+                        <Input
+                            id="outlined-secondary"
+                            label="Upload File"
+                            size='small'
+                            name='outreach_file'
+                            variant="outlined"
+                            color="primary"
+                            type='file'
+                            required={true}
+                            onChange={handleFileChange}
+                        /> 
+                    </Grid.Column>
+                </Grid.Row>
+
                 <Grid.Row>  
                     <Grid.Column>
                         <Label>Brief</Label>

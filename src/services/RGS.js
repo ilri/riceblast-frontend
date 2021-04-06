@@ -27,4 +27,7 @@ export default class RGSService{
             onUploadProgress,
         });  
     }
+    deleteMultiple(data){
+        return axiosInstance.put(`delete_rgs_results/`,data);
+    }
 }

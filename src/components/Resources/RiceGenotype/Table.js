@@ -1,7 +1,7 @@
 import React from 'react';
 import MaterialTable from 'material-table';
 
-export default function Table({riceGenotypes,handleEdit,handleDelete}){
+export default function Table({riceGenotypes,handleEdit,handleDelete,handleDeleteSelected}){
     return(
         <div>
             <MaterialTable 
@@ -19,9 +19,6 @@ export default function Table({riceGenotypes,handleEdit,handleDelete}){
                 data={riceGenotypes}
                 title='Rice Genotypes'
                 style={{maxWidth:'70%',margin:'0 auto'}}
-                options={{
-                    exportButton:true
-                }}
                 editable={{
                     onRowUpdate: (newData, oldData) =>
                     new Promise((resolve, reject) => {
@@ -41,8 +38,19 @@ export default function Table({riceGenotypes,handleEdit,handleDelete}){
                 }}
                 options={{
                     exportButton:true,
-                    actionsColumnIndex: -1
-                }}
+                    actionsColumnIndex: -1,
+                    selection: true,
+                }} 
+
+                actions={[
+                    {
+                      tooltip: 'Remove All Selected',
+                      icon: 'delete',
+                      onClick: (evt, data) =>{
+                          handleDeleteSelected(data)                    
+                      } 
+                    }
+                  ]}
             />
         </div>
     )

@@ -1,8 +1,9 @@
-import {axiosInstance} from './constants';
+import {axiosInstanceMedia,axiosInstance} from './constants';
+import axios from 'axios';
 
 export default class MeetingsService{
     getData(){
-        return axiosInstance.get('meetings/');
+        return axiosInstanceMedia.get('meetings/');
     }
     addData(data){
 

@@ -3,12 +3,12 @@ import axios from 'axios';
 var downloadFile = require('js-file-download');
 
 const APIURLDEV = 'http://localhost:8000/api/';
-const APIURLPROD = 'https://riceblast.herokuapp.com/api/';
+const APIURLPROD = 'https://riceblast.ilri.org/api/';
 
 
 
 const axiosInstance = axios.create({
-    baseURL: APIURLPROD,
+    // baseURL: APIURLDEV,
     // timeout: 5000,
     headers: {
         'Authorization': "Bearer " + localStorage.getItem('access'),
@@ -18,7 +18,7 @@ const axiosInstance = axios.create({
 });
 
 export const fileDownload = (path,name) => {
-    axiosInstance.get(`${APIURLDEV}download/`, { 
+    axios.get(`${APIURLDEV}download/`, { 
         responseType: 'blob',
         params:{
             path:path

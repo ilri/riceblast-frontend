@@ -1,8 +1,9 @@
-import {axiosInstance} from './constants';
+import {axiosInstanceMedia,axiosInstance} from './constants';
+import axios from 'axios';
 
 export default class NewslettersService{
     getData(){
-        return axiosInstance.get('newsletter/');
+        return axiosInstanceMedia.get('newsletter/');
     }
     addData(data){
 

@@ -22,11 +22,12 @@ import pd_11 from '../../../assets/factsheets/pd/manganese.pdf';
 import pd_12 from '../../../assets/factsheets/pd/drough_water.pdf';
 import pd_13 from '../../../assets/factsheets/pd/salinity_stress.pdf';
 import pd_14 from '../../../assets/factsheets/pd/cold_demage1.pdf';
+import Paper from '@material-ui/core/Paper';
 
 
 const useStyles = makeStyles(theme => ({
     root: {
-      marginTop:150,
+      marginTop:50,
     },
     heading: {
       fontSize: theme.typography.pxToRem(19),
@@ -58,6 +59,8 @@ export default function PhysiologicalDisorders(props){
         <div>            
             <div className={classes.root}>
             <Container fixed>
+            <Paper elevation={5}>
+
                 <ExpansionPanel expanded={true}>
                     <ExpansionPanelSummary
                       expandIcon={<ExpandMoreIcon />}
@@ -83,6 +86,7 @@ export default function PhysiologicalDisorders(props){
 
                                 
                   </ExpansionPanel>
+                  </Paper>
             </Container>
             </div>
         </div>

@@ -14,6 +14,7 @@ function Add({open,setOpen,getData}) {
         date:'',
         brief:'',
         image:'',
+        outreach_file:'',
     });
     const [errors, setErrors] = React.useState({});
     const [success, setSuccess] = React.useState('');

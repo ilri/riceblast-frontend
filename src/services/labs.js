@@ -15,5 +15,8 @@ export default class LabService{
     deleteLab(id){
         return axiosInstance.delete(`labs/${id}`);
     }
+    deleteLabs(data){
+        return axiosInstance.put(`delete_labs/`,data);
+    }
 }
 

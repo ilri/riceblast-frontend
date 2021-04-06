@@ -20,11 +20,12 @@ import ph_9 from '../../../assets/factsheets/postharvest/Rice_Milling.pdf';
 import ph_10 from '../../../assets/factsheets/postharvest/Rice_Value_Addition.pdf';
 import ph_11 from '../../../assets/factsheets/postharvest/Pre-and_Postharvest_Management.pdf';
 
+import Paper from '@material-ui/core/Paper';
 
 
 const useStyles = makeStyles(theme => ({
     root: {
-      marginTop:150,
+      marginTop:50,
     },
     heading: {
       fontSize: theme.typography.pxToRem(19),
@@ -54,6 +55,8 @@ export default function PostHarvest(props){
         <div>            
             <div className={classes.root}>
             <Container fixed>
+            <Paper elevation={5}>
+
                 <ExpansionPanel expanded={true}>
                     <ExpansionPanelSummary
                       expandIcon={<ExpandMoreIcon />}
@@ -77,6 +80,7 @@ export default function PostHarvest(props){
                     ))}                                 
 
                   </ExpansionPanel>
+                  </Paper>
             </Container>
             </div>
         </div>

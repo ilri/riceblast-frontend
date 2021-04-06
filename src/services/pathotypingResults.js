@@ -39,6 +39,9 @@ export default class PathotypingService {
             onUploadProgress,
         });  
     }
+    deleteMultiple(data){
+        return axiosInstance.put(`delete_pathotyping_results/`,data);
+    }
 }
 // GET UPLOAD PROGRESS
 // uploadFile1 = (pathotyping_results, onUploadProgress) => {

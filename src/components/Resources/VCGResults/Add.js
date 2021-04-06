@@ -11,13 +11,13 @@ export default function Add({getData,openDrawer,isolates,vcgGroups,labs}){
 
     const [form, setForm] = React.useState({
         vcg_test_id:'',
-        isolate:'',
+        isolate:null,
         vcg_tester_id: '',
         tester_complimented_isolate: false,
         tester_and_control:false,
-        lab:'',
+        lab:null,
         vcg_replicate_id:'',
-        vcg:'', 
+        vcg:null, 
 
 
         errorMsg: '',

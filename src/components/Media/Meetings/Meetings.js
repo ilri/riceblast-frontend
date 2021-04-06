@@ -1,11 +1,17 @@
 import React from 'react';
-import {Icon,Grid,Message,List,Popup,
+import {Icon,Message,List,Popup,
   Card,Button,Segment} from 'semantic-ui-react';
 import Container from '@material-ui/core/Container';
 import Add from './Add';
 import MeetingsService from '../../../services/meetings';
-
+import IconButton from '@material-ui/core/IconButton';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
 import {fileDownload} from '../../../services/downloads';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 const service = new MeetingsService();
 
@@ -16,53 +22,46 @@ function Minute({minute,handleDownload,handleDelete,handleEdit}){
   
 
   return (
-    <List celled relaxed>
-      <List.Item>
-        <Grid columns='equal'>
-          <Grid.Row>
-            <Grid.Column width={12}>
+<div>
+        <Grid container spacing={2}>
+          <Grid item xs={2}></Grid>
+          <Grid item xs={8} style={{maxWidth:'100%'}}>
+            <Paper elevation={5} >
               <Segment>
                 <List.Content>
-                  <List.Header as='a'> {minute.title}</List.Header>
-                  <List.Description as='a'>{minute.date}</List.Description>
-                  <List.Description as='strong'>{minute.description}</List.Description>
+                  <List.Header as='h4'> {minute.title}</List.Header>
+                  <List.Description as='strong'>{minute.date}</List.Description>
+                  <List.Description as='p'>{minute.description}</List.Description>
                 </List.Content>``
               </Segment>
-            </Grid.Column>
+              </Paper>
+          </Grid>
+          <Grid item xs={2}>
+              <Grid item xs>
 
-            <Grid.Column width={2}>
-              <Segment>
+                <Tooltip title='Download'>
+                  <IconButton aria-label="download" onClick={() => handleDownload(minute.minutes)}>
+                    <GetAppIcon  />
+                  </IconButton>
+                </Tooltip>
 
-                <Button animated='fade' onClick={() => handleDownload(minute.minutes)}>
-                  <Button.Content visible>
-                  <List.Icon name='download' size='large' verticalAlign='middle' color='green' />
-                  </Button.Content>
-                  <Button.Content hidden>Download</Button.Content>
-                </Button>
-              </Segment>
-            </Grid.Column>
-
-            <Grid.Column width={2}>
-              <Segment>
                 <Popup 
-                  trigger={
-                    <Button animated='fade' onClick={() => handleDelete(minute.pk)}>
-                      <Button.Content visible>
-                      <List.Icon name='trash alternate outline' size='large' verticalAlign='middle' color='red' />
-                      </Button.Content>
-                      <Button.Content hidden>Delete</Button.Content>
-                    </Button>
-                  }
-                  content="Are you sure you want to delete this newsletter?"
-                  basic                  
-                />
+                    trigger={
+                      <IconButton aria-label="download">
+                        <DeleteIcon />
+                      </IconButton>
 
-              </Segment>
-            </Grid.Column>
-          </Grid.Row>
+                    }                  
+                    flowing hoverable                  
+                >
+
+                    <div style={{margin:'5px'}}>Are you sure you want to delete this Minute?</div>
+                    <Button color='red' onClick={() => handleDelete(minute.pk)}>DELETE</Button>
+                </Popup>
+              </Grid>         
+          </Grid>
         </Grid>
-      </List.Item>
-    </List>
+</div>
   )
 }
 
@@ -115,51 +114,56 @@ export default function MeetingsMain(props){
         setOpen(!open);
     };
     return(
-        <div>
-           
-            <Container fixed style={{marginTop:'80px',}}>
-              <div>
-                <Button animated='fade' onClick={openModal}>
-                  <Button.Content visible>
-                    +++
-                  </Button.Content>
-                  <Button.Content hidden>ADD</Button.Content>
-                  
-                </Button>
+    <Grid container>
 
-                <Add 
-                  open={open} 
-                  setOpen={setOpen} 
-                  getData={getData}
-                />                
-              </div>
-            </Container>
+      <Grid item xs={12} style={{marginTop:'80px'}}>
+        <Grid container justify="center" alignItems="center">
+          <Typography variant='h5'>MEETINGS<hr style={{width:'15%'}} /></Typography>
+        </Grid>
+      </Grid>
 
-            {(success)? (
-              <Container fixed style={{marginTop:'50px'}}>
-                <div>
-                  <Message color='green'>{success}</Message>
-                </div>
-              </Container>
-            ):''}
+      <Grid item xs={9}></Grid>
+      <Grid item xs={1}></Grid>
+      <Grid item xs={2} style={{marginTop:'10px',marginBottom:'10px',alignContent:'center'}} >
+        <Grid container justify="center" alignItems="center">
+          <Tooltip title='Add Minute'>
+
+            <Button color='blue' circular icon='plus' size='large' onClick={openModal} />
+          </Tooltip>
+          
+
+          <Add 
+            open={open} 
+            setOpen={setOpen} 
+            getData={getData}
+          />                
+        </Grid>
+      </Grid>
+
+      {(success)? (
+        <Container fixed style={{marginTop:'50px'}}>
+          <div>
+            <Message color='green'>{success}</Message>
+
+          </div>
+        </Container>
+      ):''}
 
 
-            <Container fixed style={{marginTop:'10px'}}> 
+      <div> 
 
-                {data.map((minute,i) => 
-                  <Minute
-                    key={i}
-                    minute={minute}
-                    handleDownload={handleDownload}
-                    handleDelete={handleDelete}
-                    handleEdit={handleEdit}
-                  />
-                )}    
+        {data.map((minute,i) => 
+          <Minute
+            key={i}
+            minute={minute}
+            handleDownload={handleDownload}
+            handleDelete={handleDelete}
+            handleEdit={handleEdit}
+          />
+        )} 
+      </div>
+    </Grid>
 
-              <div>
-              </div>
-            </Container>
-        </div>
-
-    )
+  )
 }
+

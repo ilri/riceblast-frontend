@@ -100,7 +100,18 @@ export default function VCGGroups(props){
             }
         )
     };
-
+    const handleDeleteSelected = (data) => {
+        console.log(data);
+        service.deleteMultiple(data).then(
+            response => {
+                getData();
+            }
+        ).catch(
+            errors => {
+                console.log(errors);
+            }
+        )
+    }
     const getPeople = () => {
         peopleService.getData().then(
           response => {
@@ -164,7 +175,8 @@ export default function VCGGroups(props){
                         handleDelete={handleDelete}
                         handleEdit={handleEdit}
                         labs={labs}
-                        people={people}                        
+                        people={people}      
+                        handleDeleteSelected={handleDeleteSelected}                  
                     />
                 </Grid>
             </Grid>

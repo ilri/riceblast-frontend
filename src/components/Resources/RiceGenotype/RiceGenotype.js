@@ -92,7 +92,18 @@ export default function RiceGenotype(props){
             }
         )
     };
-
+    const handleDeleteSelected = (data) => {
+        console.log(data);
+        genotypeService.deleteMultiple(data).then(
+            response => {
+                getGenotypes();
+            }
+        ).catch(
+            errors => {
+                console.log(errors);
+            }
+        )
+    }
 
     return(
         <div>
@@ -137,6 +148,7 @@ export default function RiceGenotype(props){
                         riceGenotypes={riceGenotypes} 
                         handleDelete={handleDelete}
                         handleEdit={handleEdit}
+                        handleDeleteSelected={handleDeleteSelected}
                     />
                 </Grid>
             </Grid>

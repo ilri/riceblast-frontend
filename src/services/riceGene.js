@@ -22,4 +22,7 @@ export default class RiceGeneServices {
 
         return axiosInstance.post('upload_rice_genes/',formData);  
     }
+    deleteMultiple(data){
+        return axiosInstance.put(`delete_rice_genes/`,data);
+    }
 }

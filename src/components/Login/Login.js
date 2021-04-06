@@ -18,12 +18,27 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
 import UserService from '../../services/userService';
 import Alert from '@material-ui/lab/Alert';
+import Paper from '@material-ui/core/Paper';
+import Hidden from '@material-ui/core/Hidden';
+
+
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
+
+
 
 const userService = new UserService();
 
 const useStyles = makeStyles(theme => ({
     root: {
-      marginTop: 150,
+      width:'100%',
+      [theme.breakpoints.between('xs', 'md')]: {
+        marginTop: '150px',
+      },   
+      [theme.breakpoints.between('lg', 'xl')]: {
+        paddingTop: '350px',
+      },   
     },
     header : {
         textAlign:'center',
@@ -36,11 +51,7 @@ const useStyles = makeStyles(theme => ({
         alignItems:'center',
     },
     hr: {
-      maxWidth: '7%',
-    },
-    formWrapper:{
-      width:'60%',
-      margin:'0 auto',
+      maxWidth: '5%',
     },
     loginBtn:{
       textAlign:'center',
@@ -84,8 +95,12 @@ export default function Login(props){
     const handleMouseDownPassword = () => {
         setShowPassword(false);
     };
+    const handleClose = () => {
+      setErrors(false);
+    }
 
-
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.down('md'))
 
     return(
         <div>
@@ -95,75 +110,71 @@ export default function Login(props){
             </div>
 
             <div className={classes.root}>
-                <Container fixed>
-                    <Typography component="div" style={{ backgroundColor: 'white', height: '50vh' }}>
-                        <div>
-                            <Typography component='h4' variant='h4' className={classes.header}>LOGIN</Typography>
-                            <hr className={classes.hr} />
-                        </div>
+                        <Grid container spacing={2} justify='center' alignItems='center'>
+                          <Grid item xs={(matches) ? 10 : 4}>
+                            <Paper elevation={10}>
+                              <Typography component='div' variant='h4' className={classes.header}>LOGIN</Typography>
+                                <hr className={classes.hr} />
+
+                                {errors? <Alert onClose={handleClose} severity="error">Wrong Login Credentials</Alert> : ''}
+
+                              <form className={classes.form} onSubmit={handleSubmit}>
 
 
-                        <div className={classes.formWrapper}>
-                            <div>
-                              <Typography component='strong' variant='strong'>To access database resources, please contact Samuel Mutiga email address: mutiga@uark.edu </Typography>
-                            </div>
-                            {errors? <Alert severity="error">Wrong Login Credentials</Alert> : ''}
-                            <form className={classes.form} onSubmit={handleSubmit}>
-
-                                <div>
-                                    <Grid container spacing={2} alignItems="flex-end">
-                                      <Grid item>
-                                        <EmailIcon />
-                                      </Grid>
-                                      <Grid item xs={10}>
-                                        <TextField error={errors} id="input-with-icon-grid" name='username' label="Username" value={credentials.username} variant='outlined' fullWidth onChange={handleChange} />
+                                    <Grid container spacing={5} justify='center' alignItems='center'>
+                                      <Grid item xs={(matches) ? 12: 6}>
+                                        <TextField error={errors} id="input-with-icon-grid" size='small'
+                                        name='username' label="Username" value={credentials.username} variant='outlined' 
+                                        onChange={handleChange} fullWidth />
                                       </Grid>
                                     </Grid>
-                                </div>
 
-                                <div>
-                                    <Grid container spacing={2} alignItems="flex-end">
-                                      <Grid item>
-                                        <LockIcon />
-                                      </Grid>
-                                      <Grid item xs={10}>
-                                        <FormControl variant="outlined" fullWidth >
+                                    <Grid container spacing={5} justify='center' alignItems='center'>
+                                      <Grid item xs={(matches)? 12 : 6}>
+                                        <FormControl variant="outlined" size='small' fullWidth>
                                           <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                           <OutlinedInput
                                             id="outlined-adornment-password"
                                             error={errors}
+                                            label='Password'
                                             type={showPassword ? 'text' : 'password'}
                                             value={credentials.password}
-                                            name='password'
-                                            fullWidth
+                                            name='password'          
                                             onChange={handleChange}
                                             endAdornment={
                                               <InputAdornment position="end">
                                                 <IconButton
                                                   aria-label="toggle password visibility"
                                                   onClick={handleClickShowPassword}
-                                                  onMouseDown={handleMouseDownPassword}
+                                                  onMouseDown={handleMouseDownPassword} 
                                                   edge="end"
                                                 >
                                                   {showPassword ? <Visibility /> : <VisibilityOff />}
                                                 </IconButton>
                                               </InputAdornment>
                                             }
-                                            labelWidth={70}
                                           />
                                         </FormControl>
                                       </Grid>
                                     </Grid>
-                                </div>
                                 <div className={classes.loginBtn}>
-                                  <Button variant="outlined" type='submit' color="primary" size='large' >
+                                  <Button variant="outlined" type='submit' color="primary" size='large' disabled={(!credentials.username) || (!credentials.password)}>
                                     LOGIN
                                   </Button>
                                 </div>
-                            </form>
-                        </div>
-                    </Typography>
-                </Container>
+                              </form>
+                              <Grid item xs={12}>
+                                <hr />         
+                                <Typography component='div' variant='p' style={{alignContent:'center',padding:'10px',}}>
+                                  To access database resources, please contact Samuel Mutiga email address: <a>mutiga@uark.edu</a> 
+                                </Typography>
+                              </Grid>
+                            </Paper>
+                          </Grid>
+
+
+
+                        </Grid>
             </div>
         </div>
     )

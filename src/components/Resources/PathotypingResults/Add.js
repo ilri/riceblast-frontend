@@ -12,10 +12,10 @@ export default function Add({getData,openDrawer,riceGenotypes,isolates,people,la
     
 
     const [form, setForm] = React.useState({
-        rice_genotype:'',
-        isolate:'',
-        person:'',
-        lab:'',
+        rice_genotype:null,
+        isolate:null,
+        person:null,
+        lab:null,
 
         stock_id:'',
         replicate_id: '',

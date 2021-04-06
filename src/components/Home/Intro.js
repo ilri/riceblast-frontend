@@ -10,7 +10,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import AboutImage from '../../assets/Rice.jpeg';
 import { Link } from 'react-router-dom';
-
+import Grid from '@material-ui/core/Grid';
 
 
 
@@ -25,6 +25,9 @@ const useStyles = makeStyles({
     media: {
       height: 440,
     },
+    container:{
+      maxHeight:'70%'
+    }
 });
 
 
@@ -33,8 +36,11 @@ export default function Intro(){
     const classes = useStyles();
     return(
         <div>
-            <Container fixed>
-                <Typography component="div" style={{ backgroundColor: 'white', height: '63vh' }} >
+            <Grid container spacing={1} className={classes.container}>
+            <Grid item xs={12}></Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={8}>
+                <Typography component="div" style={{ backgroundColor: 'white', }} >
                     <Card className={classes.root}>
                       <CardActionArea>
                         <CardMedia
@@ -61,7 +67,10 @@ export default function Intro(){
                       </CardActions>
                     </Card>
                 </Typography>
-            </Container>
+            </Grid>
+            <Grid item xs={2}></Grid>
+
+            </Grid>
         </div>
     )
 }

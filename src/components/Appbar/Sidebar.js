@@ -12,18 +12,20 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import Collapse from '@material-ui/core/Collapse';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import {Link} from 'react-router-dom';
+import Hidden from '@material-ui/core/Hidden';
 
-
+import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles(theme => ({
 
     drawer:{
-      width: 240,
+      width: 150,
       flexShrink: 0,
       zIndex:10,
     },
     drawerPaper: {
-        width: 240,
+        width: 150,
+
     },
     toolbar: theme.mixins.toolbar,
     list:{
@@ -38,7 +40,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function SideBar({showSide}){
+export default function SideBar({showSide,handleResponsiveDrawer,responsiveDrawer}){
     const classes = useStyles();
     const [open,setOpen] = useState(true);
     const handleClick = () => {
@@ -50,9 +52,9 @@ export default function SideBar({showSide}){
     const mediaOptions = () => (
         <div key={'Media'}>
             <ListItem button onClick={handleClick}>
-                <ListItemIcon>
+                {/* <ListItemIcon>
                     <ArrowForwardIosIcon fontSize='small' />
-                </ListItemIcon>
+                </ListItemIcon> */}
                 <ListItemText primary="Media" style={{color:'#3f51b5',fontWeight:'bold'}} />
                 {open ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
@@ -66,9 +68,9 @@ export default function SideBar({showSide}){
                         className={classes.links}
                     >
                         <ListItem button className={classes.nested}>
-                            <ListItemIcon>
+                            {/* <ListItemIcon>
                               <ArrowRightIcon fontSize='small' />
-                            </ListItemIcon>
+                            </ListItemIcon> */}
                             <ListItemText primary={media} />
                         </ListItem> 
                         <Divider variant='inset' />
@@ -84,10 +86,23 @@ export default function SideBar({showSide}){
         <div key={'Resources'}>
             <Link to='/login' className={classes.links}>
                 <ListItem button>
-                    <ListItemIcon>
+                    {/* <ListItemIcon>
                         <ArrowForwardIosIcon fontSize='small' />
-                    </ListItemIcon>
+                    </ListItemIcon> */}
                     <ListItemText primary="Resources" style={{color:'#3f51b5',fontWeight:'bold'}} />
+                </ListItem>
+                <Divider />
+            </Link>
+        </div>
+    );
+    const homeOptions = () => (
+        <div key={'Home'}>
+            <Link to='/' className={classes.links}>
+                <ListItem button>
+                    {/* <ListItemIcon>
+                        <ArrowForwardIosIcon fontSize='small' />
+                    </ListItemIcon> */}
+                    <ListItemText primary="Home" style={{color:'#3f51b5',fontWeight:'bold'}} />
                 </ListItem>
                 <Divider />
             </Link>
@@ -97,9 +112,9 @@ export default function SideBar({showSide}){
         <div key={'About'}>
             <Link to='/about' className={classes.links}>
                 <ListItem button>
-                    <ListItemIcon>
+                    {/* <ListItemIcon>
                         <ArrowForwardIosIcon fontSize='small' />
-                    </ListItemIcon>
+                    </ListItemIcon> */}
                     <ListItemText primary="About" style={{color:'#3f51b5',fontWeight:'bold'}} />
                 </ListItem>
                 <Divider />
@@ -110,9 +125,9 @@ export default function SideBar({showSide}){
         <div key={'Publications'}>
             <Link to='/publications' className={classes.links}>
                 <ListItem button>
-                    <ListItemIcon>
+                    {/* <ListItemIcon>
                         <ArrowForwardIosIcon fontSize='small' />
-                    </ListItemIcon>
+                    </ListItemIcon> */}
                     <ListItemText primary="Publications" style={{color:'#3f51b5',fontWeight:'bold'}} />
                 </ListItem>
                 <Divider />
@@ -125,13 +140,13 @@ export default function SideBar({showSide}){
           role="presentation"
         >
           <List className={classes.list}>
-            {['About', 'Media', 'Publications', 'Resources'].map((text) => (
-                (text === 'About') ? (aboutOptions()) : (text === 'Media') ? (mediaOptions()) : (text === 'Publications') ? (publicationsOptions()) : (text === 'Resources') ? (resourceOptions()) : (
+            {['Home','About', 'Media', 'Publications', 'Resources'].map((text) => (
+                (text === "Home") ? (homeOptions()) : (text === 'About') ? (aboutOptions()) : (text === 'Media') ? (mediaOptions()) : (text === 'Publications') ? (publicationsOptions()) : (text === 'Resources') ? (resourceOptions()) : (
                 <div key={text}>
                     <ListItem button key={text}>
-                        <ListItemIcon>
+                        {/* <ListItemIcon>
                           <ArrowForwardIosIcon fontSize='small' />
-                        </ListItemIcon>
+                        </ListItemIcon> */}
                         <ListItemText primary={text} style={{color:'#3f51b5'}} />
                     </ListItem>
                     <Divider />
@@ -148,11 +163,20 @@ export default function SideBar({showSide}){
     return(
         <div>
             {showSide ? (
-                <Drawer variant='permanent' anchor='left' classes={{paper:classes.drawerPaper}} className={classes.drawer}>
-                    <div className={classes.toolbar} />
-                    {sideList()}  
-                </Drawer>
-
+                <div>
+                    <Hidden only={['xl','lg']} implementation="css">
+                        <Drawer variant='temporary' open={responsiveDrawer} anchor='left' onClose={handleResponsiveDrawer} classes={{paper:classes.drawerPaper}} className={classes.drawer}>
+                            <div className={classes.toolbar} />
+                            {sideList()}  
+                        </Drawer>
+                    </Hidden>
+                    <Hidden only={['sm','xs','md']} implementation="css">
+                        <Drawer variant='permanent' anchor='left' classes={{paper:classes.drawerPaper}} className={classes.drawer}>
+                            <div className={classes.toolbar} />
+                            {sideList()} 
+                        </Drawer>
+                    </Hidden>
+                </div>
             ) : (
                 ''
             )}

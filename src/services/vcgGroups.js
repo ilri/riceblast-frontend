@@ -15,4 +15,7 @@ export default class VCGGroupsService{
     deleteData(id){
         return axiosInstance.delete(`vcg_groups/${id}`);
     }
+    deleteMultiple(data){
+        return axiosInstance.put(`delete_vcg_groups/`,data);
+    }
 }

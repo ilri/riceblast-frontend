@@ -14,4 +14,7 @@ export default class FGSService{
     deleteData(id){
         return axiosInstance.delete(`fgs/${id}`);
     }
+    deleteMultiple(data){
+        return axiosInstance.put(`delete_fgs_results/`,data);
+    }
 }

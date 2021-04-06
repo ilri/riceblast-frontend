@@ -1,11 +1,19 @@
 import React from 'react';
-import {Icon,Grid,Message,List,Popup,
+import {Icon,Message,List,Popup,
   Card,Button,Segment} from 'semantic-ui-react';
 import Container from '@material-ui/core/Container';
 import Add from './Add';
 import NewslettersService from '../../../services/newsletter';
-
+import GetAppIcon from '@material-ui/icons/GetApp';
 import {fileDownload} from '../../../services/downloads';
+import IconButton from '@material-ui/core/IconButton';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
+
+
 
 const service = new NewslettersService();
 
@@ -15,53 +23,50 @@ function OneNewsletter({newsletter,handleDownload,handleDelete,handleEdit}){
 
   
   return (
-    <List celled relaxed>
-      <List.Item>
-        <Grid columns='equal'>
-          <Grid.Row>
-            <Grid.Column width={12}>
+<div>
+        <Grid container spacing={2}>
+          <Grid item xs={2}></Grid>
+          <Grid item xs={8}>
+            <Paper elevation={5}>
               <Segment>
                 <List.Content>
-                  <List.Header as='a'> {newsletter.title}</List.Header>
-                  <List.Description as='a'>{newsletter.date}</List.Description>
-                  <List.Description as='strong'>{newsletter.description}</List.Description>
+                  <List.Header as='h4'> {newsletter.title}</List.Header>
+                  <List.Description as='strong'>{newsletter.date}</List.Description>
+                  <List.Description as='p'>{newsletter.description}</List.Description>
                 </List.Content>
               </Segment>
-            </Grid.Column>
+            </Paper>
+          </Grid>
+          <Grid item xs={2}>
+              <Grid item xs>
 
-            <Grid.Column width={2}>
-              <Segment>
+                <Tooltip title='Download'>
+                  <IconButton aria-label="download" onClick={() => handleDownload(newsletter.newsletter)}>
+                    <GetAppIcon  />
+                  </IconButton>
+                </Tooltip>
 
-                <Button animated='fade' onClick={() => handleDownload(newsletter.newsletter)}>
-                  <Button.Content visible>
-                  <List.Icon name='download' size='large' verticalAlign='middle' color='green' />
-                  </Button.Content>
-                  <Button.Content hidden>Download</Button.Content>
-                </Button>
-              </Segment>
-            </Grid.Column>
-
-            <Grid.Column width={2}>
-              <Segment>
                 <Popup 
-                  trigger={
-                    <Button animated='fade' onClick={() => handleDelete(newsletter.pk)}>
-                      <Button.Content visible>
-                      <List.Icon name='trash alternate outline' size='large' verticalAlign='middle' color='red' />
-                      </Button.Content>
-                      <Button.Content hidden>Delete</Button.Content>
-                    </Button>
-                  }
-                  content="Are you sure you want to delete this newsletter?"
-                  basic                  
-                />
+                    trigger={
+                      <IconButton aria-label="download">
+                        <DeleteIcon />
+                      </IconButton>
 
-              </Segment>
-            </Grid.Column>
-          </Grid.Row>
+                    }                  
+                    flowing hoverable                  
+                  >
+
+                    <div style={{margin:'5px'}}>Are you sure you want to delete this newsletter?</div>
+                    <Button color='red' onClick={() => handleDelete(newsletter.pk)}>DELETE</Button>
+                </Popup>
+              </Grid>         
+          </Grid>
+          <hr />
+
+
         </Grid>
-      </List.Item>
-    </List>
+
+</div>
   )
 }
 
@@ -115,25 +120,31 @@ export default function NewslettersMain(props){
         setOpen(!open);
     };
     return(
-        <div>
-           
-            <Container fixed style={{marginTop:'80px',}}>
-              <div>
-                <Button animated='fade' onClick={openModal}>
-                  <Button.Content visible>
-                    +++
-                  </Button.Content>
-                  <Button.Content hidden>ADD</Button.Content>
-                  
-                </Button>
+        <Grid container>
+
+            <Grid item xs={12} style={{marginTop:'80px'}}>
+              <Grid container justify="center" alignItems="center">
+                <Typography variant='h5'>NEWSLETTERS<hr style={{width:'15%'}} /></Typography>
+              </Grid>
+            </Grid>
+
+            <Grid item xs={9}></Grid>
+            <Grid item xs={1}></Grid>
+            <Grid item xs={2} style={{marginTop:'10px',marginBottom:'10px',alignContent:'center'}} >
+              <Grid container justify="center" alignItems="center">
+                <Tooltip title='Add Newsletter'>
+
+                  <Button color='blue' circular icon='plus' size='large' onClick={openModal} />
+                </Tooltip>
+                
 
                 <Add 
                   open={open} 
                   setOpen={setOpen} 
                   getData={getData}
                 />                
-              </div>
-            </Container>
+              </Grid>
+            </Grid>
 
             {(success)? (
               <Container fixed style={{marginTop:'50px'}}>
@@ -145,9 +156,9 @@ export default function NewslettersMain(props){
             ):''}
 
 
-            <Container fixed style={{marginTop:'10px'}}> 
+            <div> 
 
-                {data.map((newsletter,i) => 
+                {data.map((newsletter,i ) => 
                   <OneNewsletter
                     key={i}
                     newsletter={newsletter}
@@ -156,11 +167,8 @@ export default function NewslettersMain(props){
                     handleEdit={handleEdit}
                   />
                 )}    
-
-              <div>
-              </div>
-            </Container>
-        </div>
+            </div>
+        </Grid>
 
     )
 }

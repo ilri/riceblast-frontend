@@ -13,4 +13,7 @@ export default class CollectionSiteService{
     deleteData(data){
         return axiosInstance.delete(`collection_sites/${data}`)
     }
+    deleteMultiple(data){
+        return axiosInstance.put(`delete_sites/`,data);
+    }
 }

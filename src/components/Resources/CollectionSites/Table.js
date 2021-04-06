@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
       minWidth: 170,
     },
 }));
-export default function Table({data,handleEdit,handleDelete,people}){
+export default function Table({data,handleEdit,handleDelete,handleDeleteSelected,people}){
 
     const [errors,setErrors] = React.useState({});
 
@@ -139,9 +139,19 @@ export default function Table({data,handleEdit,handleDelete,people}){
                 style={{maxWidth:'70%',margin:'0 auto'}}
                 options={{
                     exportButton:true,
-                    actionsColumnIndex:-1,
+                    actionsColumnIndex: -1,
+                    selection: true,
+                }} 
 
-                }}
+                actions={[
+                    {
+                      tooltip: 'Remove All Selected',
+                      icon: 'delete',
+                      onClick: (evt, data) =>{
+                          console.log(data);                          
+                          handleDeleteSelected(data);                      } 
+                    }
+                  ]}
                 detailPanel={rowData => {
                     return (
                         <div style={{height:'200px'}} height='650'>

@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Checkbox from '@material-ui/core/Checkbox';
 
-export default function Table({data,handleEdit,handleDelete,isolates,labs,vcgGroups}){
+export default function Table({data,handleEdit,handleDeleteSelected,handleDelete,isolates,labs,vcgGroups}){
 
     const findID = (props,event,newData,field) => {
         switch(field){
@@ -181,9 +181,21 @@ export default function Table({data,handleEdit,handleDelete,isolates,labs,vcgGro
                     }),
                 }}
                 options={{
+                    exportButton:true,
                     actionsColumnIndex: -1,
-                    exportButton:true
-                }}
+                    selection: true,
+                }} 
+
+                actions={[
+                    {
+                      tooltip: 'Remove All Selected',
+                      icon: 'delete',
+                      onClick: (evt, data) =>{
+                          console.log(data);                          
+                          handleDeleteSelected(data)
+                      } 
+                    }
+                ]}
             />
         </div>
     )

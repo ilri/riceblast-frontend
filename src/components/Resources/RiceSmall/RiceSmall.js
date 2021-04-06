@@ -93,7 +93,18 @@ export default function RiceSmall(props){
             }
         )
     };
-
+    const handleDeleteSelected = (data) => {
+        console.log(data);
+        service.deleteMultiple(data).then(
+            response => {
+                getData();
+            }
+        ).catch(
+            errors => {
+                console.log(errors);
+            }
+        )
+    }
     const getGenotypes = () => {
         genotypeService.getRiceGenotypes().then(
           response => {
@@ -194,7 +205,8 @@ export default function RiceSmall(props){
                         handleEdit={handleEdit}
                         people={people}    
                         riceGenotypes={riceGenotypes}
-                        labs={labs}                    
+                        labs={labs}   
+                        handleDeleteSelected={handleDeleteSelected}                 
                     />
                 </Grid>
             </Grid>

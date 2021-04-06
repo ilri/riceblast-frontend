@@ -106,7 +106,18 @@ export default function PathotypingResults(props){
             }
         )
     };
-
+    const handleDeleteSelected = (data) => {
+        console.log(data);
+        service.deleteMultiple(data).then(
+            response => {
+                getData();
+            }
+        ).catch(
+            errors => {
+                console.log(errors);
+            }
+        )
+    }
     const getGenotypes = () => {
         genotypeService.getRiceGenotypes().then(
           response => {
@@ -203,6 +214,7 @@ export default function PathotypingResults(props){
                         labs={labs}
                         isolates={isolates}
                         people={people}
+                        handleDeleteSelected={handleDeleteSelected}
                     />
                 </Grid>
             </Grid>

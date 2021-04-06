@@ -38,8 +38,8 @@ export default function Add({getData,openDrawer}){
 
 
     const [form, setForm] = React.useState({
-        rice_genotype:0,
-        rice_gene:0,
+        rice_genotype:null,
+        rice_gene:null,
         pcr_results:'',
         replicate_id: '',
         sample_id:'',

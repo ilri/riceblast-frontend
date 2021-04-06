@@ -17,11 +17,12 @@ import agro_6 from '../../../assets/factsheets/diseases/Rice_blast3.pdf';
 import agro_7 from '../../../assets/factsheets/diseases/rice_sheath.pdf';
 import agro_8 from '../../../assets/factsheets/diseases/Rice_Yellow_Mottle_Virus1.pdf';
 import agro_9 from '../../../assets/factsheets/diseases/Sheath_blight1.pdf';
+import Paper from '@material-ui/core/Paper';
 
 
 const useStyles = makeStyles(theme => ({
     root: {
-      marginTop:150,
+      marginTop:50,
     },
     heading: {
       fontSize: theme.typography.pxToRem(19),
@@ -37,6 +38,8 @@ export default function Diseases(props){
         <div>            
             <div className={classes.root}>
             <Container fixed>
+            <Paper elevation={5}>
+
                 <ExpansionPanel expanded={true}>
                     <ExpansionPanelSummary
                       expandIcon={<ExpandMoreIcon />}
@@ -135,6 +138,7 @@ export default function Diseases(props){
                     </ExpansionPanelDetails>                                        
 
                   </ExpansionPanel>
+                </Paper>
             </Container>
             </div>
         </div>
