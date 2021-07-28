@@ -7,4 +7,7 @@ export default class UserService{
     registerUser(data){
         return axiosInstance.post('register/', data);
     }
+    getLoggedInUser(){
+        return axiosInstance.get('current_user/');
+    }
 }

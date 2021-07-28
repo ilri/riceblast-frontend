@@ -164,7 +164,7 @@ export default function Table({data,handleEdit,handleDelete,handleDeleteSelected
                     onRowUpdate:(newData,oldData) => 
                         new Promise((resolve, reject) => {
                             setTimeout(() => {
-                                handleEdit(newData); 
+                                handleEdit(newData,reject); 
                                 resolve();                                
                             },1000);
                         }),

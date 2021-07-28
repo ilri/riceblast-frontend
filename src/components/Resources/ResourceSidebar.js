@@ -9,7 +9,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import Typography from '@material-ui/core/Typography';
 import {NavLink} from 'react-router-dom';
-
+import UserService from '../../services/userService';
+     
+const userService = new UserService();
 const drawerWidth = 170;
 
 const useStyles = makeStyles(theme => ({
@@ -60,12 +62,26 @@ const resourceOptions = [
 export default function ResourceSidebar(props){
     const classes = useStyles();
     const [active,setActive] = React.useState('');
+    const [user,setUser] = React.useState({});
+
     React.useEffect(()=>{
       // const {props:{props:{props:location}}}=props;
       setActive(props.props.props.location.pathname)
-
-    })
-
+      getUserInfo();
+    },[]);
+    const getUserInfo = () => {
+      userService.getLoggedInUser().then(
+        response => {
+            // user=response.data
+            setUser(response.data);
+            console.log(response.data)
+        }
+        ).catch(
+            error => {
+            setUser({...user,'role':'GUEST'});
+          }
+      )
+    }
     return(
 
         <div>
@@ -77,6 +93,7 @@ export default function ResourceSidebar(props){
                 }}
             >
                 <List className={classes.list}>
+                  {user.role === 'ADMIN' ? (
                     <NavLink to='/resources/people' 
                     className={classes.link} active
                     activeStyle={{
@@ -89,6 +106,8 @@ export default function ResourceSidebar(props){
                           <ListItemText primary='People' />
                         </ListItem>
                     </NavLink>  
+                  ):''}
+
 
                     {resourceOptions.map((option, index) => (
                       <NavLink to={option[1]} className={classes.link} key={index + 1}

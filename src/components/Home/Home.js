@@ -8,7 +8,7 @@ export default function Home(props){
     return(
         <div>
             <div>
-                <Appbar props={props} />
+                {/* <Appbar props={props} /> */}
             </div>
 
             <div>

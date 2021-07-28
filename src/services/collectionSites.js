@@ -1,4 +1,4 @@
-import {axiosInstance} from './constants';
+import {axiosInstance,axiosInstanceMedia} from './constants';
 
 export default class CollectionSiteService{
     getCollectionSites(){
@@ -15,5 +15,8 @@ export default class CollectionSiteService{
     }
     deleteMultiple(data){
         return axiosInstance.put(`delete_sites/`,data);
+    }
+    getCollectionSitesHome(){
+        return axiosInstanceMedia.get('collection_sites/');
     }
 }

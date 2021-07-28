@@ -3,11 +3,26 @@ import MaterialTable from 'material-table';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import PathotypingService from '../../../services/pathotypingResults';
 
-export default function Table({data,handleEdit,handleDeleteSelected,handleDelete,
-    riceGenotypes,labs,isolates,people}){
-    
-    
+const service = new PathotypingService();
+
+export default function Table({handleEdit,handleDeleteSelected,handleDelete,
+tableRef,riceGenotypes,labs,isolates,people}){
+    const [selectedRows, setSelectedRows] = React.useState([]);
+    const [pageSelected, setPageSelected] = React.useState([]); //
+
+
+
+
+    const handleSelectionChange = (rows) => {
+        console.log(rows);
+        setPageSelected(rows);
+        // setSelectedRows([...selectedRows,...rows]);
+
+        // console.log(selectedRows);
+    };
+
     const findID = (props,event,newData,field) => {
         switch(field){
             case 'rice_genotype':
@@ -174,7 +189,28 @@ export default function Table({data,handleEdit,handleDeleteSelected,handleDelete
                         )
                     }, 
                 ]}
-                data={data}
+                data={
+                    query => new Promise((resolve,reject) => {
+                        // let url = 'http://localhost:8000/api/pathotyping_results';
+                        // url += 'page=' + query.pageSize
+                        
+                        query.page = query.page + 1;
+                        // setTablePage,setTablePageSize
+                        // getData(query.page,query.pageSize,resolve,reject);
+                        // query.page = query.page + 1;
+                        // setSelectedRows([...selectedRows,...pageSelected]);
+                        // setPageSelected([]);
+                        service.getData(query.page,query.pageSize)
+                        .then(result => {
+                            console.log(result)
+                          resolve({
+                            data: result.data.data.map(row => selectedRows.find(selected => selected.pk === row.pk) ? { ...row, tableData: { checked: true } } : row),
+                            page: query.page - 1,
+                            totalCount: result.data.count,
+                          })
+                        })
+                    })
+                }
                 title='Pathotyping Results'
                 style={{maxWidth:'90%',marginLeft:'250px'}}
                 editable={{
@@ -198,18 +234,28 @@ export default function Table({data,handleEdit,handleDeleteSelected,handleDelete
                     exportButton:true,
                     actionsColumnIndex: -1,
                     selection: true,
+                    pageSize:25,
+                    pageSizeOptions:[25,50,100]
                 }} 
-
+                tableRef={tableRef}
                 actions={[
                     {
                       tooltip: 'Remove All Selected',
                       icon: 'delete',
                       onClick: (evt, data) =>{
-                          console.log(data);                          
-                          handleDeleteSelected(data);                      
+                        setSelectedRows([...selectedRows,...pageSelected]);
+                          handleDeleteSelected(selectedRows);                      
                         } 
+                    },
+                    {
+                        icon: 'refresh',
+                        tooltip: 'Refresh Data',
+                        isFreeAction: true,
+                        onClick: () => tableRef.current && tableRef.current.onQueryChange(),
                     }
                   ]}
+                onSelectionChange={handleSelectionChange}
+                // onChangePage={() => console.log('ray')}
             />
         </div>
     )

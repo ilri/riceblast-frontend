@@ -9,11 +9,11 @@ const service = new FGSService();
 
 
 
-export default function Add({getData,openDrawer}){
+export default function Add({getData,isolates,openDrawer}){
 
 
     const [form, setForm] = React.useState({
-        rice_genotype:null,
+        isolate:null,
         pcr_results:'',
         replicate_id: '',
         sample_id:'',
@@ -61,6 +61,7 @@ export default function Add({getData,openDrawer}){
             handleSubmit={handleSubmit} 
             openDrawer={openDrawer}
             handleSelectChange={handleSelectChange}
+            isolates={isolates}
          
         >
 

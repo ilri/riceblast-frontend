@@ -9,24 +9,15 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
 
-export default function Table({data,handleDeleteSelected,handleDelete,handleEdit,riceGenotypes,genes}){
+export default function Table({data,handleDeleteSelected,handleDelete,handleEdit,isolates,genes}){
 
-    const findGenotypeID = (props,event,newData) => {
+    const findIsolateID = (props,event,newData) => {
         console.log(newData)
-        riceGenotypes.map((genotype) => {
-            if(genotype.name === newData){
-                props.onChange(genotype.pk);
+        isolates.map((isolate) => {
+            if(isolate.isolate_id === newData){
+                props.onChange(isolate.pk);
             }
         })
-    };
-    
-    const findGeneID = (props,event,newData) => {
-        console.log('nugu');
-        genes.map((gene) => {
-            if(gene.name === newData){
-                props.onChange(gene.pk);
-            }
-        });
     };
 
 
@@ -39,19 +30,19 @@ export default function Table({data,handleDeleteSelected,handleDelete,handleEdit
                     {title:'Fungal Gene', field:'fungal_gene'},
 
                     {
-                        title:'Rice Genotype', 
-                        field:'rice_genotype',
+                        title:'Isolate', 
+                        field:'isolate',
 
                         editComponent: props => (
                             <Autocomplete 
                                 id="combo-box-demo"
-                                options={riceGenotypes}
+                                options={isolates}
                                 onInputChange={(event,newData) => {
-                                    findGenotypeID(props,event,newData)
+                                    findIsolateID(props,event,newData)
                                 }}
-                                getOptionLabel={(option) => option.name}
+                                getOptionLabel={(option) => option.isolate_id}
                                 size='small'
-                                renderInput={(params) => <TextField {...params} label="Rice Genotype" variant="outlined" />}
+                                renderInput={(params) => <TextField {...params} label="Isolates" variant="outlined" />}
                            />                            
                         )
                     },

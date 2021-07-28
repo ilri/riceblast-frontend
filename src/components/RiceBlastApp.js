@@ -2,7 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Appbar from './Appbar/Appbar';
 import Home from './Home/Home';
+import TestHome from './Home/TestHome';
 import Login from './Login/Login';
+
 import About from './About/About';
 import Newsletters from './Media/Newsletters';
 import Meetings from './Media/Meetings';
@@ -45,13 +47,14 @@ export default function RiceBlastApp(props){
             <div>
                 <Router>
                     <Switch>
-                        <Route path='/' exact component={Home} />
+                        <Route path='/' exact component={TestHome} />
+
                         <Route path='/login' exact component={Login} />
                         <Route path='/about' exact component={About} />
-                        <Route path='/media/newsletters' exact component={Newsletters} />
-                        <Route path='/media/outreach' exact component={Stakeholders} />
-                        <Route path='/media/meetings' exact component={Meetings} />
-                        <Route path='/media/factsheets' exact component={Factsheets} />
+                        <Route path='/rb_media/newsletters' exact component={Newsletters} />
+                        <Route path='/rb_media/outreach' exact component={Stakeholders} />
+                        <Route path='/rb_media/meetings' exact component={Meetings} />
+                        <Route path='/rb_media/factsheets' exact component={Factsheets} />
                         <Route path='/publications' exact component={Publications} />
                         {/* URLS FOR RESOURCES */}
                         <Route path='/resources/dashboard' exact component={ResourceDashboard} />

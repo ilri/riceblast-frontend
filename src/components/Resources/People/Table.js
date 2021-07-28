@@ -5,7 +5,11 @@ import Popper from '@material-ui/core/Popper';
 import { makeStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import PeopleService from '../../../services/people';
 
+const service = new PeopleService();
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -49,8 +53,18 @@ const UserActivation = ({user,handleClick,anchorEl,handleActivate}) => {
     )
 };
 
-export default function Table({data,handleActivate,handleClick,anchorEl,user,handleDeleteUser}){
-   
+export default function Table({data,userloggedIn,handleActivate,handleEdit,
+labs,handleClick,anchorEl,user,handleDeleteUser}){
+    const ROLES = ['ADMIN','USER'];
+    const findID = (props,event,newData) => {
+
+        labs.map((data) => {
+            if(data.lab_name === newData){
+                props.onChange(data.pk);
+                console.log(data.pk)
+            }
+        });
+    };
 
     return(
         <div>
@@ -60,39 +74,79 @@ export default function Table({data,handleActivate,handleClick,anchorEl,user,han
                     {title:'Email', field:'user.email'},
                     {title:'Username', field:'user.username',},
                     {title:'Telephone Number', field:'telephone_number'},
-                    {title:'Lab', field:'lab',},
+                    {
+                        title:'Lab', 
+                        field:'lab',
+                        editComponent: props => (
+                            <Autocomplete 
+                                id="combo-box-demo"
+                                options={labs}
+                                onInputChange={(event,newData) => {
+                                    findID(props,event,newData)
+                                }}
+                                getOptionLabel={(option) => option.lab_name}
+                                size='small'
+                                renderInput={(params) => <TextField {...params} label="Labs" variant="outlined" />}
+                           />                            
+                        )
+                    },
                     {title:'Designation', field:'designation'},
                     {
-                        title:'Active', field:'user.is_active',
-                        render: rowData =>
+                        title:'Role', 
+                        field:'role',
+                        editComponent: props =>(
+                            <Autocomplete 
+                                id="combo-box-demo"
+                                options={ROLES}
+                                onInputChange={(event,newData) => {
+                                    props.onChange(newData);
+                                }}
+                                getOptionLabel={(option) => option}
+                                size='small'
+                                renderInput={(params) => <TextField {...params} label="Role" variant="outlined" />}
+                            /> 
+                        )
+                    },
+                    {
+                        title:'Active', field:'user.is_active',editable:'never',
+                        render: rowData =>(
 
                             <div> 
                                 <Checkbox checked={rowData.user.is_active} color='primary' onClick={handleClick(rowData)} />
                                 {user ? (<UserActivation user={user} handleClick={handleClick} anchorEl={anchorEl} handleActivate={handleActivate} />):''}                                
-                            </div>
 
+                            </div>
+                        ),
+
+                        
                     }                    
                 ]}
                 data={data}
                 title='People'
-                style={{maxWidth:'80%',marginLeft:'250px',marginTop:50}}
+                style={{marginLeft:'150px',marginTop:50}}
                 options={{
                     exportButton:true,
                     actionsColumnIndex:-1,
                 }}
-                actions={[
-                    {
-                        icon:'delete',
-                        iconProps:{
-                            color:'secondary',
-                        },
-                        tooltip:'Delete User',
-                        onClick:(event, rowData) => {
-                            handleDeleteUser(rowData);
-                        }
-                    }
-                ]}
-            />
+                editable={{
+                    isEditHidden: () => userloggedIn.role !== 'ADMIN',
+                    isDeleteHidden: () => userloggedIn.role !== 'ADMIN',
+                    onRowUpdate: (newData, oldData) =>
+                    new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            handleEdit(newData,resolve,reject);
+                            console.log(newData);                            
+                        }, 1000);
+                    }),
+                    onRowDelete: oldData =>
+                    new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            handleDeleteUser(oldData);
+                            resolve();
+                        }, 1000);
+                    }),
+                }}
+            />            
         </div>
     )
 }

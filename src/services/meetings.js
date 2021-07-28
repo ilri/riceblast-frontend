@@ -17,7 +17,13 @@ export default class MeetingsService{
     }
 
     editData(data){
-        return axiosInstance.put('meetings/',data);
+        const formData = new FormData();
+        const {minutes, ...info} = data;
+
+        formData.append('minutes', minutes);
+        formData.append('info', JSON.stringify(info));
+
+        return axiosInstance.put('meetings/',formData);    
     }
 
     deleteData(id){

@@ -17,7 +17,13 @@ export default class NewslettersService{
     }
 
     editData(data){
-        return axiosInstance.put('newsletter/',data);
+        const formData = new FormData();
+        const {newsletter, ...info} = data;
+
+        formData.append('newsletter', newsletter);
+        formData.append('info', JSON.stringify(info));
+
+        return axiosInstance.put('newsletter/',formData);    
     }
     deleteData(id){
         return axiosInstance.delete(`newsletter/${id}`);

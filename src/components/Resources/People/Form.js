@@ -11,6 +11,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
 
@@ -33,9 +34,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Form({form,handleChange,handleSubmit,handleErrors,errors, errorMsg,successMsg,handleSuccessClose,load}){
+export default function Form(
+  {form,handleChange,handleSelectChange,
+  handleSubmit,handleErrors,errors, errorMsg,
+  successMsg,handleSuccessClose,load}){
   const [labs, setLabs] = React.useState([]);
-  
+  const roles=['ADMIN','USER'];
 
   React.useEffect(() => {
     getLabs();
@@ -120,6 +124,17 @@ export default function Form({form,handleChange,handleSubmit,handleErrors,errors
                     value={form.password}
                     required={true}
                   />
+
+                  <Autocomplete 
+                    id="combo-box-demo"
+                    options={roles}
+                    name='role'
+                    style={{width:300}}
+                    onInputChange={(event,data)=>handleSelectChange(data)}
+                    getOptionLabel={(option) => option}
+                    size='small'
+                    renderInput={(params) => <TextField {...params} required label="Role" variant="outlined" />}
+                  /> 
 
               </Grid>
 

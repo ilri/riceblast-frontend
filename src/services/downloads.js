@@ -18,7 +18,7 @@ const axiosInstance = axios.create({
 });
 
 export const fileDownload = (path,name) => {
-    axios.get(`${APIURLDEV}download/`, { 
+    axios.get(`${APIURLPROD}download/`, { 
         responseType: 'blob',
         params:{
             path:path

@@ -8,13 +8,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import { makeStyles } from '@material-ui/core/styles';
-import RiceGenotypeServices from '../../../services/riceGenotype';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
 
 
-const genotypeService = new RiceGenotypeServices();
 
 
 const useStyles = makeStyles(theme => ({
@@ -30,25 +28,13 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function Form({form, handleChange, openDrawer,handleSelectChange,handleSubmit}){
-    const [riceGenotypes, setRiceGenotypes] = useState([]);
+export default function Form({form, handleChange, isolates,openDrawer,handleSelectChange,handleSubmit}){
 
     const classes = useStyles();
 
-    React.useEffect(() =>{
-        getGenotypes();
-    },[]);
 
-    const getGenotypes = () => {
-        genotypeService.getRiceGenotypes().then(
-          response => {
-            setRiceGenotypes(response.data);
-            console.log(response.data);
-          }
-        ).catch(
-          error => console.log(error)
-        );
-    };
+
+
 
     return(
         <div>
@@ -81,15 +67,15 @@ export default function Form({form, handleChange, openDrawer,handleSelectChange,
 
                         <Autocomplete 
                           id="combo-box-demo"
-                          options={riceGenotypes}
+                          options={isolates}
                           onInputChange={(event,newData) => {
-                              let genotypeID = newData.split(": ");                     
-                              handleSelectChange('rice_genotype',genotypeID[0])
+                              let isolateID = newData.split(": ");                     
+                              handleSelectChange('isolate',isolateID[0])
                           }}
-                          getOptionLabel={(option) => option.pk + ": " + option.name  }
+                          getOptionLabel={(option) => option.pk + ": " + option.isolate_id  }
                           size='small'
                           style={{width:250}}
-                          renderInput={(params) => <TextField {...params} label="Rice Genotypes" variant="outlined" />}
+                          renderInput={(params) => <TextField {...params} label="Isolates" variant="outlined" />}
                         /> 
                     </FormControl>                
                 </Grid>

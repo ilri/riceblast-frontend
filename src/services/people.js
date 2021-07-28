@@ -7,6 +7,9 @@ export default class PeopleService {
     activateUser(action){
         return axiosInstance.put('user_activation/', action);
     }
+    editUser(data){
+        return axiosInstance.put('people/',data);
+    }
     deleteUser(username){
         return axiosInstance.delete(`user_delete/${username}`);
     }

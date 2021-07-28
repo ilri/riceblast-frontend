@@ -11,7 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Add from './Add';
-import RiceGenotypeServices from '../../../services/riceGenotype';
+import IsolatesService from '../../../services/isolates';
 import IconButton from '@material-ui/core/IconButton';
 
 
@@ -19,7 +19,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 const service = new FGSService();
 
-const genotypeService = new RiceGenotypeServices();
+const IsolateService = new IsolatesService();
 
 
 const useStyles = makeStyles(theme => ({
@@ -43,14 +43,14 @@ const useStyles = makeStyles(theme => ({
 export default function FGScreenResults(props){
     const [data, setData] = useState([]);
     const [load,setLoad] = useState(true);
-    const [riceGenotypes, setRiceGenotypes] = useState([]);
+    const [isolates, setIsolates] = useState([]);
     const [results, setResults] = useState([]);
     // DRAWER
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
         getData();
-        getGenotypes();
+        getIsolates();
     },[]);
 
 
@@ -96,10 +96,10 @@ export default function FGScreenResults(props){
         )
     };
 
-    const getGenotypes = () => {
-        genotypeService.getRiceGenotypes().then(
+    const getIsolates = () => {
+        IsolateService.getIsolates().then(
           response => {
-            setRiceGenotypes(response.data);
+            setIsolates(response.data);
             console.log(response.data);
           }
         ).catch(
@@ -151,7 +151,12 @@ export default function FGScreenResults(props){
                                 </Grid>
 
                                 
-                                <Add getData={getData} openDrawer={openDrawer} />                                    
+                                <Add 
+                                    getData={getData} 
+                                    openDrawer={openDrawer} 
+                                    isolates={isolates}
+    
+                                />                                    
                                 
                             </Paper>
                         </Drawer> 
@@ -163,7 +168,7 @@ export default function FGScreenResults(props){
                         data={data} 
                         handleDelete={handleDelete}
                         handleEdit={handleEdit}
-                        riceGenotypes={riceGenotypes}
+                        isolates={isolates}
                         handleDeleteSelected={handleDeleteSelected}
                     />
                 </Grid>

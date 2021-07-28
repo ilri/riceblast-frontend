@@ -61,10 +61,10 @@ export default function SideBar({showSide,handleResponsiveDrawer,responsiveDrawe
 
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    {['Newsletters','Meetings', 'Outreach','Factsheets'].map((media, index)=>(
+                    {['Newsletters','Regular Meetings', 'Outreach','Factsheets'].map((media, index)=>(
                     <div key={index + 1}>
                     <Link 
-                        to={`/media/${(media === "Newsletters") ? "newsletters": (media === "Meetings") ? "meetings": (media == 'Factsheets') ? "factsheets" : "outreach"}`}
+                        to={`/rb_media/${(media === "Newsletters") ? "newsletters": (media === "Regular Meetings") ? "meetings": (media == 'Factsheets') ? "factsheets" : "outreach"}`}
                         className={classes.links}
                     >
                         <ListItem button className={classes.nested}>

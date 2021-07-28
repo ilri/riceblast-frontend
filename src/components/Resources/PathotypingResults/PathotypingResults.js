@@ -46,18 +46,17 @@ const useStyles = makeStyles(theme => ({
 
 
 export default function PathotypingResults(props){
-    const [data, setData] = useState([]);
     const [load,setLoad] = useState(true);
     const [open, setOpen] = useState(false);
     const [riceGenotypes, setRiceGenotypes] = useState([]);
     const [isolates, setIsolates] = useState([]);
     const [people,setPeople] = React.useState([]);
     const [labs,setLabs] = useState([]);
-
+    const tableRef = React.createRef();
 
 
     useEffect(() => {
-        getData();
+        // getData();
         getGenotypes();
         getIsolates();
         getPeople();
@@ -65,13 +64,8 @@ export default function PathotypingResults(props){
     },[]);
 
 
-
     const getData = () => {
-        service.getData().then(response => {
-            console.log(response.data);
-            setData(response.data);
-            setLoad(false)
-        }).catch(errors => console.log(errors));
+        tableRef.current && tableRef.current.onQueryChange()
     };
 
     const classes = useStyles();
@@ -110,6 +104,7 @@ export default function PathotypingResults(props){
         console.log(data);
         service.deleteMultiple(data).then(
             response => {
+                console.log('ok')
                 getData();
             }
         ).catch(
@@ -156,7 +151,7 @@ export default function PathotypingResults(props){
             setLoad(false);
         }).catch(errors => console.log(errors));
     };
-        
+ 
     return(
         <div>
             <div>
@@ -207,7 +202,6 @@ export default function PathotypingResults(props){
 
                 <Grid item xs={12} >
                     <Table 
-                        data={data} 
                         handleDelete={handleDelete}
                         handleEdit={handleEdit}
                         riceGenotypes={riceGenotypes}
@@ -215,6 +209,8 @@ export default function PathotypingResults(props){
                         isolates={isolates}
                         people={people}
                         handleDeleteSelected={handleDeleteSelected}
+                        tableRef={tableRef}
+
                     />
                 </Grid>
             </Grid>

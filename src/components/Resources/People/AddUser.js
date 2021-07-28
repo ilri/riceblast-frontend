@@ -27,6 +27,7 @@ export default function AddUser({getPeople}) {
     telephone_number: '',
     lab: '',
     designation: '',
+    role: '',
 
     errorMsg: '',
     errors: false,
@@ -80,6 +81,9 @@ export default function AddUser({getPeople}) {
     const value = event.target.value;
     setFormState({ ...formState, [event.target.name]: value });
   };
+  const handleSelectChange = (role) => {
+    setFormState({...formState, role: role});
+  };
 
   const handleSuccessClose = () => {
     setSuccessMsg('');
@@ -92,6 +96,7 @@ export default function AddUser({getPeople}) {
       <Form form={form} handleChange={handleChange} handleSubmit={handleSubmit}
         handleErrors={handleErrors} errors={errors} errorMsg={errorMsg} 
         load={load} successMsg={successMsg} handleSuccessClose={handleSuccessClose}
+        handleSelectChange={handleSelectChange}
       />
     </div>
   );

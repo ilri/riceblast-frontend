@@ -69,7 +69,6 @@ export default function Contributors(){
                         <GridListTile key={index} cols={(image == contributor6) ? 3:(index == 2 ) ? 2 : 1} cellHeight='auto'>
                           <img src={image} alt={image} />
                         </GridListTile>
-
                     ))}
                     </GridList>
                 </Paper>

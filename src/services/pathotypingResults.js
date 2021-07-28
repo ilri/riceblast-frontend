@@ -4,8 +4,11 @@ import axios from 'axios';
 
 
 export default class PathotypingService {
-    getData(){
-        return axiosInstance.get('pathotyping_results/');
+    getData(page,pageSize){
+        return axiosInstance.get(`pathotyping_results/?p=${page}&page_size=${pageSize}`);
+    }
+    getDataPage(page){
+        return axiosInstance.get(`list_pathotyping_results?page=${page}`);
     }
     addData(data){
         return axiosInstance.post('pathotyping_results/',data);

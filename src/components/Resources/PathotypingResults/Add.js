@@ -8,7 +8,8 @@ const service = new PathotypingService();
 
 
 
-export default function Add({getData,openDrawer,riceGenotypes,isolates,people,labs}){
+export default function Add({getData,openDrawer,riceGenotypes,isolates,people,labs,
+setTablePage,setTablePageSize}){
     
 
     const [form, setForm] = React.useState({
@@ -104,8 +105,11 @@ export default function Add({getData,openDrawer,riceGenotypes,isolates,people,la
             response => {
                 console.log(response.data);            
                 getData();
-                openDrawer();
+                openDrawer();   
                 setForm(intialFormState);
+                setTablePage(1);
+                setTablePageSize(5);
+
             }
         ).catch(
             error => {

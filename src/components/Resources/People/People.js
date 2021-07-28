@@ -12,7 +12,12 @@ import AddUser from './AddUser';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import PeopleService from '../../../services/people';
+import UserService from '../../../services/userService';
+import LabService from '../../../services/labs';
 
+const labService = new LabService();
+     
+const userService = new UserService();
 
 const peopleService = new PeopleService();
 
@@ -56,12 +61,17 @@ export default function People(props){
     const [open, setOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [user,setUser] = React.useState(null);
+    const [labs,setLabs] = React.useState(null);
+
+    const [userLoggedIn,setUserLoggedIn] = React.useState({});
 
 
     
 
     React.useEffect(() => {
       getPeople();
+      getUserInfo();
+      getLabs();
     },[])
     const handleOpen = () => {
       setOpen(true);
@@ -81,6 +91,26 @@ export default function People(props){
         error => console.log(error)
       );
     };
+    const getUserInfo = () => {
+      userService.getLoggedInUser().then(
+        response => {
+            // user=response.data
+            setUserLoggedIn(response.data);
+        }
+        ).catch(
+            error => {
+              setUserLoggedIn({...user,'role':'GUEST'});
+          }
+      )
+    };
+    const getLabs = () => {
+      labService.getLabs().then(response => {
+          console.log(response.data);
+          setLabs(response.data);
+          // setLoad(false);
+      }).catch(errors => console.log(errors));
+    };
+
 
     const handleClick = (rowData) => (event) => {
       console.log(rowData);
@@ -102,21 +132,26 @@ export default function People(props){
 
 
     };
+    const handleEdit = (data,resolve,reject) => {
+      peopleService.editUser(data).then(response => {
+        console.log(response.data);
+        resolve();
+        getPeople();
+      }).catch(error => {
+        console.log(error)
+        reject();
+      })
 
-    const handleDeleteUser = (user) => {
-      console.log(user.user.username);
-      const data = {
-        'username':user.user.username,
-      };
-      if(window.confirm('Are you sure you want to delete ' + user.full_name)){
-        peopleService.deleteUser(user.user.username).then(  
-          response => {
-            getPeople();
-          }
-        ).catch(errors => {
-          console.log(errors);
-        })
-      }
+    }
+    const handleDeleteUser = (person) => {
+
+      peopleService.deleteUser(person.pk).then(  
+        response => {
+          getPeople();
+        }
+      ).catch(errors => {
+        console.log(errors);
+      })
     };
     return(
         <div>
@@ -125,56 +160,57 @@ export default function People(props){
             </div>
             <Grid container className={classes.options} spacing={2}>
                 <Grid item xs={10}>
+                  {userLoggedIn.role === 'ADMIN' ? (
                     <Grid container alignContent='flex-end' justify='flex-end' spacing={2}>
-                        <Fab color="primary" aria-label="add" 
-                        aria-controls="add-menu" aria-haspopup="true" id='add-menu' onClick={handleOpen}>
-                            <AddIcon />
-                        </Fab> 
-                            <div>
-                              <Modal
-                                aria-labelledby="transition-modal-title"
-                                aria-describedby="transition-modal-description"
-                                className={classes.modal}
-                                open={open}
-
-                                closeAfterTransition
-                                BackdropComponent={Backdrop}
-                                BackdropProps={{
-                                  timeout: 500,
-                                }}
-                              >
-                                <Fade in={open}>
-                                  <div className={classes.paper}>
-                                    <Grid container spacing={3}>
-
-                                      <Grid container justify='flex-end' alignContent='flex-end'>
-                                        <IconButton aria-label="close" onClick={handleClose}>
-                                          <CloseIcon fontSize='large' />
-                                        </IconButton>
-                                      </Grid>                                      
-                                      <Grid container className={classes.grid}>
-                                        <h2 id="transition-modal-title">ADD USER</h2>
-                                      </Grid>
-
+                      <Fab color="primary" aria-label="add" 
+                      aria-controls="add-menu" aria-haspopup="true" id='add-menu' onClick={handleOpen}>
+                          <AddIcon />
+                      </Fab> 
+                          <div>
+                            <Modal
+                              aria-labelledby="transition-modal-title"
+                              aria-describedby="transition-modal-description"
+                              className={classes.modal}
+                              open={open}
+                              closeAfterTransition
+                              BackdropComponent={Backdrop}
+                              BackdropProps={{
+                                timeout: 500,
+                              }}
+                            >
+                              <Fade in={open}>
+                                <div className={classes.paper}>
+                                  <Grid container spacing={3}>
+                                    <Grid container justify='flex-end' alignContent='flex-end'>
+                                      <IconButton aria-label="close" onClick={handleClose}>
+                                        <CloseIcon fontSize='large' />
+                                      </IconButton>
+                                    </Grid>                                      
+                                    <Grid container className={classes.grid}>
+                                      <h2 id="transition-modal-title">ADD USER</h2>
                                     </Grid>
-                                    <div id="transition-modal-description">
-                                      <AddUser getPeople={getPeople} />
-                                    </div>
+                                  </Grid>
+                                  <div id="transition-modal-description">
+                                    <AddUser getPeople={getPeople} />
                                   </div>
-                                </Fade>
-                              </Modal>
-                            </div>
- 
+                                </div>
+                              </Fade>
+                            </Modal>
+                          </div>                 
                     </Grid>
+                  ):''}
+
                 </Grid>
       
             </Grid>
             <Grid container className={classes.root} spacing={2}>
                 <Grid item xs={12}>
                   <Grid container justify="center" spacing={2}>
-                    <Table data={people} handleActivate={handleActivate} 
+                    <Table 
+                    data={people} handleActivate={handleActivate} userloggedIn={userLoggedIn}
                     anchorEl={anchorEl} handleClick={handleClick} user={user}
-                    handleDeleteUser={handleDeleteUser} />
+                    handleDeleteUser={handleDeleteUser} labs={labs} handleEdit={handleEdit}
+                    />
                   </Grid>
                 </Grid>                
             </Grid>

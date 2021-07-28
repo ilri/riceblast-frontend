@@ -4,6 +4,7 @@ import {Icon,Message,List,Popup,
   Card,Button,Segment} from 'semantic-ui-react';
 import Container from '@material-ui/core/Container';
 import Add from './Add';
+import Edit from './Edit';
 import PublicationsService from '../../services/publications';
 import {fileDownload} from '../../services/downloads';
 import IconButton from '@material-ui/core/IconButton';
@@ -13,13 +14,16 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import GetAppIcon from '@material-ui/icons/GetApp';
-
+import UserService from '../../services/userService';
+import EditIcon from '@material-ui/icons/Edit';
+     
+const userService = new UserService();
 
 const service = new PublicationsService();
 
 
 
-function OnePublication({publication,handleDownload,handleDelete,handleEdit}){
+function OnePublication({publication,handleDownload,handleDelete,handleEdit,user}){
 
   
   return (
@@ -33,34 +37,47 @@ function OnePublication({publication,handleDownload,handleDelete,handleEdit}){
                   <List.Header as='h4'> {publication.title}</List.Header>
                   <List.Description as='strong'>{publication.date}</List.Description>
                   <List.Description as='p'>{publication.description}</List.Description>
+                  <List.Header as='div'>
+                    <span>
+                      <Tooltip title='Download'>
+                        <IconButton aria-label="download" onClick={() => handleDownload(publication.publication)}>
+                          <GetAppIcon color='action' />
+                        </IconButton>
+                      </Tooltip>
+                    </span>
+                  </List.Header>
+
                 </List.Content>
               </Segment>
               </Paper>
           </Grid>
+
           <Grid item xs={2}>
-              <Grid item xs>
+              {user.role === 'ADMIN' ? (
+                    <span>
 
-                <Tooltip title='Download'>
-                  <IconButton aria-label="download" onClick={() => handleDownload(publication.publication)}>
-                    <GetAppIcon  />
-                  </IconButton>
-                </Tooltip>
-                <Popup 
-                    trigger={
-                      <IconButton aria-label="download">
-                        <DeleteIcon />
-                      </IconButton>
+                      <Tooltip title='Edit'>
+                        <IconButton aria-label="edit" onClick={() => handleEdit(publication)}>
+                          <EditIcon color='primary'  />
+                        </IconButton>
+                      </Tooltip>
+                      <Popup 
+                          trigger={
+                            <IconButton aria-label="download">
+                              <DeleteIcon  color='secondary'/>
+                            </IconButton>
 
-                    }                  
-                    flowing hoverable                  
-                >
+                          }                  
+                          flowing hoverable                  
+                      >
+                      
+                          <div style={{margin:'5px'}}>Are you sure you want to delete this Publication?</div>
+                          <Button color='red' onClick={() => handleDelete(publication.pk)}>DELETE</Button>
+                        
+                      </Popup>
+                    </span>  
 
-                    <div style={{margin:'5px'}}>Are you sure you want to delete this Publication?</div>
-                    <Button color='red' onClick={() => handleDelete(publication.pk)}>DELETE</Button>
-
-                </Popup>
-
-              </Grid>         
+              ):''}
           </Grid>
         </Grid>
 </div>
@@ -69,15 +86,19 @@ function OnePublication({publication,handleDownload,handleDelete,handleEdit}){
 
 
 export default function Publications(props){
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = React.useState(false);
+    const [editOpen, setEditOpen] = React.useState(false)
 
+    const [user, setUser] = React.useState({});
     const [data, setData] = React.useState([]);
     const [success, setSuccess] = React.useState('');
+    const [editData, setEditData] = React.useState({});
 
     
 
     React.useEffect(() => {
       getData();
+      getUserInfo();
     },[]);
   
     const getData = () => {
@@ -89,6 +110,19 @@ export default function Publications(props){
     };
 
 
+    const getUserInfo = () => {
+      userService.getLoggedInUser().then(
+        response => {
+            // user=response.data
+            setUser(response.data);
+            console.log(response.data)
+        }
+        ).catch(
+            error => {
+            setUser({...user,'role':'GUEST'});
+          }
+      )
+    };
 
     const handleDownload = (file) => {
       console.log(file);
@@ -109,13 +143,18 @@ export default function Publications(props){
         },3000)
       }).catch(error => console.log(error));
     };
-    const handleEdit = (e, props) => {
-      console.log(props)
+    const handleEdit = (data) => {
+      console.log(data);
+      setEditData(data);
+      openEditModal();
     };
 
     const openModal = () => {
         setOpen(!open);
     };
+    const openEditModal = () => {
+      setEditOpen(!editOpen);
+  };
     return(
 <div>
   <div>
@@ -132,6 +171,9 @@ export default function Publications(props){
                 <Grid item xs={9}></Grid>
                 <Grid item xs={1}></Grid>
                 <Grid item xs={2} style={{marginTop:'10px',marginBottom:'10px',alignContent:'center'}} >
+
+                  {user.role === 'ADMIN' ? (
+
                   <Grid container justify="center" alignItems="center">
                     <Tooltip title='Add Publication'>
     
@@ -139,12 +181,25 @@ export default function Publications(props){
                     </Tooltip>
                     
     
+                    <Edit 
+                      editOpen={editOpen} 
+                      setEditOpen={setEditOpen}
+                      editData={editData}
+                      getData={getData}
+                      setEditData={setEditData}
+
+                    />
+
+                        
                     <Add 
                       open={open} 
                       setOpen={setOpen} 
                       getData={getData}
-                    />                
+                    /> 
+
                   </Grid>
+                  ):''}
+                  
                 </Grid>
     
                 {(success)? (
@@ -167,6 +222,7 @@ export default function Publications(props){
                     handleDownload={handleDownload}
                     handleDelete={handleDelete}
                     handleEdit={handleEdit}
+                    user={user}
                   />
                 )}     
                 </div>

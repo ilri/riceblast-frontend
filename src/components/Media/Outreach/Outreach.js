@@ -1,6 +1,6 @@
 import React from 'react';
-import {Icon,Message,Image,
-  Card,Button,} from 'semantic-ui-react';
+import {Popup,Message,Image,
+  Card,Button,Modal} from 'semantic-ui-react';
 import Container from '@material-ui/core/Container';
 import Add from './Add';
 import OutreachService from '../../../services/outreach';
@@ -13,8 +13,13 @@ import Hidden from '@material-ui/core/Hidden';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import {fileDownload} from '../../../services/downloads';
+import UserService from '../../../services/userService';
+import Edit from './Edit';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
+const userService = new UserService();
 
 
 
@@ -25,26 +30,52 @@ const APIURLPROD = 'https://riceblast.ilri.org';
 const service = new OutreachService();
 
 
-function Outreach({outreach,handleDelete,handleDownload}){
+
+const ImageViewer = ({outreach,open,setOpen}) => (
+    <Grid item xs={12}>
+      <Modal         
+        basic
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        open={open}
+        size='small' 
+        style={{margin:5}}
+      >
+        <img src={`${APIURLPROD}${outreach.image}`} height={800} width={1200} />
+        <Typography variant='h4' style={{width:1200}}>{outreach.outreach}</Typography>
+        <Typography variant='h6' style={{width:1200}}>{outreach.date}</Typography>
+        <Typography variant='h5' style={{width:1200}}>{outreach.brief}</Typography>
+      </Modal>
+    </Grid>
+)
+
+
+function Outreach({outreach,handleEdit,handleDelete,user,handleDownload}){
 
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('md'));
+  const [open, setOpen] = React.useState(false);
 
 
   return (
-    <Grid item xs={matches ? 4 : 12}>
-      <Card>
+    
+    <Grid item xs={matches ? 4 : 12} style={{marginBottom:20}}>
+      <ImageViewer outreach={outreach} open={open} setOpen={setOpen} />
+      <Card style={{height:500}}>
+
           {(outreach.image)? 
           (
-            <Image src={`${APIURLPROD}${outreach.image}`} wrapped ui={false}  />        
-          
+              <img src={`${APIURLPROD}${outreach.image}`} style={{cursor:'pointer'}} height={200} onClick={() => setOpen(true)} />        
           ):''}
   
           <Card.Content>
-            <Card.Header>{outreach.outreach}</Card.Header>
+            <Card.Header>
+              {outreach.outreach.slice(0,100)} 
+              {(outreach.outreach.length > 100) ? (<span>....<a onClick={() => setOpen(true)} style={{fontSize:15}}>Read More</a></span>) : ''}
+              </Card.Header>
             <Card.Meta>{outreach.date}</Card.Meta>
             <Card.Description>
-              {outreach.brief}
+              {outreach.brief.slice(0,100)}
             </Card.Description>
           </Card.Content>
           <Card.Content extra>
@@ -56,15 +87,35 @@ function Outreach({outreach,handleDelete,handleDownload}){
                     <GetAppIcon  />
                   </IconButton>
                 </Tooltip>
-            ):''}          
-  
+            ):''}    
+
+            {user.role == 'ADMIN' ? (       
               
-            <Tooltip title='Delete'>
-              <a onClick={() => handleDelete(outreach.pk)}>
-                <Icon name='trash' color='red' />
-                Delete
-              </a>
-            </Tooltip>
+            <div>
+              <span>
+              <Tooltip title='Edit'>
+                <IconButton aria-label="edit" onClick={() => handleEdit(outreach)}>
+                  <EditIcon color='primary'  />
+                </IconButton>
+              </Tooltip>Edit          
+              </span>
+              <Popup 
+                    trigger={(
+                      <span>
+                      <IconButton aria-label="delete">
+                        <DeleteIcon color='secondary' />
+                      </IconButton>Delete
+                      </span>)
+
+                    }                  
+                    flowing hoverable                  
+                  >
+
+                    <div style={{margin:'5px'}}>Are you sure you want to delete this Outreach?</div>
+                    <Button color='red' onClick={() => handleDelete(outreach.pk)}>DELETE</Button>
+              </Popup>
+            </div>
+            ):''}
               
           </Card.Content>
       </Card>
@@ -78,11 +129,13 @@ export default function OutreachMain(props){
 
     const [data, setData] = React.useState([]);
     const [success, setSuccess] = React.useState('');
-
-    
+    const [user, setUser] = React.useState({});
+    const [editOpen, setEditOpen] = React.useState(false)
+    const [editData, setEditData] = React.useState({});
 
     React.useEffect(() => {
       getData();
+      getUserInfo();
     },[]);
   
     const getData = () => {
@@ -93,7 +146,19 @@ export default function OutreachMain(props){
       }).catch(errors => console.log(errors));
     };
 
-
+    const getUserInfo = () => {
+      userService.getLoggedInUser().then(
+        response => {
+            // user=response.data
+            setUser(response.data);
+            console.log(response.data)
+        }
+        ).catch(
+            error => {
+            setUser({...user,'role':'GUEST'});
+          }
+      )
+    }
 
     const handleDelete = (pk) => {
       console.log(props)
@@ -120,6 +185,13 @@ export default function OutreachMain(props){
             
       fileDownload(path,name);
     };
+    const handleEdit = (data) => {
+      setEditData(data);
+      openEditModal();
+    };
+    const openEditModal = () => {
+      setEditOpen(!editOpen);
+    };
 
     return(
       <Grid container>
@@ -133,7 +205,10 @@ export default function OutreachMain(props){
       <Grid item xs={9}></Grid>
       <Grid item xs={1}></Grid>
       <Grid item xs={2} style={{marginTop:'10px',marginBottom:'10px',alignContent:'center'}} >
+      {user.role == 'ADMIN' ? (
+
         <Grid container justify="center" alignItems="center">
+
           <Tooltip title='Add Newsletter'>
 
             <Button color='blue' circular icon='plus' size='large' onClick={openModal} />
@@ -144,8 +219,17 @@ export default function OutreachMain(props){
             open={open} 
             setOpen={setOpen} 
             getData={getData}
-          />                
+          />       
+
+          <Edit 
+            editOpen={editOpen} 
+            setEditOpen={setEditOpen}
+            editData={editData}
+            getData={getData}
+            setEditData={setEditData}
+          />         
         </Grid>
+      ):''}
       </Grid>
 
       {(success)? (
@@ -159,12 +243,14 @@ export default function OutreachMain(props){
 
             <Container fixed >
             <Hidden only={['xs', 'sm']}>
-              <Grid container spacing={2} style={{marginLeft:'150px'}} justify="center" >
+              <Grid container spacing={2} style={{marginLeft:'150px'}} justify="flex-start" >
                       {data.map((outreach,i) => 
                               <Outreach                                
                                   outreach={outreach}
                                   handleDelete={handleDelete}
                                   handleDownload={handleDownload}
+                                  user={user}
+                                  handleEdit={handleEdit}
                               />
                       )}   
               </Grid>
@@ -177,6 +263,8 @@ export default function OutreachMain(props){
                                   outreach={outreach}
                                   handleDelete={handleDelete}
                                   handleDownload={handleDownload}
+                                  user={user}
+                                  handleEdit={handleEdit}
                               />
                       )}   
               </Grid>

@@ -19,7 +19,14 @@ export default class OutreachService{
     }
 
     editData(data){
-        return axiosInstance.put('outreach/',data);
+        const formData = new FormData();
+        const {image,outreach_file, ...info} = data;
+
+        formData.append('image', image);
+        formData.append('outreach_file', outreach_file);
+        formData.append('info', JSON.stringify(info));
+
+        return axiosInstance.put('outreach/',formData);
     }
     
     deleteData(id){
